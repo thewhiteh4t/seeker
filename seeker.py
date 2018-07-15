@@ -64,7 +64,7 @@ def version():
 		else:
 			print ('\n' + R + '[-]' + C + ' Invalid Character...Skipping...'+ W)
 	else:
-		print ('\n' + G + '[+]' + C + ' Script is up-to-date...' + W + '\n')
+		print ('\n' + G + '[+]' + C + ' Script is up-to-date...' + W)
 
 def ngrok():
 	global api
@@ -72,9 +72,9 @@ def ngrok():
 	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
 	subp.check_output(['service', 'apache2', 'start'])
 	print ('\n' + G + '[!]' + C + ' Checking for Ngrok Updates...' + W + '\n')
-	subp.call(['./Ngrok/ngrok', 'update'])
+	subp.call(['ngrok', 'update'])
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
-	subp.Popen(['./Ngrok/ngrok', 'http', '80'], stdin=subp.PIPE,stderr=subp.PIPE, stdout=subp.PIPE)
+	subp.Popen(['ngrok', 'http', '80'], stdin=subp.PIPE,stderr=subp.PIPE, stdout=subp.PIPE)
 	time.sleep(10)
 	r1 = requests.get('{}'.format(api))
 	page = r1.content

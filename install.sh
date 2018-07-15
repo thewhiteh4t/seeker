@@ -13,6 +13,8 @@ unzip ngrok-stable-linux-amd64.zip
 mkdir Ngrok
 sleep 10
 mv ngrok Ngrok/
+ln -s $PWD/Ngrok/ngrok /usr/local/bin/ngrok
+chmod 777 /usr/local/bin/ngrok
 echo
 echo '[!] Copying Template to /var/www/html/'
 cp -r template/nearyou/ /var/www/html/
