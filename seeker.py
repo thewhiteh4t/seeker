@@ -47,7 +47,7 @@ def network():
 
 def version():
 	print (G + '[+]' + C + ' Checking For Seeker Updates...' + W)
-	update = requests.get('https://raw.githubusercontent.com/thewhiteh4t/pwnedOrNot/master/version.txt')
+	update = requests.get('https://raw.githubusercontent.com/thewhiteh4t/seeker/master/version.txt')
 	update = update.text.split(' ')[1]
 	update = update.strip()
 
