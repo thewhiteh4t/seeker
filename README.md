@@ -11,9 +11,9 @@ Seeker utilizes **HTML5, Javascript, JQuery and PHP** to grab **Device Informati
 
 **This tool is purely a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
 
-Other tools and services offer IP Geolocation which is not very accurate and does not give location of user.
+* Other tools and services offer IP Geolocation which is not very accurate and does not give location of user.
 
-Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**.
+* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**.
 
 **Note** : On iPhone due to some reason location accuracy is approximately 65 meters.
 
@@ -64,3 +64,5 @@ chmod 777 install.sh
 
 #After Installation just type seeker in console
 ```
+## Screenshots
+![example](https://raw.githubusercontent.com/thewhiteh4t/seeker/master/screenshots/seeker1.png) ![example](https://raw.githubusercontent.com/thewhiteh4t/seeker/master/screenshots/seeker2.png)
