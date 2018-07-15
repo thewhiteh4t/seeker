@@ -11,7 +11,8 @@ echo
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip
 mkdir Ngrok
-cp ngrok Ngrok/
+sleep 10
+mv ngrok Ngrok/
 echo
 echo '[!] Copying Template to /var/www/html/'
 cp -r template/nearyou/ /var/www/html/
