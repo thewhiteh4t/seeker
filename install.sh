@@ -18,7 +18,7 @@ echo '[!] Copying Template to /var/www/html/'
 cp -r template/nearyou/ /var/www/html/
 echo
 echo '[!] Creating seeker symlink...'
-ln -s $HOME/tools/seeker/seeker.py /usr/local/bin/seeker
+ln -s $PWD/seeker.py /usr/local/bin/seeker
 chmod 777 /usr/local/bin/seeker
 echo
 echo '[!] Setting Permissions...'
