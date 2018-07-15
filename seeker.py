@@ -17,7 +17,7 @@ result = '/var/www/html/nearyou/php/result.txt'
 info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.0'
+ver = '1.0.1'
 
 try:
 	raw_input          # Python 2
@@ -56,7 +56,7 @@ def version():
 		ans = raw_input('\n' + G + '[!]' + C + ' Update ? [y/n] : ' + W)
 		if ans == 'y':
 			print ('\n' + G + '[+]' + C + ' Updating...' + W + '\n')
-			subprocess.Popen(['git', 'pull'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			subp.check_output(['git', 'pull'])
 			print ('\n' + G + '[+]' + C + ' Script Updated...Please Execute Again...')
 			exit()
 		elif ans == 'n':
