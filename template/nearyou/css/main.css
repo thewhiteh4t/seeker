@@ -85,7 +85,7 @@ img
   margin: auto;
   height: 250px;
   width: 250px;
-  background-image: url(worldmap.jpg);
+  background-image: url(https://raw.githubusercontent.com/thewhiteh4t/seeker/master/template/nearyou/css/worldmap.jpg);
   border-radius: 50%;
   background-size: 700px;
   animation:rotate 7s linear infinite;
