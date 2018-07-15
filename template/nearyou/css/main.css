@@ -1,0 +1,100 @@
+html, body
+{
+  height: 100%;
+}
+body
+{
+  background-color: #000000;
+  margin: auto;
+  overflow: hidden;
+}
+h1
+{
+  font-family: 'Raleway', sans-serif;
+  color: white;
+  text-align: center;
+  filter: drop-shadow(0px 0px 8px cyan);
+  margin: auto;
+  position: fixed;
+  top: 5%;
+  left: 0%;
+  right: 0%;
+}
+h2
+{
+  font-family: 'Raleway', sans-serif;
+  color: white;
+  text-align: center;
+  filter: drop-shadow(0px 0px 8px cyan);
+  margin: auto;
+  position: fixed;
+  top: 15%;
+  left: 0%;
+  right: 0%;
+}
+img
+{
+  position: fixed;
+  margin: auto;
+  left: 0%;
+  right: 0%;
+  top: 30%;
+  height: 40%;
+  filter: drop-shadow(0px 0px 8px white);
+  opacity: 50%;
+}
+.button
+{
+  background-color: Transparent;
+  border: 2px solid white;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  padding: 14px 40px;
+  border-radius: 6px;
+  width: 50%;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+  position: fixed;
+  left: 25%;
+  right: 25%;
+  bottom: 10%;
+  filter: drop-shadow(0px 0px 8px cyan);
+  transition: text-shadow 0.2s linear;
+}
+.text
+{
+  font-family: 'Raleway', sans-serif;
+  color: white;
+  text-align: center;
+  filter: drop-shadow(0px 0px 8px cyan);
+  margin: auto;
+  position: fixed;
+  top: 5%;
+  left: 0%;
+  right: 0%;
+  z-index: 1;
+}
+.earth
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 250px;
+  width: 250px;
+  background-image: url(worldmap.jpg);
+  border-radius: 50%;
+  background-size: 700px;
+  animation:rotate 7s linear infinite;
+  box-shadow: 10px -10px 40px black inset, -10px 10px 40px black inset, -10px -10px 40px black inset;
+  filter: drop-shadow(0px 0px 8px black);
+}
+
+@keyframes rotate
+{
+  0%{background-position: 0 0;}
+  100%{background-position: 700px 0;}
+}
