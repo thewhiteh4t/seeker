@@ -7,7 +7,7 @@
      \/     \/     \/     \/    \/       
 </pre>
 
-##Introduction
+## Introduction
 Seeker utilizes **HTML5, Javascript, JQuery and PHP** to grab **Device Information** and **GeoLocation** with High Accuracy.
 
 It Generates a fake website which asks for Location Permission and if the user allows it, we can get :
