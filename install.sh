@@ -2,6 +2,10 @@ echo '[!] Updating...'
 echo
 apt-get update
 echo
+echo '[!] Installing essentials...'
+echo
+apt-get install unzip wget
+echo
 echo '[!] Installing Apache2 Server...'
 echo
 apt-get install apache2
