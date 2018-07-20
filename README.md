@@ -1,10 +1,4 @@
-<pre>
-                      __                 
-  ______ ____   ____ |  | __ ___________
- /  ___// __ \_/ __ \|  |/ // __ \_  __ \
- \___ \\  ___/\  ___/|    <\  ___/|  | \/
-/____  >\___  >\___  >__|_ \\___  >__|   
-     \/     \/     \/     \/    \/       </pre>
+# Seeker
 
 ## Introduction
 Seeker utilizes **HTML5, Javascript, JQuery and PHP** to grab **Device Information** and **GeoLocation** with High Accuracy.
