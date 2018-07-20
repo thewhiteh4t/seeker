@@ -3,15 +3,7 @@
 ## Introduction
 Seeker utilizes **HTML5, Javascript, JQuery and PHP** to grab **Device Information** and **GeoLocation** with High Accuracy.
 
-**This tool is purely a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
-
-* Other tools and services offer IP Geolocation which is not very accurate and does not give location of user.
-
-* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**.
-
-**Note** : On iPhone due to some reason location accuracy is approximately 65 meters.
-
-It Hosts a fake website on **Apache Server** and uses **Ngrok** to generate a SSL link which asks for Location Permission and if the user allows it, we can get :
+Seeker Hosts a fake website on **Apache Server** and uses **Ngrok** to generate a SSL link which asks for Location Permission and if the user allows it, we can get :
 
 * Longitude
 * Latitude
@@ -30,6 +22,14 @@ Along with Location Information we can also get **Device Information** without a
 * GPU information
 * Browser Name and Version
 * Public IP Address
+
+**This tool is purely a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
+
+* Other tools and services offer IP Geolocation which is not very accurate and does not give location of user.
+
+* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**.
+
+**Note** : On iPhone due to some reason location accuracy is approximately 65 meters.
 
 ## Tested On :
 
