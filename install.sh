@@ -4,11 +4,11 @@ apt-get update
 echo
 echo '[!] Installing essentials...'
 echo
-apt-get install unzip wget
+apt-get install -y unzip wget
 echo
 echo '[!] Installing Apache2 Server...'
 echo
-apt-get install apache2
+apt-get install -y apache2
 echo
 echo '[!] Downloading Latest Version of Ngrok...'
 echo
