@@ -59,9 +59,8 @@ chmod 777 install.sh
 #After Installation just type seeker in console
 ```
 
-## PoC
+## Demo
 
 Youtube - https://www.youtube.com/watch?v=ggUGPq4cjSM
 
-## Screenshots
-![example](https://raw.githubusercontent.com/thewhiteh4t/seeker/master/screenshots/seeker1.png) ![example](https://raw.githubusercontent.com/thewhiteh4t/seeker/master/screenshots/seeker2.png)
+[![asciicast](https://asciinema.org/a/195052.png)](https://asciinema.org/a/195052)
