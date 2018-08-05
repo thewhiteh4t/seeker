@@ -59,21 +59,33 @@ chmod 777 install.sh
 #After Installation just type seeker in console
 ```
 ## Docker
-## Install Docker
+### Install Docker
 
-## Ubuntu/Kali Linux
+### Ubuntu/Kali Linux
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-## Arch Linux
+### Arch Linux
 
 ```bash
 pacman -Syy
 pacman -S docker
 systemctl start docker.service
+```
+
+### Build seeker
+
+```bash
+cd seeker/
+docker build -t seeker .
+```
+
+### Launch Seeker in docker
+```bash
+docker run -t --rm seeker
 ```
 
 ## Demo
