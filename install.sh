@@ -1,29 +1,26 @@
 echo '[!] Updating...'
+apt-get update > install.log
 echo
-apt-get update
-echo
-echo '[!] Installing essentials...'
-echo
-apt-get install -y unzip wget
-echo
-echo '[!] Installing Apache2 Server and PHP...'
-echo
-apt-get install -y apache2 php
-echo
-echo '[!] Downloading Latest Version of Ngrok...'
-echo
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-unzip ngrok-stable-linux-amd64.zip
-mkdir Ngrok
-sleep 10
-mv ngrok Ngrok/
-ln -s $PWD/Ngrok/ngrok /usr/local/bin/ngrok
-chmod 777 /usr/local/bin/ngrok
+echo '[!] Installing Dependencies...'
+echo '    Python'
+apt-get -y install python &>> install.log
+echo '    Apache2'
+apt-get -y install apache2 &>> install.log
+echo '    PHP'
+apt-get -y install php &>> install.log
+echo '    wget'
+apt-get -y install wget &>> install.log
+echo '    unzip'
+apt-get -y install unzip &>> install.log
+echo '    Requests'
+pip install requests &>> install.log
 echo
 echo '[!] Copying Template to /var/www/html/'
+rm -rf /var/www/html/nearyou/
 cp -r template/nearyou/ /var/www/html/
 echo
 echo '[!] Creating seeker symlink...'
+echo
 ln -s $PWD/seeker.py /usr/local/bin/seeker
 chmod 777 /usr/local/bin/seeker
 echo
@@ -31,4 +28,4 @@ echo '[!] Setting Permissions...'
 chmod 777 /var/www/html/nearyou/php/info.txt
 chmod 777 /var/www/html/nearyou/php/result.txt
 echo
-echo '[!] Installed...Launch Seeker by Typing Seeker in Terminal...'
+echo '[!] Installed...Launch by Typing seeker'
