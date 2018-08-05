@@ -2,9 +2,13 @@ echo '[!] Updating...'
 echo
 apt-get update
 echo
-echo '[!] Installing Apache2 Server...'
+echo '[!] Installing essentials...'
 echo
-apt-get install apache2
+apt-get install -y unzip wget
+echo
+echo '[!] Installing Apache2 Server and PHP...'
+echo
+apt-get install -y apache2 php
 echo
 echo '[!] Downloading Latest Version of Ngrok...'
 echo
