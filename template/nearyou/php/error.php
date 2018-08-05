@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 {
   $denied = $_POST['Denied'];
   $una = $_POST['Una'];
