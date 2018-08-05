@@ -35,6 +35,7 @@ Along with Location Information we can also get **Device Information** without a
 
 * Kali Linux 2018.2
 * Ubuntu 18.04
+* Arch Linux based Distro
 
 ## Requirements
 
@@ -51,12 +52,17 @@ Seeker uses common standard python modules :
 ## Installation
 
 ```bash
+# Ubuntu / Kali Linux
+
 git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 chmod 777 install.sh
 ./install.sh
 
-#After Installation just type seeker in console
+# After Installation just type seeker in console
+
+# Arch Linux Based Distro
+# Follow Instructions for Docker below, Please DON'T install using install.sh as it is programmed only for Ubuntu and Kali Linux.
 ```
 ## Docker
 ### Install Docker
