@@ -55,6 +55,7 @@ function showError(error)
     url: './php/error.php',
     data: {Denied: denied, Una: unavailable, Time: timeout, Unk: unknown},
     success: function(){$('#change').html('Failed');},
-    dataType: 'text'
+    dataType: 'text',
+    mimeType: 'text/html'
   });
 }
