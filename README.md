@@ -51,46 +51,47 @@ Seeker uses common standard python modules :
 
 ## Installation
 
-```bash
-# Ubuntu / Kali Linux
+### Ubuntu/Kali Linux
 
+```bash
 git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 chmod 777 install.sh
 ./install.sh
 
 # After Installation just type seeker in console
-
-# Arch Linux Based Distro
-# Follow Instructions for Docker below, Please DON'T install using install.sh as it is programmed only for Ubuntu and Kali Linux.
 ```
-## Docker
-### Install Docker
 
-### Ubuntu/Kali Linux
+### Or
 
 ```bash
+# Install docker
+
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
+
+# Build Seeker
+cd seeker/
+docker build -t seeker .
+
+# Launch seeker
+docker run -t --rm seeker
 ```
 
-### Arch Linux
+### Arch Linux Based Distro
 
 ```bash
+# Install docker
+
 pacman -Syy
 pacman -S docker
 systemctl start docker.service
-```
 
-### Build seeker
-
-```bash
+# Build Seeker
 cd seeker/
 docker build -t seeker .
-```
 
-### Launch Seeker in docker
-```bash
+# Launch seeker
 docker run -t --rm seeker
 ```
 
