@@ -60,11 +60,9 @@ chmod 777 install.sh
 ./install.sh
 
 # After Installation just type seeker in console
-```
 
-### Or
+# OR using Docker
 
-```bash
 # Install docker
 
 curl -fsSL https://get.docker.com -o get-docker.sh
