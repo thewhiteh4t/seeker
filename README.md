@@ -92,6 +92,17 @@ docker build -t seeker .
 # Launch seeker
 docker run -t --rm seeker
 ```
+### Termux
+
+```bash
+cd seeker/termux
+chmod 777 install.sh
+./install.sh
+
+# After Installation just type seeker in console
+```
+
+> If you are unable to get ngrok url that means ngrok is unable to resolve dns, switch to Mobile Data instead of WiFi and it should work, this is a problem with ngrok.
 
 ## Demo
 
