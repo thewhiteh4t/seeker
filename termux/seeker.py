@@ -8,7 +8,7 @@ import json
 import requests
 import subprocess as subp
 
-swd = os.readlink('/data/data/com.termux/files/usr/local/bin/seeker')
+swd = os.readlink('/data/data/com.termux/files/usr/bin/seeker')
 swd = swd.replace('seeker.py', '')
 os.chdir(swd)
 
