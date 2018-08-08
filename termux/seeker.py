@@ -8,6 +8,10 @@ import json
 import requests
 import subprocess as subp
 
+swd = os.readlink('/data/data/com.termux/files/usr/local/bin/seeker')
+swd = swd.replace('seeker.py', '')
+os.chdir(swd)
+
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -17,7 +21,7 @@ result = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/near
 info = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.2'
+ver = '1.0.3'
 
 try:
 	raw_input          # Python 2
