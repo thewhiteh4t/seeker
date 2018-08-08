@@ -21,7 +21,7 @@ result = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/near
 info = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.3'
+ver = '1.0.4'
 
 try:
 	raw_input          # Python 2
@@ -60,6 +60,7 @@ def version():
 		ans = raw_input('\n' + G + '[!]' + C + ' Update ? [y/n] : ' + W)
 		if ans == 'y':
 			print ('\n' + G + '[+]' + C + ' Updating...' + W + '\n')
+			subp.check_output(['git', 'reset', '--hard', 'origin/master'])
 			subp.check_output(['git', 'pull'])
 			print ('\n' + G + '[+]' + C + ' Script Updated...Please Execute Again...')
 			exit()
