@@ -14,7 +14,7 @@ try:
 	os.chdir(swd)
 except OSError:
 	pass
-	
+
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -24,7 +24,7 @@ result = '/var/www/html/nearyou/php/result.txt'
 info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.3'
+ver = '1.0.4'
 
 try:
 	raw_input          # Python 2
@@ -63,6 +63,7 @@ def version():
 		ans = raw_input('\n' + G + '[!]' + C + ' Update ? [y/n] : ' + W)
 		if ans == 'y':
 			print ('\n' + G + '[+]' + C + ' Updating...' + W + '\n')
+			subp.check_output(['git', 'reset', '--hard', 'origin/master'])
 			subp.check_output(['git', 'pull'])
 			print ('\n' + G + '[+]' + C + ' Script Updated...Please Execute Again...')
 			exit()
