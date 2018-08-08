@@ -8,6 +8,13 @@ import json
 import requests
 import subprocess as subp
 
+try:
+	swd = os.readlink('/usr/local/bin/seeker')
+	swd = swd.replace('seeker.py', '')
+	os.chdir(swd)
+except OSError:
+	pass
+	
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -17,7 +24,7 @@ result = '/var/www/html/nearyou/php/result.txt'
 info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.2'
+ver = '1.0.3'
 
 try:
 	raw_input          # Python 2
