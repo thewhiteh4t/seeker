@@ -109,3 +109,5 @@ chmod 777 install.sh
 Youtube - https://www.youtube.com/watch?v=ggUGPq4cjSM
 
 [![asciicast](https://asciinema.org/a/195052.png)](https://asciinema.org/a/195052)
+
+[![asciicast](https://asciinema.org/a/195830.png)](https://asciinema.org/a/195830)
