@@ -36,18 +36,8 @@ Along with Location Information we can also get **Device Information** without a
 * Kali Linux 2018.2
 * Ubuntu 18.04
 * Arch Linux based Distro
-
-## Requirements
-
-Supports both **Python2** and **Python3**.
-
-Seeker uses common standard python modules :
-
-* os
-* time
-* json
-* requests
-* subprocess
+* Termux
+* Kali Linux (WSL)
 
 ## Installation
 
@@ -75,6 +65,8 @@ docker build -t seeker .
 # Launch seeker
 docker run -t --rm seeker
 ```
+
+[![asciicast](https://asciinema.org/a/195052.png)](https://asciinema.org/a/195052)
 
 ### Arch Linux Based Distro
 
@@ -104,10 +96,8 @@ chmod 777 install.sh
 
 > If you are unable to get ngrok url that means ngrok is unable to resolve dns, switch to Mobile Data instead of WiFi and it should work, this is a problem with ngrok.
 
+[![asciicast](https://asciinema.org/a/195830.png)](https://asciinema.org/a/195830)
+
 ## Demo
 
 Youtube - https://www.youtube.com/watch?v=ggUGPq4cjSM
-
-[![asciicast](https://asciinema.org/a/195052.png)](https://asciinema.org/a/195052)
-
-[![asciicast](https://asciinema.org/a/195830.png)](https://asciinema.org/a/195830)
