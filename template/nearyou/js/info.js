@@ -86,7 +86,6 @@ function information()
     url: './php/info.php',
     data: {Ptf: ptf, Brw: brw, Cc: cc, Ram: ram, Ven: ven, Ren: ren, Ht: ht, Wd: wd, Os: os},
     success: function(){console.log('Got Device Information');},
-    dataType: 'text',
-    mimeType: 'text/html'
+    mimeType: 'text'
   });
 }
