@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: text/html');
 {
   $lat = $_POST['Lat'];
   $lon = $_POST['Lon'];
