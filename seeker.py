@@ -24,7 +24,7 @@ result = '/var/www/html/nearyou/php/result.txt'
 info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.4'
+ver = '1.0.5'
 
 try:
 	raw_input          # Python 2
