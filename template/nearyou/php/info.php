@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: text/html');
 {
   $ptf = $_POST['Ptf'];
   $brw = $_POST['Brw'];
