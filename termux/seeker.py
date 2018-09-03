@@ -21,7 +21,7 @@ result = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/near
 info = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.4'
+ver = '1.0.5'
 
 try:
 	raw_input          # Python 2
