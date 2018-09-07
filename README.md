@@ -1,7 +1,6 @@
-<body bgcolor="#000000">
 <h1 align="center">Seeker</h1>
 <h4 align="center">
-Get Accurate Location Using Fake Pages
+Get Accurate Location using Fake Website
 </h4>
 
 <p align="center">
@@ -14,8 +13,10 @@ Get Accurate Location Using Fake Pages
     <img src="https://img.shields.io/twitter/url/https/github.com/thewhiteh4t/seeker.svg?style=plastic">
   </a>
 </p>
-</body>
-Seeker Hosts a fake website on **Apache Server** and uses **Ngrok** to generate a SSL link which asks for Location Permission and if the user allows it, we can get :
+
+Concept behind Seeker is simple, just like we host phishing pages to get credentials why not host a fake page that requests your loction just like many popular location based websites.
+
+Seeker Hosts a fake website on **Apache Server** and uses **Ngrok**, website asks for Location Permission and if the user allows it, we can get :
 
 * Longitude
 * Latitude
@@ -24,7 +25,7 @@ Seeker Hosts a fake website on **Apache Server** and uses **Ngrok** to generate 
 * Direction - Only available if user is moving
 * Speed - Only available if user is moving
 
-Along with Location Information we can also get **Device Information** without any permissions :
+Along with Location Information we also get **Device Information** without any permissions :
 
 * Operating System
 * Platform
