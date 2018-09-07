@@ -1,8 +1,20 @@
-# Seeker
+<body bgcolor="#000000">
+<h1 align="center">Seeker</h1>
+<h4 align="center">
+Get Accurate Location Using Fake Pages
+</h4>
 
-## Introduction
-Seeker utilizes **HTML5, Javascript, JQuery and PHP** to grab **Device Information** and **GeoLocation** with High Accuracy.
-
+<p align="center">
+<img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
+<img src="https://img.shields.io/badge/Python-2-brightgreen.svg?style=plastic">
+<img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
+<img src="https://img.shields.io/badge/Termux-✔-red.svg?style=plastic">
+<img src="https://img.shields.io/badge/NetHunter-✔-red.svg?style=plastic">
+<a href="https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fthewhiteh4t%2Fseeker">
+    <img src="https://img.shields.io/twitter/url/https/github.com/thewhiteh4t/seeker.svg?style=plastic">
+  </a>
+</p>
+</body>
 Seeker Hosts a fake website on **Apache Server** and uses **Ngrok** to generate a SSL link which asks for Location Permission and if the user allows it, we can get :
 
 * Longitude
