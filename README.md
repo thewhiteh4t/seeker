@@ -9,9 +9,6 @@ Get Accurate Location using Fake Website
 <img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
 <img src="https://img.shields.io/badge/Termux-✔-red.svg?style=plastic">
 <img src="https://img.shields.io/badge/NetHunter-✔-red.svg?style=plastic">
-<a href="https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fthewhiteh4t%2Fseeker">
-    <img src="https://img.shields.io/twitter/url/https/github.com/thewhiteh4t/seeker.svg?style=plastic">
-  </a>
 </p>
 
 Concept behind Seeker is simple, just like we host phishing pages to get credentials why not host a fake page that requests your loction just like many popular location based websites.
