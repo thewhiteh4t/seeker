@@ -1,6 +1,6 @@
 <p align="center"><img src="https://i.imgur.com/iLLX7A8.png"></p>
 <h4 align="center">
-Get Accurate Location using Fake Website
+Get Accurate Location using a Fake Website
 </h4>
 
 <p align="center">
