@@ -6,6 +6,7 @@ import os
 import time
 import json
 import requests
+import distutils.dir_util
 import subprocess as subp
 
 swd = os.readlink('/data/data/com.termux/files/usr/bin/seeker')
