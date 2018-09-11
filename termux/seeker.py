@@ -21,7 +21,7 @@ W = '\033[0m'  # white
 result = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/result.txt'
 info = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
-tmp = '/var/www/html/nearyou'
+tmp = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou'
 site = 'nearyou'
 ver = '1.0.6'
 
