@@ -16,6 +16,12 @@ function information()
   console.log(ver);
   console.log(ptf);
   console.log(cc);
+  //ram
+  if (ram == undefined)
+  {
+    ram = 'Not Available';
+    console.log('RAM is not available')
+  }
   console.log(ram);
   //browser
   if (ver.indexOf('Firefox') != -1)
@@ -49,12 +55,9 @@ function information()
   else
   {
     brw = 'Not Available'
+    console.log('Browser is not available')
   }
-  //ram
-  if (ram == undefined)
-  {
-    ram = 'Not Available';
-  }
+
   //gpu
   try
   {
@@ -67,6 +70,16 @@ function information()
     ven = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
     ren = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
   }
+  if (ven == undefined)
+  {
+    ven = 'Not Available';
+    console.log('GPU Vendor not available')
+  }
+  if (ren == undefined)
+  {
+    ren = 'Not Available';
+    console.log('GPU Renderer not available')
+  }
   console.log(ven);
   console.log(ren);
   //
@@ -78,6 +91,11 @@ function information()
   os = os.substring(0, os.indexOf(')'));
   os = os.split(';');
   os = os[1];
+  if (os == undefined)
+  {
+    os = 'Not Available';
+    console.log('OS is not available')
+  }
   os = os.trim();
   console.log(os);
   //
