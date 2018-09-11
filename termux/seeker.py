@@ -77,7 +77,11 @@ def ngrok():
 	global api, site
 	print ('\n' + G + '[!]' + C + ' Loading Template...' + W)
 	distutils.dir_util.remove_tree(tmp)
+	swd = os.chdir('..')
+	swd = os.getcwd()
 	distutils.dir_util.copy_tree('{}/template/nearyou'.format(swd), tmp)
+	swd = os.chdir('termux')
+	swd = os.getcwd()
 	os.chmod(info, 0o777)
 	os.chmod(result, 0o777)
 	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
