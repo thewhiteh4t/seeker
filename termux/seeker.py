@@ -9,10 +9,6 @@ import requests
 import distutils.dir_util
 import subprocess as subp
 
-swd = os.readlink('/data/data/com.termux/files/usr/bin/seeker')
-swd = swd.replace('seeker.py', '')
-os.chdir(swd)
-
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -23,7 +19,15 @@ info = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyo
 api = 'http://localhost:4040/api/tunnels'
 tmp = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou'
 site = 'nearyou'
-ver = '1.0.6'
+ver = '1.0.7'
+swd = ''
+
+try:
+	swd = os.readlink('/data/data/com.termux/files/usr/bin/seeker')
+	swd = swd.replace('seeker.py', '')
+	os.chdir(swd)
+except OSError:
+	pass
 
 try:
 	raw_input          # Python 2
@@ -74,16 +78,19 @@ def version():
 		print (G + ' Up-to-date' + W)
 
 def ngrok():
-	global api, site
+	global api, site, swd
 	print ('\n' + G + '[!]' + C + ' Loading Template...' + W)
-	distutils.dir_util.remove_tree(tmp)
-	swd = os.chdir('..')
-	swd = os.getcwd()
-	distutils.dir_util.copy_tree('{}/template/nearyou'.format(swd), tmp)
-	swd = os.chdir('termux')
-	swd = os.getcwd()
-	os.chmod(info, 0o777)
-	os.chmod(result, 0o777)
+	if swd == '':
+		print ('\n' + R + '[-]' + C + ' Symlink Broken or Missing...Skipping...' + W)
+	else:
+		os.system('rm -rf {}'.format(tmp))
+		swd = os.chdir('..')
+		swd = os.getcwd()
+		os.system('cp -r {}/template/nearyou {}'.format(swd, tmp))
+		swd = os.chdir('termux')
+		swd = os.getcwd()
+		os.chmod(info, 0o777)
+		os.chmod(result, 0o777)
 	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
 	subp.Popen(['apachectl', 'start'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
