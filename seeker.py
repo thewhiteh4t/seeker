@@ -9,13 +9,6 @@ import requests
 import distutils.dir_util
 import subprocess as subp
 
-try:
-	swd = os.readlink('/usr/local/bin/seeker')
-	swd = swd.replace('seeker.py', '')
-	os.chdir(swd)
-except OSError:
-	pass
-
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -26,7 +19,15 @@ info = '/var/www/html/nearyou/php/info.txt'
 api = 'http://localhost:4040/api/tunnels'
 tmp = '/var/www/html/nearyou'
 site = 'nearyou'
-ver = '1.0.6'
+ver = '1.0.7'
+swd = ''
+
+try:
+	swd = os.readlink('/usr/local/bin/seeker')
+	swd = swd.replace('seeker.py', '')
+	os.chdir(swd)
+except OSError:
+	pass
 
 try:
 	raw_input          # Python 2
@@ -77,12 +78,15 @@ def version():
 		print (G + ' Up-to-date' + W)
 
 def ngrok():
-	global api, site
+	global api, site, swd
 	print ('\n' + G + '[!]' + C + ' Loading Template...' + W)
-	distutils.dir_util.remove_tree(tmp)
-	distutils.dir_util.copy_tree('{}/template/nearyou'.format(swd), tmp)
-	os.chmod(info, 0o777)
-	os.chmod(result, 0o777)
+	if swd == '':
+		print ('\n' + R + '[-]' + C + ' Symlink Broken or Missing...Skipping...')
+	else:
+		os.system('rm -rf {}'.format(tmp))
+		os.system('cp -r {}/template/nearyou /var/www/html'.format(swd))
+		os.chmod(info, 0o777)
+		os.chmod(result, 0o777)
 	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
 	subp.Popen(['service', 'apache2', 'start'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
