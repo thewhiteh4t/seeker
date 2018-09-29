@@ -6,7 +6,6 @@ import os
 import time
 import json
 import requests
-import distutils.dir_util
 import subprocess as subp
 
 R = '\033[31m' # red
@@ -14,20 +13,17 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
-result = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/result.txt'
-info = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou/php/info.txt'
-api = 'http://localhost:4040/api/tunnels'
-tmp = '/data/data/com.termux/files/usr/share/apache2/default-site/htdocs/nearyou'
-site = 'nearyou'
-ver = '1.0.7'
-swd = ''
+swd = os.getcwd()
+swd = os.chdir(swd)
+swd = os.chdir('..')
+swd = os.getcwd()
+print (swd)
 
-try:
-	swd = os.readlink('/data/data/com.termux/files/usr/bin/seeker')
-	swd = swd.replace('seeker.py', '')
-	os.chdir(swd)
-except OSError:
-	pass
+result = '{}/template/nearyou/php/result.txt'.format(swd)
+info = '{}/template/nearyou/php/info.txt'.format(swd)
+api = 'http://localhost:4040/api/tunnels'
+site = 'nearyou'
+ver = '1.0.8'
 
 try:
 	raw_input          # Python 2
@@ -79,22 +75,11 @@ def version():
 
 def ngrok():
 	global api, site, swd
-	print ('\n' + G + '[!]' + C + ' Loading Template...' + W)
-	if swd == '':
-		print ('\n' + R + '[-]' + C + ' Symlink Broken or Missing...Skipping...' + W)
-	else:
-		os.system('rm -rf {}'.format(tmp))
-		swd = os.chdir('..')
-		swd = os.getcwd()
-		os.system('cp -r {}/template/nearyou {}'.format(swd, tmp))
-		swd = os.chdir('termux')
-		swd = os.getcwd()
-		os.chmod(info, 0o777)
-		os.chmod(result, 0o777)
-	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
-	subp.Popen(['apachectl', 'start'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
+	print ('\n' + G + '[!]' + C + ' Starting PHP Server...' + W)
+	with open ('php.log', 'w') as phplog:
+		subp.Popen(['php', '-S', 'localhost:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
-	subp.Popen(['./Ngrok/ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
+	subp.Popen(['./termux/Ngrok/ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	time.sleep(2)
 
 	def geturl():
@@ -214,7 +199,7 @@ def repeat():
 def quit():
 	global result
 	with open (result, 'w+'): pass
-	subp.call(['apachectl', 'stop'])
+	os.system('pkill php')
 	os.system('pkill ngrok')
 	exit()
 
