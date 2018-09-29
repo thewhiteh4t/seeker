@@ -13,12 +13,8 @@ apt-get -y install unzip &>> install.log
 echo '    Requests'
 pip install requests &>> install.log
 echo
-echo '[!] Creating seeker symlink...'
-ln -s $PWD/seeker.py /usr/local/bin/seeker
-chmod 777 /usr/local/bin/seeker
-echo
 echo '[!] Setting Permissions...'
 chmod 777 template/nearyou/php/info.txt
 chmod 777 template/nearyou/php/result.txt
 echo
-echo '[!] Installed...Launch by Typing seeker'
+echo '[!] Installed.'
