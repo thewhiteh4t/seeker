@@ -14,9 +14,6 @@ apt-get -y install unzip &>> install.log
 echo '    Requests'
 pip install requests &>> install.log
 echo
-echo '[!] Copying Template to /data/data/com.termux/files/usr/share/apache2/default-site/htdocs/'
-cp -r ../template/nearyou/ $PREFIX/share/apache2/default-site/htdocs/
-echo
 echo '[!] Creating seeker symlink...'
 ln -s $PWD/seeker.py $PREFIX/bin/seeker
 chmod 777 $PREFIX/bin/seeker
