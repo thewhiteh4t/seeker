@@ -17,7 +17,6 @@ swd = os.getcwd()
 swd = os.chdir(swd)
 swd = os.chdir('..')
 swd = os.getcwd()
-print (swd)
 
 result = '{}/template/nearyou/php/result.txt'.format(swd)
 info = '{}/template/nearyou/php/info.txt'.format(swd)
