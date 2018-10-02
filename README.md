@@ -13,7 +13,7 @@ Get Accurate Location using a Fake Website
 
 Concept behind Seeker is simple, just like we host phishing pages to get credentials why not host a fake page that requests your loction just like many popular location based websites.
 
-Seeker Hosts a fake website on **Apache Server** and uses **Ngrok**, website asks for Location Permission and if the user allows it, we can get :
+Seeker Hosts a fake website on **In Built PHP Server** and uses **Ngrok**, website asks for Location Permission and if the user allows it, we can get :
 
 * Longitude
 * Latitude
@@ -33,7 +33,7 @@ Along with Location Information we also get **Device Information** without any p
 * Browser Name and Version
 * Public IP Address
 
-**This tool is purely a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
+**This tool is a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
 
 * Other tools and services offer IP Geolocation which is not very accurate and does not give location of user.
 
@@ -48,6 +48,8 @@ Along with Location Information we also get **Device Information** without any p
 * Arch Linux based Distro
 * Termux
 * Kali Linux (WSL)
+* Parrot OS
+* Zorin OS
 
 ## Installation
 
@@ -58,8 +60,6 @@ git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 chmod 777 install.sh
 ./install.sh
-
-# After Installation just type seeker in console
 
 # OR using Docker
 
@@ -100,8 +100,6 @@ docker run -t --rm seeker
 cd seeker/termux
 chmod 777 install.sh
 ./install.sh
-
-# After Installation just type seeker in console
 ```
 
 > If you are unable to get ngrok url that means ngrok is unable to resolve dns, switch to Mobile Data instead of WiFi and it should work, this is a problem with ngrok.
