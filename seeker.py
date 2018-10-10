@@ -3,10 +3,10 @@
 from __future__ import print_function
 
 import os
+import sys
 import time
 import json
 import requests
-import distutils.dir_util
 import subprocess as subp
 
 R = '\033[31m' # red
@@ -20,12 +20,10 @@ result = '{}/template/nearyou/php/result.txt'.format(swd)
 info = '{}/template/nearyou/php/info.txt'.format(swd)
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.8'
+ver = '1.0.9'
 
-try:
-	raw_input          # Python 2
-except NameError:
-	raw_input = input  # Python 3
+if sys.version_info[0] >= 3:
+    raw_input = input
 
 def banner():
 	os.system('clear')
@@ -41,16 +39,16 @@ def banner():
 
 def network():
 	try:
-		requests.get('http://www.google.com/', timeout = 1)
+		requests.get('http://www.google.com/', timeout = 5)
 		print (G + '[+]' + C + ' Checking Internet Connection...' + W, end='')
 		print (G + ' Working' + W + '\n')
 	except requests.ConnectionError:
 		print (R + '[!]' + C + ' You are Not Connected to the Internet...Quiting...' + W)
-		exit()
+		sys.exit()
 
 def version():
 	print (G + '[+]' + C + ' Checking For Seeker Updates...' + W, end='')
-	update = requests.get('https://raw.githubusercontent.com/thewhiteh4t/seeker/master/version.txt')
+	update = requests.get('https://raw.githubusercontent.com/thewhiteh4t/seeker/master/version.txt', timeout = 5)
 	update = update.text.split(' ')[1]
 	update = update.strip()
 
@@ -62,7 +60,7 @@ def version():
 			subp.check_output(['git', 'reset', '--hard', 'origin/master'])
 			subp.check_output(['git', 'pull'])
 			print ('\n' + G + '[+]' + C + ' Script Updated...Please Execute Again...')
-			exit()
+			sys.exit()
 		elif ans == 'n':
 			pass
 		else:
@@ -106,7 +104,7 @@ def ngrok():
 			break
 		else:
 			print (R + '[-]' + C + ' Unable to Get Ngrok URL.' + W + '\n')
-			exit()
+			sys.exit()
 
 def wait():
 	printed = False
