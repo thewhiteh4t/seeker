@@ -80,7 +80,7 @@ def version():
 def ngrok():
 	global api, site, swd
 	print ('\n' + G + '[!]' + C + ' Starting PHP Server...' + W)
-	with open ('php.log', 'w') as phplog:
+	with open (swd + '/php.log', 'w') as phplog:
 		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
 	subp.Popen(['ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
