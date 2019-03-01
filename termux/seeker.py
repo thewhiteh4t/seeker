@@ -14,10 +14,6 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
-#swd = os.getcwd()
-#swd = os.chdir(swd)
-#swd = os.chdir('..')
-#swd = os.getcwd()
 swdstring = os.path.realpath(__file__)
 swdlist = [i for i in swdstring]
 swdlist = swdlist[::-1]
