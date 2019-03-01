@@ -77,7 +77,7 @@ def ngrok():
 	with open ('php.log', 'w') as phplog:
 		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
-	subp.Popen(['./termux/Ngrok/ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
+	subp.Popen(['ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	time.sleep(2)
 
 	def geturl():
