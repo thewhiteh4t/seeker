@@ -80,12 +80,12 @@ def serveo():
 		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
 
 	print ('\n' + G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
-	with open ('$PREFIX/tmp/serveo.txt', 'w') as tmpfile:
+	with open ('serveo.txt', 'w') as tmpfile:
 		proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '80:localhost:8080', 'serveo.net'], stdout = tmpfile, stderr = tmpfile, stdin = subp.PIPE)
 
 	while True:
 		time.sleep(2)
-		with open ('$PREFIX/tmp/serveo.txt', 'r') as tmpfile:
+		with open ('serveo.txt', 'r') as tmpfile:
 			try:
 				stdout = tmpfile.readlines()
 				if flag == False:
