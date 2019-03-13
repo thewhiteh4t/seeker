@@ -19,6 +19,5 @@ echo
 echo '[!] Setting Permissions...'
 chmod 777 ../template/nearyou/php/result.txt
 chmod 777 ../template/nearyou/php/info.txt
-chmod +x $PREFIX/bin/ngrok
 echo
 echo '[!] Installed.'
