@@ -74,6 +74,10 @@ docker build -t seeker .
 
 # Launch seeker
 docker run -t --rm seeker
+
+# OR Pull from DockerHub
+docker pull thewhiteh4t/seeker
+docker run -t seeker
 ```
 
 [![asciicast](https://asciinema.org/a/195052.png)](https://asciinema.org/a/195052)
