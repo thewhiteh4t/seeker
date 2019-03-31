@@ -11,7 +11,7 @@ apt-get -y install wget &>> install.log
 echo '    unzip'
 apt-get -y install unzip &>> install.log
 echo '    openssh'
-apt-get -y install openssh &>> install.log
+apt-get -y install ssh &>> install.log
 echo '    Requests'
 pip install requests &>> install.log
 echo
