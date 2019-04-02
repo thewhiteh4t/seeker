@@ -6,7 +6,7 @@ echo '[!] Installing Dependencies...'
 echo '    Python'
 apt-get -y install python &>> install.log
 echo '    PHP'
-apt-get -y install php-apache &>> install.log
+apt-get -y install php &>> install.log
 echo '    wget'
 apt-get -y install wget &>> install.log
 echo '    unzip'
