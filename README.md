@@ -80,8 +80,6 @@ docker pull thewhiteh4t/seeker
 docker run -t seeker
 ```
 
-[![asciicast](https://asciinema.org/a/195052.png)](https://asciinema.org/a/195052)
-
 ### Arch Linux Based Distro
 
 ```bash
@@ -107,8 +105,6 @@ chmod 777 install.sh
 ```
 
 > If you are unable to get ngrok url that means ngrok is unable to resolve dns, switch to Mobile Data instead of WiFi and it should work, this is a problem with ngrok.
-
-[![asciicast](https://asciinema.org/a/195830.png)](https://asciinema.org/a/195830)
 
 ## Demo
 
