@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
@@ -19,7 +19,7 @@ os.chdir(swd)
 result = '{}/template/nearyou/php/result.txt'.format(swd)
 info = '{}/template/nearyou/php/info.txt'.format(swd)
 site = 'nearyou'
-ver = '1.1.1'
+ver = '1.1.2'
 
 if sys.version_info[0] >= 3:
 	raw_input = input
@@ -44,28 +44,6 @@ def network():
 	except requests.ConnectionError:
 		print (R + '[!]' + C + ' You are Not Connected to the Internet...Quiting...' + W)
 		sys.exit()
-
-def version():
-	print (G + '[+]' + C + ' Checking For Seeker Updates...' + W, end='')
-	update = requests.get('https://raw.githubusercontent.com/thewhiteh4t/seeker/master/version.txt', timeout = 5)
-	update = update.text.split(' ')[1]
-	update = update.strip()
-
-	if update != ver:
-		print ('\n\n' + G + '[!]' + C + ' A New Version is Available : ' + W + update)
-		ans = raw_input('\n' + G + '[!]' + C + ' Update ? [y/n] : ' + W)
-		if ans == 'y':
-			print ('\n' + G + '[+]' + C + ' Updating...' + W + '\n')
-			subp.check_output(['git', 'reset', '--hard', 'origin/master'])
-			subp.check_output(['git', 'pull'])
-			print ('\n' + G + '[+]' + C + ' Script Updated...Please Execute Again...')
-			sys.exit()
-		elif ans == 'n':
-			pass
-		else:
-			print ('\n' + R + '[-]' + C + ' Invalid Character...Skipping...'+ W)
-	else:
-		print (G + ' Up-to-date' + W)
 
 def serveo():
 	global api, site, swd
@@ -193,7 +171,6 @@ def quit():
 try:
 	banner()
 	network()
-	version()
 	serveo()
 	wait()
 	main()
