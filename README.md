@@ -105,6 +105,22 @@ chmod 777 install.sh
 ./install.sh
 ```
 
+## Usage
+
+```bash
+python3 seeker.py -h
+
+usage: seeker.py [-h] [-s SUBDOMAIN]
+
+optional arguments:
+  -h, --help                            show this help message and exit
+  -s SUBDOMAIN, --subdomain Subdomain 	Provide Subdomain for Serveo URL ( Optional )
+
+# Example
+
+python3 seeker.py --subdomain google
+```
+
 ## Known Problems
 
 * Services like Serveo and Ngrok are banned in some countries such as Russia etc., so if it's banned in your country you may not get a URL, if not then first READ CLOSED ISSUES, if your problem is not listed, create a new issue.
