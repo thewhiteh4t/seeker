@@ -61,24 +61,6 @@ git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 chmod 777 install.sh
 ./install.sh
-
-# OR using Docker
-
-# Install docker
-
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-
-# Build Seeker
-cd seeker/
-docker build -t seeker .
-
-# Launch seeker
-docker run -t --rm seeker
-
-# OR Pull from DockerHub
-docker pull thewhiteh4t/seeker
-docker run -t seeker
 ```
 
 ### Arch Linux Based Distro
@@ -97,6 +79,30 @@ docker build -t seeker .
 # Launch seeker
 docker run -t --rm seeker
 ```
+
+### Docker
+
+```bash
+# Install docker
+
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+# Build Seeker
+
+cd seeker/
+docker build -t seeker .
+
+# Launch seeker
+
+docker run -t --rm seeker
+
+# OR Pull from DockerHub
+
+docker pull thewhiteh4t/seeker
+docker run -t seeker
+```
+
 ### Termux
 
 ```bash
