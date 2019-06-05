@@ -98,9 +98,10 @@ docker run -t seeker
 ### Termux
 
 ```bash
-cd seeker/termux
-chmod 777 install.sh
-./install.sh
+git clone https://github.com/thewhiteh4t/seeker.git
+cd seeker/
+chmod 777 termux_install.sh
+./termux_install.sh
 ```
 
 ## Usage
