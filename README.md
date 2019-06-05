@@ -63,21 +63,13 @@ chmod 777 install.sh
 ./install.sh
 ```
 
-### Arch Linux Based Distro
+### BlackArch Linux
 
 ```bash
-# Install docker
-
-pacman -Syy
-pacman -S docker
-systemctl start docker.service
-
-# Build Seeker
+git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
-docker build -t seeker .
-
-# Launch seeker
-docker run -t --rm seeker
+chmod 777 arch_install.sh
+./arch_install.sh
 ```
 
 ### Docker
@@ -119,7 +111,7 @@ python3 seeker.py -h
 usage: seeker.py [-h] [-s SUBDOMAIN]
 
 optional arguments:
-  -h, --help                            show this help message and exit
+  -h, --help                              show this help message and exit
   -s SUBDOMAIN, --subdomain Subdomain 	Provide Subdomain for Serveo URL ( Optional )
 
 # Example
