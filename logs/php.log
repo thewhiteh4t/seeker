@@ -1,0 +1,19 @@
+[Sat Aug 24 10:03:14 2019] 127.0.0.1:46454 [200]: /nearyou/index.html
+[Sat Aug 24 10:03:27 2019] 127.0.0.1:46460 [200]: /nearyou/
+[Sat Aug 24 10:03:27 2019] 127.0.0.1:46464 [200]: /nearyou/css/main.css
+[Sat Aug 24 10:03:27 2019] 127.0.0.1:46468 [200]: /nearyou/js/main.js
+[Sat Aug 24 10:03:27 2019] 127.0.0.1:46472 [200]: /nearyou/js/location.js
+[Sat Aug 24 10:03:27 2019] 127.0.0.1:46476 [200]: /nearyou/js/warpspeed.min.js
+[Sat Aug 24 10:03:27 2019] 127.0.0.1:46480 [200]: /nearyou/js/info.js
+[Sat Aug 24 10:03:28 2019] 127.0.0.1:46484 [200]: /nearyou/
+[Sat Aug 24 10:03:29 2019] 127.0.0.1:46488 [200]: /nearyou/css/main.css
+[Sat Aug 24 10:03:29 2019] 127.0.0.1:46492 [200]: /nearyou/js/main.js
+[Sat Aug 24 10:03:29 2019] 127.0.0.1:46496 [200]: /nearyou/js/location.js
+[Sat Aug 24 10:03:29 2019] 127.0.0.1:46500 [200]: /nearyou/js/info.js
+[Sat Aug 24 10:03:29 2019] 127.0.0.1:46504 [200]: /nearyou/js/warpspeed.min.js
+[Sat Aug 24 10:03:30 2019] 127.0.0.1:46508 [200]: /nearyou/php/info.php
+[Sat Aug 24 10:03:32 2019] 127.0.0.1:46512 [200]: /nearyou/php/result.php
+PHP 7.3.8 Development Server started at Sat Aug 24 10:03:12 2019
+Listening on http://127.0.0.1:8080
+Document root is /home/unknown/tools/seeker/template
+Press Ctrl-C to quit.

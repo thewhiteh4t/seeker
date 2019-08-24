@@ -1,0 +1,16 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+[32mForwarding HTTP traffic from https://vere.serveo.net
+[0mHTTP request from 103.87.59.55 to http://vere.serveo.net/nearyou/
+HTTP request from 103.87.59.55 to http://vere.serveo.net/nearyou/css/main.css
+HTTP request from 103.87.59.55 to http://vere.serveo.net/nearyou/js/main.js
+HTTP request from 103.87.59.55 to http://vere.serveo.net/nearyou/js/location.js
+HTTP request from 103.87.59.55 to http://vere.serveo.net/nearyou/js/warpspeed.min.js
+HTTP request from 103.87.59.55 to http://vere.serveo.net/nearyou/js/info.js
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/css/main.css
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/js/main.js
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/js/location.js
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/js/info.js
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/js/warpspeed.min.js
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/php/info.php
+HTTP request from 103.87.59.55 to https://vere.serveo.net/nearyou/php/result.php
