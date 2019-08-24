@@ -1,0 +1,3 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+[32mForwarding HTTP traffic from https://edico.serveo.net
+[0m
