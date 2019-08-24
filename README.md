@@ -73,10 +73,7 @@ chmod 777 install.sh
 ### BlackArch Linux
 
 ```bash
-git clone https://github.com/thewhiteh4t/seeker.git
-cd seeker/
-chmod 777 arch_install.sh
-./arch_install.sh
+pacman -S seeker
 ```
 
 ### Docker
