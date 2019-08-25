@@ -26,7 +26,7 @@ result = 'template/nearyou/php/result.txt'
 info = 'template/nearyou/php/info.txt'
 site = 'nearyou'
 row = []
-version = '1.1.5'
+version = '1.1.6'
 
 def banner():
 	os.system('clear')
@@ -174,18 +174,18 @@ def main():
 				print(G + '[+]' + C + ' Browser    : ' + W + var_browser)
 				print(G + '[+]' + C + ' Public IP  : ' + W + var_ip)
 
-				rqst = requests.get('http://free.ipwhois.io/json/{}'.format(value['ip']))
+				rqst = requests.get('http://free.ipwhois.io/json/{}'.format(var_ip))
 				sc = rqst.status_code
 
 				if sc == 200:
 					data = rqst.text
 					data = json.loads(data)
-					var_continent = data['continent']
-					var_country = data['country']
-					var_region = data['region']
-					var_city = data['city']
-					var_org = data['org']
-					var_isp = data['isp']
+					var_continent = str(data['continent'])
+					var_country = str(data['country'])
+					var_region = str(data['region'])
+					var_city = str(data['city'])
+					var_org = str(data['org'])
+					var_isp = str(data['isp'])
 
 					row.append(var_continent)
 					row.append(var_country)
@@ -194,12 +194,12 @@ def main():
 					row.append(var_org)
 					row.append(var_isp)
 
-					print(G + '[+]' + C + ' Continent  : ' + W + data['continent'])
-					print(G + '[+]' + C + ' Country    : ' + W + data['country'])
-					print(G + '[+]' + C + ' Region     : ' + W + data['region'])
-					print(G + '[+]' + C + ' City       : ' + W + data['city'])
-					print(G + '[+]' + C + ' Org        : ' + W + data['org'])
-					print(G + '[+]' + C + ' ISP        : ' + W + data['isp'])
+					print(G + '[+]' + C + ' Continent  : ' + W + var_continent)
+					print(G + '[+]' + C + ' Country    : ' + W + var_country)
+					print(G + '[+]' + C + ' Region     : ' + W + var_region)
+					print(G + '[+]' + C + ' City       : ' + W + var_city)
+					print(G + '[+]' + C + ' Org        : ' + W + var_org)
+					print(G + '[+]' + C + ' ISP        : ' + W + var_isp)
 	except ValueError:
 		pass
 	
