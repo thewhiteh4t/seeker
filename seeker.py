@@ -26,7 +26,7 @@ result = 'template/nearyou/php/result.txt'
 info = 'template/nearyou/php/info.txt'
 site = 'nearyou'
 row = []
-version = '1.1.6'
+version = '1.1.7'
 
 def banner():
 	os.system('clear')
@@ -63,23 +63,21 @@ def serveo():
 
 	print(G + '[+]' + C + ' Checking Serveo Status...', end='')
 
-	try:
-		time.sleep(1)
-		rqst = requests.get('https://serveo.net', timeout=5)
-		sc = rqst.status_code
-		if sc == 200:
-			print(C + '[' + G + ' UP ' + C + ']' + W + '\n')
+	with open('logs/ping.txt', 'w') as pinglog:
+		ping = subp.Popen(['ping', '-c', '2', 'serveo.net'], stdout=pinglog, stderr=pinglog)
+	time.sleep(2)
+	with open('logs/ping.txt', 'r') as pingread:
+		ping_status = pingread.read()
+		if 'Unreachable' in ping_status:
+			print(C + '[' + R + ' DOWN ' + C +']' + '\n')
+			exit()
 		else:
-			print(C + '[' + R + 'Status : {}'.format(sc) + C + ']' + W + '\n')
-	except requests.ConnectionError:
-		print(C + '[' + R + ' DOWN ' + C + ']' + W + '\n')
-		exit()
+			print(C + '[' + G + ' UP ' + C +']' + '\n')
 			
-
 	print(G + '[+]' + C + ' Starting PHP Server......' + W, end='')
 	with open('logs/php.log', 'w') as phplog:
 		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
-		time.sleep(2)
+		time.sleep(3)
 	try:
 		php_rqst = requests.get('http://127.0.0.1:8080/nearyou/index.html')
 		php_sc = php_rqst.status_code
