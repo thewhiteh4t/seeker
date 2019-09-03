@@ -1,11 +1,18 @@
 <p align="center"><img src="https://i.imgur.com/iLLX7A8.png"></p>
-<h4 align="center">
-Accurately Locate Smartphones using Social Engineering
-</h4>
+
+<h4 align="center">Accurately Locate Smartphones using Social Engineering</h4>
 
 <p align="center">
 <img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
 <img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
+</p>
+
+<p align="center">
+  <a href="https://twitter.com/thewhiteh4t"><b>Twitter</b></a>
+  <span> - </span>
+  <a href="https://t.me/thewhiteh4t"><b>Telegram</b></a>
+  <span> - </span>
+  <a href="https://thewhiteh4t.github.io"><b>Blog</b></a>
 </p>
 
 <p align="center">
