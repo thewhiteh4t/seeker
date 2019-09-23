@@ -124,10 +124,29 @@ usage: seeker.py [-h] [-s SUBDOMAIN]
 
 optional arguments:
   -h, --help                              show this help message and exit
-  -s SUBDOMAIN, --subdomain Subdomain 	Provide Subdomain for Serveo URL ( Optional )
+  -s SUBDOMAIN, --subdomain Subdomain 	  Provide Subdomain for Serveo URL ( Optional )
+  -k KML, --kml KML                       Provide KML Filename ( Optional )
+  -t TUNNEL, --tunnel TUNNEL              Specify Tunnel Mode [default, manual]
 
 # Example
 
+# SERVEO 
+########
+python3 seeker.py -t default
+
+# NGROK ETC.
+############
+
+# In First Terminal Start seeker in Manual mode like this
+python3 seeker.py -t manual
+
+# In Second Terminal Start Ngrok or any other tunnel service on port 8080
+./ngrok http 8080
+
+#-----------------------------------#
+
+# Subdomain
+########### 
 python3 seeker.py --subdomain google
 ```
 
