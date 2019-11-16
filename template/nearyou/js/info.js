@@ -15,7 +15,14 @@ function information()
   //sysinfo
   console.log(ver);
   console.log(ptf);
+
+  if (cc == undefined)
+  {
+    cc = 'Not Available';
+    console.log('Cores are not available')
+  }
   console.log(cc);
+   
   //ram
   if (ram == undefined)
   {
@@ -23,6 +30,7 @@ function information()
     console.log('RAM is not available')
   }
   console.log(ram);
+
   //browser
   if (ver.indexOf('Firefox') != -1)
   {
