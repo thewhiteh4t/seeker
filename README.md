@@ -126,13 +126,13 @@ optional arguments:
   -h, --help                              show this help message and exit
   -s SUBDOMAIN, --subdomain Subdomain 	  Provide Subdomain for Serveo URL ( Optional )
   -k KML, --kml KML                       Provide KML Filename ( Optional )
-  -t TUNNEL, --tunnel TUNNEL              Specify Tunnel Mode [default, manual]
+  -t TUNNEL, --tunnel TUNNEL              Specify Tunnel Mode [manual]
 
 # Example
 
 # SERVEO 
 ########
-python3 seeker.py -t default
+python3 seeker.py
 
 # NGROK ETC.
 ############
@@ -148,6 +148,7 @@ python3 seeker.py -t manual
 # Subdomain
 ########### 
 python3 seeker.py --subdomain google
+python3 seeker.py --tunnel manual --subdomain zomato
 ```
 
 ## Known Problems
