@@ -18,7 +18,7 @@ W = '\033[0m'  # white
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--subdomain', help='Provide Subdomain for Serveo URL ( Optional )')
 parser.add_argument('-k', '--kml', help='Provide KML Filename ( Optional )')
-parser.add_argument('-t', '--tunnel', help='Specify Tunnel Mode [default, manual]', required=True)
+parser.add_argument('-t', '--tunnel', help='Specify Tunnel Mode [manual]')
 args = parser.parse_args()
 subdom = args.subdomain
 kml_fname = args.kml
@@ -28,7 +28,7 @@ result = 'template/nearyou/php/result.txt'
 info = 'template/nearyou/php/info.txt'
 site = 'nearyou'
 row = []
-version = '1.1.8'
+version = '1.1.9'
 
 def banner():
 	os.system('clear')
@@ -60,7 +60,7 @@ def ver_check():
 		print(C + '[' + R + ' Status : {} '.format(ver_sc) + C + ']' + '\n')
 
 def tunnel_select():
-	if tunnel_mode == 'default':
+	if tunnel_mode == None:
 		serveo()
 	elif tunnel_mode == 'manual':
 		print(G + '[+]' + C + ' Skipping Serveo, start your own tunnel service manually...' + W)
