@@ -1,6 +1,4 @@
-<p align="center"><img src="https://i.imgur.com/iLLX7A8.png"></p>
-
-<h4 align="center">Accurately Locate Smartphones using Social Engineering</h4>
+<p align="center"><img src="https://i.imgur.com/jo1qA2K.png"></p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
@@ -157,4 +155,6 @@ python3 seeker.py --tunnel manual --subdomain zomato
 
 ## Demo
 
-Youtube - https://www.youtube.com/watch?v=ggUGPq4cjSM
+<p align="center">
+	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://i.imgur.com/48yrleF.png"></a>
+</p>
