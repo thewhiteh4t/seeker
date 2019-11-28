@@ -84,24 +84,7 @@ pacman -S seeker
 ### Docker
 
 ```bash
-# Install docker
-
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-
-# Build Seeker
-
-cd seeker/
-docker build -t seeker .
-
-# Launch seeker
-
-docker run -t --rm seeker
-
-# OR Pull from DockerHub
-
 docker pull thewhiteh4t/seeker
-docker run -t seeker
 ```
 
 ### Termux
@@ -147,6 +130,27 @@ python3 seeker.py -t manual
 ########### 
 python3 seeker.py --subdomain google
 python3 seeker.py --tunnel manual --subdomain zomato
+
+#-----------------------------------#
+
+# Docker Usage
+##############
+
+# SERVEO
+########
+docker run -t --rm thewhiteh4t/seeker
+
+# NGROK
+#######
+
+# Step 1
+docker network create ngroknet
+
+# Step 2
+docker run --rm -t --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py -t manual
+
+# Step 3
+docker run --rm -t --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
 
 ## Known Problems

