@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="128px" height="158px" viewBox="-145.5 214.5 128 158" enable-background="new -145.5 214.5 128 158" xml:space="preserve">
+<g>
+	<g>
+		<path fill="#CCCCCC" d="M-17.5,252.318h-37.818V214.5h-77.227c-7.154,0-12.955,5.801-12.955,12.954v131.955
+			c0,7.153,5.938,13.091,13.091,13.091h101.818c7.272,0,13.091-5.818,13.091-13.091V252.318z"/>
+	</g>
+</g>
+<radialGradient id="SVGID_1_" cx="160.1211" cy="-243.6196" r="35.8861" gradientTransform="matrix(1.1019 0 0 -1.1019 -193.6491 -15.2655)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.15" style="stop-color:#A6A6A6"/>
+	<stop  offset="1" style="stop-color:#B3B3B3"/>
+</radialGradient>
+<polygon fill="url(#SVGID_1_)" points="-55.318,252.318 -17.5,252.318 -17.5,290.137 "/>
+<polygon fill="#E6E6E6" points="-17.5,252.318 -55.318,252.318 -55.318,214.5 "/>
+<path fill="#FFFFFF" d="M-52.5,326.682c0,3.214-2.605,5.818-5.818,5.818h-46.364c-3.213,0-5.818-2.604-5.818-5.818v-33.363
+	c0-3.214,2.605-5.818,5.818-5.818h46.364c3.213,0,5.818,2.604,5.818,5.818V326.682z"/>
+<path fill="#FFFFFF" d="M-61.136,290.137h-5.818v-5.972c0-7.935-6.458-14.393-14.394-14.393h-0.304
+	c-7.936,0-14.393,6.458-14.393,14.393v5.972h-5.818v-5.972c0-11.146,9.066-20.211,20.212-20.211h0.304
+	c11.146,0,20.211,9.065,20.211,20.211V290.137z"/>
+<circle fill="#CCCCCC" cx="-81.5" cy="309.773" r="11.304"/>
+</svg>

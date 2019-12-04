@@ -1,0 +1,157 @@
+@font-face {
+	font-family: Product Sans;
+	font-style: normal;
+  	font-weight: 400;
+	src: url('/fonts/pxiDypQkot1TnFhsFMOfGShVF9eO.woff2') format('woff2');
+}
+
+body { 
+	background-color: #ffffff;
+	font-size: 13px;
+	margin: 0;
+	padding: 0;
+	font-family: Arial,sans-serif;
+}
+
+#outerContainer {
+    margin: auto;
+    max-width: 750px;
+}
+
+#innerContainer {
+    margin-bottom: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 180px;
+    position: relative;
+}
+
+#drive-logo {
+    margin: 18px 0;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.docs-drivelogo-img {
+    background-image: url('/images/googlelogo_color_116x41dp.png');
+    background-size: 116px 41px;
+    display: inline-block;
+    height: 41px;
+    vertical-align: bottom;
+    width: 116px;
+}
+
+.docs-drivelogo-text {
+    color: #000;
+	display: inline-block;
+	opacity: 0.54;
+	text-decoration: none;
+	font-family: 'Product Sans',Arial,Helvetica,sans-serif;
+	font-size: 32px;
+	text-rendering: optimizeLegibility;
+	position: relative;
+	top: -6px;
+	left: -7px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+#main {
+    position: relative;
+    width: 640px;
+    top: 30px;
+}
+
+#accessDeniedIcon {
+    background-image: url('/images/locked_doc-2.svg');
+    float: right;
+    height: 158px;
+    width: 128px;
+}
+
+#accessDeniedHeader {
+    color: #222;
+    font: 32px Arial, sans-serif;
+}
+
+#message {
+    color: #222;
+    font: 15px/1.6 Arial, sans-serif;
+    width: 480px;
+}
+
+button.jfk-button {
+    font-family: arial,sans-serif;
+    height: auto;
+}
+
+.jfk-button-action {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #4d90fe;
+	background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
+	background-image: -moz-linear-gradient(top,#4d90fe,#4787ed);
+	background-image: -ms-linear-gradient(top,#4d90fe,#4787ed);
+	background-image: -o-linear-gradient(top,#4d90fe,#4787ed);
+	background-image: linear-gradient(top,#4d90fe,#4787ed);
+	border: 1px solid #3079ed;
+	color: #fff;
+}
+
+.jfk-button {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    margin-right: 16px;
+    height: 27px;
+    line-height: 27px;
+    min-width: 54px;
+    outline: 0px;
+    padding: 0 8px;
+}
+
+.jfk-button-standard {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #f5f5f5;
+	background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+	background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+	background-image: -ms-linear-gradient(top,#f5f5f5,#f1f1f1);
+	background-image: -o-linear-gradient(top,#f5f5f5,#f1f1f1);
+	background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+	color: #444;
+	border: 1px solid #dcdcdc;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+@media (max-width: 500px) {
+	#accessDeniedHeader {
+		color: #222;
+		font: 25px Arial, sans-serif;
+	}
+	#accessDeniedIcon {
+		background-image: url('/images/locked_doc-1.svg');
+		height: 108px;
+		width: 88px;
+	}
+	#main {
+		width: 100%;
+	}
+	#message {
+		width: 75%;
+	}
+	#outerContainer #innerContainer {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+}
+
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}

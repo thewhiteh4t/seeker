@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="88px" height="108px" viewBox="0 0 88 108" enable-background="new 0 0 88 108" xml:space="preserve">
+<g>
+	<g>
+		<g>
+			<path fill="#CCCCCC" d="M88,26H62V0H8.906C3.988,0,0,3.988,0,8.906V99c0,4.918,4.082,9,9,9h70c5,0,9-4,9-9V26z"/>
+		</g>
+	</g>
+	<radialGradient id="SVGID_1_" cx="82.2881" cy="24.2437" r="24.6557" gradientTransform="matrix(1.1019 0 0 1.1019 -2.4757 -0.1226)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0.15" style="stop-color:#A6A6A6"/>
+		<stop  offset="1" style="stop-color:#B3B3B3"/>
+	</radialGradient>
+	<polygon fill="url(#SVGID_1_)" points="62,26 88,26 88,52 	"/>
+	<polygon fill="#E6E6E6" points="88,26 62,26 62,0 	"/>
+	<rect x="-20" y="-10" fill="none" width="128" height="128"/>
+</g>
+<path fill="#FFFFFF" d="M64,77c0,2.209-1.791,4-4,4H28c-2.209,0-4-1.791-4-4V54c0-2.209,1.791-4,4-4h32c2.209,0,4,1.791,4,4V77z"/>
+<path fill="#FFFFFF" d="M58,52h-4v-4.105C54,42.439,49.561,38,44.104,38h-0.209C38.439,38,34,42.439,34,47.895V52h-4v-4.105
+	C30,40.233,36.233,34,43.896,34h0.209C51.767,34,58,40.233,58,47.895V52z"/>
+<circle fill="#CCCCCC" cx="44" cy="65.5" r="7.772"/>
+</svg>
