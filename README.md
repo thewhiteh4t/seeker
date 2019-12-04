@@ -55,6 +55,13 @@ Along with Location Information we also get **Device Information** without any p
 
 **Note** : On iPhone due to some reason location accuracy is approximately 65 meters.
 
+## Templates
+
+You can choose a template which will be used by seeker from these : 
+
+* NearYou
+* Google Drive (Suggested by @Akaal_no_one)
+
 ## Tested On :
 
 * Kali Linux 2019.2
