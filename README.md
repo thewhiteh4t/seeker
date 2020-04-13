@@ -59,6 +59,7 @@ You can choose a template which will be used by seeker from these :
 
 * NearYou
 * Google Drive (Suggested by @Akaal_no_one)
+* WhatsApp (Suggested by @Dazmed707)
 
 ## Tested On :
 
