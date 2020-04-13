@@ -1,0 +1,22 @@
+{
+    "templates": [
+        {
+            "name": "NearYou",
+            "dir_name": "nearyou",
+            "module": false,
+            "import_file": null
+        },
+        {
+            "name": "Google Drive",
+            "dir_name": "gdrive",
+            "module": true,
+            "import_file": "mod_gdrive"
+        },
+        {
+            "name": "WhatsApp",
+            "dir_name": "whatsapp",
+            "module": true,
+            "import_file": "mod_whatsapp"
+        }
+    ]
+}
