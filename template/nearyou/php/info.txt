@@ -1,0 +1,1 @@
+{"dev":[{"platform":"Win32","browser":"Chrome\/81.0.4044.92","cores":"8","ram":"8","vendor":"Google Inc.","render":"ANGLE (NVIDIA GeForce GTX 1070 Direct3D11 vs_5_0 ps_5_0)","ip":"146.196.34.142","ht":"1080","wd":"1920","os":"Win64"}]}
