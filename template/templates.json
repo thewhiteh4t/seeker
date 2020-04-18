@@ -17,6 +17,12 @@
             "dir_name": "whatsapp",
             "module": true,
             "import_file": "mod_whatsapp"
+        },
+        {
+            "name": "Telegram",
+            "dir_name": "telegram",
+            "module": true,
+            "import_file": "mod_telegram"
         }
     ]
 }

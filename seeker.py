@@ -31,7 +31,7 @@ row = []
 site = ''
 info = ''
 result = ''
-version = '1.2.3'
+version = '1.2.4'
 
 def banner():
 	print (G +
