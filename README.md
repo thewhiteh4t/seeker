@@ -60,12 +60,13 @@ You can choose a template which will be used by seeker from these :
 * NearYou
 * Google Drive (Suggested by @Akaal_no_one)
 * WhatsApp (Suggested by @Dazmed707)
+* Telegram
 
 ## Tested On :
 
-* Kali Linux 2019.2
+* Kali Linux
 * BlackArch Linux
-* Ubuntu 19.04
+* Ubuntu
 * Kali Nethunter
 * Termux
 * Parrot OS
@@ -165,6 +166,10 @@ docker run --rm -t --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:
 
 ## Demo
 
-<p align="center">
-	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://i.imgur.com/48yrleF.png"></a>
-</p>
+| Demo | Link |
+|-|-|
+| WhatsApp Template Demo | https://www.youtube.com/watch?v=dG0HkQmF4-A |
+| What's new in v1.1.9 | https://www.youtube.com/watch?v=FEyAPjkJFrk |
+| First Version | https://www.youtube.com/watch?v=ggUGPq4cjSM |
+
+
