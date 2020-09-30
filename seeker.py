@@ -367,7 +367,7 @@ try:
 	server()
 	wait()
 	main()
-
+print('THANKS FOR USING US)
 except KeyboardInterrupt:
 	print ('\n' + R + '[!]' + C + ' Keyboard Interrupt.' + W)
 	Quit()
