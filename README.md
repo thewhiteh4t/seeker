@@ -133,9 +133,9 @@ usage: seeker.py [-h] [-s SUBDOMAIN]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -k KML, --kml KML     Provide KML Filename ( Optional )
-  -p PORT, --port PORT  Port for Web Server [ Default : 8080 ]
-  -v, --version         Prints version of seeker
+  -k KML, --kml         Provide KML Filename ( Optional )
+  -p PORT, --port       Port for Web Server [ Default : 8080 ]
+  -t TUNNEL, --tunnel   Specify Tunnel Mode [ Available : manual ]
 
 ##################
 # Usage Examples #
