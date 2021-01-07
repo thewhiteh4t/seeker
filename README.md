@@ -133,7 +133,6 @@ usage: seeker.py [-h] [-s SUBDOMAIN]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -d, --demo            List Demo Videos
   -k KML, --kml KML     Provide KML Filename ( Optional )
   -p PORT, --port PORT  Port for Web Server [ Default : 8080 ]
   -v, --version         Prints version of seeker
