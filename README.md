@@ -20,7 +20,19 @@
   <img src="https://i.imgur.com/1wJVDV5.png">
 </p>
 
-Concept behind Seeker is simple, just like we host phishing pages to get credentials why not host a fake page that requests your location like many popular location based websites. Read more on <a href="https://thewhiteh4t.github.io"> thewhiteh4t's Blog </a>.Seeker Hosts a fake website on **In Built PHP Server** and uses **Serveo** to generate a link which we will forward to the target, website asks for Location Permission and if the target allows it, we can get :
+<p>
+  <a style="margin-right: 10px;" href="https://github.com/thewhiteh4t/seeker#installation">
+    <img src="https://dabuttonfactory.com/button.png?t=INSTALL&f=Open+Sans&ts=15&tc=000&hp=25&vp=10&c=5&bgt=unicolored&bgc=00e2ff">
+  </a>
+  <a style="margin-right: 10px;" href="https://github.com/thewhiteh4t/seeker#usage">
+    <img src="https://dabuttonfactory.com/button.png?t=USAGE&f=Open+Sans&ts=15&tc=000&hp=25&vp=10&c=5&bgt=unicolored&bgc=00e2ff">
+  </a>
+  <a href="https://github.com/thewhiteh4t/seeker#demo">
+    <img src="https://dabuttonfactory.com/button.png?t=DEMO&f=Open+Sans&ts=15&tc=000&hp=25&vp=10&c=5&bgt=unicolored&bgc=00e2ff">
+  </a>
+</p>
+
+Concept behind Seeker is simple, just like we host phishing pages to get credentials why not host a fake page that requests your location like many popular location based websites. Read more on <a href="https://thewhiteh4t.github.io"> thewhiteh4t's Blog </a>.Seeker Hosts a fake website which asks for Location Permission and if the target allows it, we can get :
 
 * Longitude
 * Latitude
@@ -31,15 +43,20 @@ Concept behind Seeker is simple, just like we host phishing pages to get credent
 
 Along with Location Information we also get **Device Information** without any permissions :
 
+* Unique ID using Canvas Fingerprinting
+* Device Model - Not always available
 * Operating System
 * Platform
-* Number of CPU Cores
+* Number of CPU Cores - Approximate Results
 * Amount of RAM - Approximate Results
 * Screen Resolution
 * GPU information
 * Browser Name and Version
 * Public IP Address
-* IP Address Reconnaissance
+* Local IP Address
+* Local Port
+
+**Automatic IP Address Reconnaissance** is performed after the above information is received.
 
 **This tool is a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
 
@@ -49,13 +66,16 @@ Along with Location Information we also get **Device Information** without any p
 
 * Seeker uses HTML API and gets Location Permission and then grabs Longitude and Latitude using GPS Hardware which is present in the device, so Seeker works best with Smartphones, if the GPS Hardware is not present, such as on a Laptop, Seeker fallbacks to IP Geolocation or it will look for Cached Coordinates.  
 
-* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**, Accuracy Depends on the Device.
+* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**
 
-**Note** : On iPhone due to some reason location accuracy is approximately 65 meters.
+* Accuracy depends on multiple factors which you may or may not control such as :
+  * Device - Won't work on laptops or phones which have broken GPS
+  * Browser - Some browsers block javascripts
+  * GPS Calibration - If GPS is not calibrated you may get inaccurate results and this is very common
 
 ## Templates
 
-You can choose a template which will be used by seeker from these : 
+Available Templates : 
 
 * NearYou
 * Google Drive (Suggested by @Akaal_no_one)
@@ -78,8 +98,9 @@ You can choose a template which will be used by seeker from these :
 ```bash
 git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
-chmod 777 install.sh
-./install.sh
+apt update
+apt install python3 python3-pip php
+pip3 install requests
 ```
 
 ### BlackArch Linux
@@ -88,19 +109,19 @@ chmod 777 install.sh
 pacman -S seeker
 ```
 
-### Docker
-
-```bash
-docker pull thewhiteh4t/seeker
-```
-
 ### Termux
 
 ```bash
 git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
-chmod 777 termux_install.sh
-./termux_install.sh
+pkg update
+pkg install python php
+pip3 install requests
+```
+### Docker
+
+```bash
+docker pull thewhiteh4t/seeker
 ```
 
 ## Usage
@@ -111,65 +132,52 @@ python3 seeker.py -h
 usage: seeker.py [-h] [-s SUBDOMAIN]
 
 optional arguments:
-  -h, --help                              show this help message and exit
-  -s SUBDOMAIN, --subdomain Subdomain 	  Provide Subdomain for Serveo URL ( Optional )
-  -k KML, --kml KML                       Provide KML Filename ( Optional )
-  -t TUNNEL, --tunnel TUNNEL              Specify Tunnel Mode [manual]
+  -h, --help            show this help message and exit
+  -d, --demo            List Demo Videos
+  -k KML, --kml KML     Provide KML Filename ( Optional )
+  -p PORT, --port PORT  Port for Web Server [ Default : 8080 ]
+  -v, --version         Prints version of seeker
 
-# Example
+##################
+# Usage Examples #
+##################
 
-# SERVEO 
-########
+# Step 1 : In first terminal
 python3 seeker.py
 
-# NGROK ETC.
-############
-
-# In First Terminal Start seeker in Manual mode like this
-python3 seeker.py -t manual
-
-# In Second Terminal Start Ngrok or any other tunnel service on port 8080
+# Step 2 : In second terminal start a tunnel service such as ngrok
 ./ngrok http 8080
 
-#-----------------------------------#
+###########
+# Options #
+###########
 
-# Subdomain
-########### 
-python3 seeker.py --subdomain google
-python3 seeker.py --tunnel manual --subdomain zomato
+# Ouput KML File for Google Earth
+python3 seeker.py -k <filename>
 
-#-----------------------------------#
+# Use Custom Port
+python3 seeker.py -p 1337
 
-# Docker Usage
-##############
+# Print Seeker Version
+python3 seeker.py -v
 
-# SERVEO
-########
-docker run -t --rm thewhiteh4t/seeker
-
-# NGROK
-#######
+################
+# Docker Usage #
+################
 
 # Step 1
 docker network create ngroknet
 
 # Step 2
-docker run --rm -t --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py -t manual
+docker run --rm -it --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py -t manual
 
 # Step 3
-docker run --rm -t --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
+docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
-
-## Known Problems
-
-* Services like Serveo and Ngrok are banned in some countries such as Russia etc., so if it's banned in your country you may not get a URL, if not then first READ CLOSED ISSUES, if your problem is not listed, create a new issue.
 
 ## Demo
 
 | Demo | Link |
 |-|-|
-| WhatsApp Template Demo | https://www.youtube.com/watch?v=dG0HkQmF4-A |
 | What's new in v1.1.9 | https://www.youtube.com/watch?v=FEyAPjkJFrk |
 | First Version | https://www.youtube.com/watch?v=ggUGPq4cjSM |
-
-
