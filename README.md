@@ -142,41 +142,32 @@ optional arguments:
 ##################
 
 # Step 1 : In first terminal
-python3 seeker.py
+$ python3 seeker.py -t manual
 
 # Step 2 : In second terminal start a tunnel service such as ngrok
-./ngrok http 8080
+$ ./ngrok http 8080
 
 ###########
 # Options #
 ###########
 
 # Ouput KML File for Google Earth
-python3 seeker.py -k <filename>
+$ python3 seeker.py -t manual -k <filename>
 
 # Use Custom Port
-python3 seeker.py -p 1337
-
-# Print Seeker Version
-python3 seeker.py -v
+$ python3 seeker.py -t manual -p 1337
+$ ./ngrok http 1337
 
 ################
 # Docker Usage #
 ################
 
 # Step 1
-docker network create ngroknet
+$ docker network create ngroknet
 
 # Step 2
-docker run --rm -it --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py -t manual
+$ docker run --rm -it --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py -t manual
 
 # Step 3
-docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
+$ docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
-
-## Demo
-
-| Demo | Link |
-|-|-|
-| What's new in v1.1.9 | https://www.youtube.com/watch?v=FEyAPjkJFrk |
-| First Version | https://www.youtube.com/watch?v=ggUGPq4cjSM |
