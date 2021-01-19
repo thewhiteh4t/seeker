@@ -102,8 +102,13 @@ def template_select():
 		name = item['name']
 		print(G + '[{}]'.format(templ_json['templates'].index(item)) + C + ' {}'.format(name) + W)
 	
-	selected = int(input(G + '[>] ' + W))
-	
+	while True:
+		try:
+			selected = int(input(G + '[>] ' + W))
+			break
+		except ValueError:
+			print('\n' + R + '[-]' + C + ' Invalid Template!' + W + '\n')
+
 	try:
 		site = templ_json['templates'][selected]['dir_name']
 	except IndexError:
