@@ -90,6 +90,7 @@ Available Templates :
 * Kali Nethunter
 * Termux
 * Parrot OS
+* OSX - Monterey v.12.0.1
 
 ## Installation
 
@@ -123,6 +124,20 @@ pip3 install requests
 ```bash
 docker pull thewhiteh4t/seeker
 ```
+
+### OSX
+```bash
+git clone https://github.com/thewhiteh4t/seeker.py
+cd seeker/
+python3 seeker.py
+````
+
+In order to run in tunnel mode, install ngrok by running this command in the terminal:
+```bash
+brew install ngrok/ngrok/ngrok
+
+ngrok http 8080
+````
 
 ## Usage
 
