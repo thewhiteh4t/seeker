@@ -1,17 +1,12 @@
+<p><strong><span style="font-size: 24px; color: rgb(226, 80, 65);">What&apos;s new?</span></strong></p>
+<p><span style="font-size: 24px; color: rgb(226, 80, 65);"><strong>-- Added zoom.us template</strong></span></p>
+<p><strong><span style="font-size: 24px; color: rgb(226, 80, 65);">-- Added wifi hack template</span></strong></p>
+<p><img src="https://user-images.githubusercontent.com/89315818/146722375-a9d138b9-f79e-4233-b186-36f864453f1b.png" alt="image" style="max-width: 100%;"><br></p>
+
 <p align="center"><img src="https://i.imgur.com/DIpuNTI.jpg"></p>
 
-<p align="center">
-<img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
-<img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
-</p>
 
-<p align="center">
-  <a href="https://twitter.com/thewhiteh4t"><b>Twitter</b></a>
-  <span> - </span>
-  <a href="https://t.me/thewhiteh4t"><b>Telegram</b></a>
-  <span> - </span>
-  <a href="https://thewhiteh4t.github.io"><b>thewhiteh4t's Blog</b></a>
-</p>
+
 
 <p align="center">
   <br>
@@ -81,6 +76,8 @@ Available Templates :
 * Google Drive (Suggested by @Akaal_no_one)
 * WhatsApp (Suggested by @Dazmed707)
 * Telegram
+* Zoom
+* WIFI hacking tools
 
 ## Tested On :
 
