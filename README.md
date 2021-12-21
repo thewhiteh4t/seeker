@@ -92,7 +92,7 @@ Available Templates :
 ### Kali Linux / Ubuntu / Parrot OS
 
 ```bash
-git clone https://github.com/thewhiteh4t/seeker.git
+git clone https://github.com/a7maadf/seeker.git
 cd seeker/
 apt update
 apt install python3 python3-pip php
