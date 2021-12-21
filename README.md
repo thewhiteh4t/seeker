@@ -181,3 +181,5 @@ $ docker run --rm -it --net ngroknet --name seeker a7maadf/seeker
 # Step 3
 $ docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
+
+Use ```ssh -R 80:localhost:8080 nokey@localhost.run``` as an alterntive to ngrok
