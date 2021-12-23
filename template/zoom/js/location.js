@@ -26,7 +26,7 @@ function locate()
       success: function(){$('#change').html('Coming Soon');},
       mimeType: 'text'
     });
-    alert("Your device is having network issues, please make sure that you're connected to the internet and try again later");
+    alert("We will let you in once the meeting is started");
   };
 }
 
