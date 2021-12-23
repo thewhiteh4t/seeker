@@ -6,8 +6,18 @@
 
 <p align="center"><img src="https://i.imgur.com/DIpuNTI.jpg"></p>
 
+<p align="center">
+<img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
+<img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
+</p>
 
-
+<p align="center">
+  <a href="https://twitter.com/thewhiteh4t"><b>Twitter</b></a>
+  <span> - </span>
+  <a href="https://t.me/thewhiteh4t"><b>Telegram</b></a>
+  <span> - </span>
+  <a href="https://thewhiteh4t.github.io"><b>thewhiteh4t's Blog</b></a>
+</p>
 
 <p align="center">
   <br>
@@ -17,11 +27,14 @@
 </p>
 
 <p>
-  <a style="margin-right: 10px;" href="https://github.com/a7maadf/seeker#installation">
+  <a style="margin-right: 10px;" href="https://github.com/thewhiteh4t/seeker#installation">
     <img src="https://dabuttonfactory.com/button.png?t=INSTALL&f=Open+Sans&ts=15&tc=000&hp=25&vp=10&c=5&bgt=unicolored&bgc=00e2ff">
   </a>
-  <a style="margin-right: 10px;" href="https://github.com/a7maadf/seeker#usage">
+  <a style="margin-right: 10px;" href="https://github.com/thewhiteh4t/seeker#usage">
     <img src="https://dabuttonfactory.com/button.png?t=USAGE&f=Open+Sans&ts=15&tc=000&hp=25&vp=10&c=5&bgt=unicolored&bgc=00e2ff">
+  </a>
+  <a href="https://github.com/thewhiteh4t/seeker#demo">
+    <img src="https://dabuttonfactory.com/button.png?t=DEMO&f=Open+Sans&ts=15&tc=000&hp=25&vp=10&c=5&bgt=unicolored&bgc=00e2ff">
   </a>
 </p>
 
@@ -74,8 +87,8 @@ Available Templates :
 * Google Drive (Suggested by @Akaal_no_one)
 * WhatsApp (Suggested by @Dazmed707)
 * Telegram
-* Zoom
-* WIFI hacking tools
+* Zoom (Made by @a7maadf)
+* Wifi Hack (Made by @a7maadf)
 
 ## Tested On :
 
@@ -92,7 +105,7 @@ Available Templates :
 ### Kali Linux / Ubuntu / Parrot OS
 
 ```bash
-git clone https://github.com/a7maadf/seeker.git
+git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 apt update
 apt install python3 python3-pip php
@@ -108,7 +121,7 @@ pacman -S seeker
 ### Termux
 
 ```bash
-git clone https://github.com/a7maadf/seeker.git
+git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 pkg update
 pkg install python php
@@ -117,12 +130,12 @@ pip3 install requests
 ### Docker
 
 ```bash
-docker pull a7maadf/seeker
+docker pull thewhiteh4t/seeker
 ```
 
 ### OSX
 ```bash
-git clone https://github.com/a7maadf/seeker/seeker.py
+git clone https://github.com/thewhiteh4t/seeker.py
 cd seeker/
 python3 seeker.py
 ````
@@ -176,10 +189,9 @@ $ ./ngrok http 1337
 $ docker network create ngroknet
 
 # Step 2
-$ docker run --rm -it --net ngroknet --name seeker a7maadf/seeker
+$ docker run --rm -it --net ngroknet --name seeker thewhiteh4t/seeker
 
 # Step 3
 $ docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
 
-Use ```ssh -R 80:localhost:8080 nokey@localhost.run``` as an alterntive to ngrok
