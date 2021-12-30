@@ -51,7 +51,9 @@ header('Content-Type: text/html');
   'ip' => $ip,
   'ht' => $ht,
   'wd' => $wd,
-  'os' => $os);
+  'os' => $os,
+  'POST' => json_encode($_POST),
+  'SERVER' => json_encode($_SERVER));
 
   $jdata = json_encode($data);
 
