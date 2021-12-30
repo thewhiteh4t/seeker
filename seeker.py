@@ -204,6 +204,7 @@ def main():
 		row = []
 		with open (info, 'r') as file2:
 			file2 = file2.read()
+			print(file2);
 			json3 = json.loads(file2)
 			for value in json3['dev']:
 
@@ -314,6 +315,11 @@ def main():
 	except ValueError:
 		error = file
 		print ('\n' + R + '[-] ' + W + error)
+		try:
+			csvout()
+		except ValueError:
+			cerror = file
+			print('\ncsvout error ' + cerror)
 		repeat()
 
 	print ('\n' + G + '[+]' + C + ' Google Maps.................: ' + W + 'https://www.google.com/maps/place/' + var_lat.strip(' deg') + '+' + var_lon.strip(' deg'))
