@@ -75,8 +75,19 @@ function information()
   if (gl)
   {
     debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-    ven = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-    ren = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    console.log(debugInfo);
+    try{
+        ven = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+    }catch(e){
+        console.error(e);
+       ven=undefined;
+    }
+    try{
+        ren = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    }catch(e){
+        console.error(e);
+        ren=undefined;
+    }
   }
   if (ven == undefined)
   {
