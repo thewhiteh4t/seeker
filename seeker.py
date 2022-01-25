@@ -47,7 +47,7 @@ port = args.port
 row = []
 info = ''
 result = ''
-version = '1.3.0'
+version = '1.2.5'
 
 def banner():
 	print (G +
@@ -60,7 +60,6 @@ def banner():
 	 \/      \/     \/      \/     \/        ''' + W)
 	print('\n' + G + '[>]' + C + ' Created By : ' + W + 'thewhiteh4t')
 	print(G + '[>]' + C + ' Version    : ' + W + version + '\n')
-	print(G + '[>]' + C + ' Modified by    : ' + "Ahmad Fawzy" + '\n')
 
 def ver_check():
 	print(G + '[+]' + C + ' Checking for Updates.....', end='')
