@@ -1,9 +1,3 @@
-<p><strong><span style="font-size: 24px; color: rgb(226, 80, 65);">What&apos;s new?</span></strong></p>
-<p><span style="font-size: 24px; color: rgb(226, 80, 65);"><strong>-- Added zoom.us template</strong></span></p>
-<p><strong><span style="font-size: 24px; color: rgb(226, 80, 65);">-- Added wifi hack template</span></strong></p>
-<p><img src="https://user-images.githubusercontent.com/89315818/146722375-a9d138b9-f79e-4233-b186-36f864453f1b.png" alt="image" style="max-width: 100%;"><br></p>
-<p><img src="https://i.imgur.com/LoyiXbx.jpeg" alt="image" style="max-width: 100%;"><br></p>
-
 <p align="center"><img src="https://i.imgur.com/DIpuNTI.jpg"></p>
 
 <p align="center">
