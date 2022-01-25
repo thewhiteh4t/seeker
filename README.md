@@ -82,7 +82,6 @@ Available Templates :
 * WhatsApp (Suggested by @Dazmed707)
 * Telegram
 * Zoom (Made by @a7maadf)
-* Wifi Hack (Made by @a7maadf)
 
 ## Tested On :
 
