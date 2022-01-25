@@ -29,12 +29,6 @@
             "dir_name": "zoom",
             "module": false,
             "import_file": null
-        },
-        {
-            "name": "WifiHack",
-            "dir_name": "wifihack",
-            "module": false,
-            "import_file": null
         }
     ]
 }
