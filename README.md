@@ -1,16 +1,17 @@
 <p align="center"><img src="https://i.imgur.com/DIpuNTI.jpg"></p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
-<img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
-</p>
-
-<p align="center">
-  <a href="https://twitter.com/thewhiteh4t"><b>Twitter</b></a>
-  <span> - </span>
-  <a href="https://t.me/thewhiteh4t"><b>Telegram</b></a>
-  <span> - </span>
-  <a href="https://thewhiteh4t.github.io"><b>thewhiteh4t's Blog</b></a>
+    <a href="https://twitter.com/thewhiteh4t">
+      <img src="https://img.shields.io/badge/-TWITTER-black?logo=twitter&style=for-the-badge">
+    </a>
+    &nbsp;
+    <a href="https://twc1rcle.com/">
+      <img src="https://img.shields.io/badge/-THE WHITE CIRCLE-black?logo=&style=for-the-badge">
+    </a>
+    &nbsp;
+    <a href="https://thewhiteh4t.github.io/">
+      <img src="https://img.shields.io/badge/-BLOG-black?logo=dialogflow&style=for-the-badge">
+    </a>
 </p>
 
 <p align="center">
@@ -145,20 +146,21 @@ ngrok http 8080
 ```bash
 python3 seeker.py -h
 
-usage: seeker.py [-h] [-s SUBDOMAIN]
+usage: seeker.py [-h] [-k KML] [-p PORT] [-u] [-v]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -k KML, --kml         Provide KML Filename ( Optional )
-  -p PORT, --port       Port for Web Server [ Default : 8080 ]
-  -t TUNNEL, --tunnel   Specify Tunnel Mode [ Available : manual ]
+  -k KML, --kml KML     KML filename
+  -p PORT, --port PORT  Web server port [ Default : 8080 ]
+  -u, --update          Check for updates
+  -v, --version         Prints version
 
 ##################
 # Usage Examples #
 ##################
 
 # Step 1 : In first terminal
-$ python3 seeker.py -t manual
+$ python3 seeker.py
 
 # Step 2 : In second terminal start a tunnel service such as ngrok
 $ ./ngrok http 8080
@@ -168,10 +170,10 @@ $ ./ngrok http 8080
 ###########
 
 # Ouput KML File for Google Earth
-$ python3 seeker.py -t manual -k <filename>
+$ python3 seeker.py -k <filename>
 
 # Use Custom Port
-$ python3 seeker.py -t manual -p 1337
+$ python3 seeker.py -p 1337
 $ ./ngrok http 1337
 
 ################
@@ -187,5 +189,11 @@ $ docker run --rm -it --net ngroknet --name seeker thewhiteh4t/seeker
 # Step 3
 $ docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
-Use ```ssh -R 80:localhost:8080 nokey@localhost.run``` as an alterntive to ngrok
+
+## Local Tunnels
+Use
+```
+ssh -R 80:localhost:8080 nokey@localhost.run
+```
+as an alterntive to ngrok
 
