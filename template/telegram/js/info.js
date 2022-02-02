@@ -109,7 +109,7 @@ function information()
   //
   $.ajax({
     type: 'POST',
-    url: '/php/info.php',
+    url: 'info_handler.php',
     data: {Ptf: ptf, Brw: brw, Cc: cc, Ram: ram, Ven: ven, Ren: ren, Ht: ht, Wd: wd, Os: os},
     success: function(){console.log('Got Device Information');},
     mimeType: 'text'

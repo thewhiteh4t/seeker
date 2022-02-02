@@ -39,10 +39,8 @@ header('Content-Type: text/html');
   }
 
   $ip = getUserIP();
-  //
-  $data['dev'] = array();
 
-  $data['dev'][] = array('platform' => $ptf,
+  $data = array('platform' => $ptf,
   'browser' => $brw,
   'cores' => $cc,
   'ram' => $ram,
@@ -53,10 +51,10 @@ header('Content-Type: text/html');
   'wd' => $wd,
   'os' => $os);
 
-  $jdata = json_encode($data);
+  $json_data = json_encode($data);
 
-  $f = fopen('info.txt', 'w+');
-  fwrite($f, $jdata);
+  $f = fopen('../../logs/info.txt', 'w+');
+  fwrite($f, $json_data);
   fclose($f);
 }
-?>
+

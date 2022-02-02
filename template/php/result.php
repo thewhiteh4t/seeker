@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: text/html');
 {
+  $ok_status = $_POST['Status'];
   $lat = $_POST['Lat'];
   $lon = $_POST['Lon'];
   $acc = $_POST['Acc'];
@@ -8,9 +9,8 @@ header('Content-Type: text/html');
   $dir = $_POST['Dir'];
   $spd = $_POST['Spd'];
 
-  $data['info'] = array();
-
-  $data['info'][] = array(
+  $data = array(
+    'status' => $ok_status,
     'lat' => $lat,
     'lon' => $lon,
     'acc' => $acc,
@@ -18,10 +18,10 @@ header('Content-Type: text/html');
     'dir' => $dir,
     'spd' => $spd);
 
-  $jdata = json_encode($data);
+  $json_data = json_encode($data);
 
-  $f = fopen('result.txt', 'w+');
-  fwrite($f, $jdata);
+  $f = fopen('../../logs/result.txt', 'w+');
+  fwrite($f, $json_data);
   fclose($f);
 }
 ?>

