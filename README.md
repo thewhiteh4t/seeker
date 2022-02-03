@@ -96,31 +96,21 @@ Available Templates :
 
 ## Installation
 
-### Kali Linux / Ubuntu / Parrot OS
+### Kali Linux / Arch Linux / Ubuntu / Parrot OS / Termux
 
 ```bash
 git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
-apt update
-apt install python3 python3-pip php
-pip3 install requests
+chmod +x install.sh
+./install.sh
 ```
 
 ### BlackArch Linux
 
 ```bash
-pacman -S seeker
+sudo pacman -S seeker
 ```
 
-### Termux
-
-```bash
-git clone https://github.com/thewhiteh4t/seeker.git
-cd seeker/
-pkg update
-pkg install python php
-pip3 install requests
-```
 ### Docker
 
 ```bash
