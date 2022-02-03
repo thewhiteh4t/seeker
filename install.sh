@@ -34,11 +34,10 @@ arch_install() {
 
 echo -e '[!] Installing Dependencies...\n'
 
-if [ -f "/etc/arch-release" ]; then
+if [ -f '/etc/arch-release' ]; then
     arch_install
 else
-    if [ '$OSTYPE' == 'linux-android' ]
-    then
+    if [ $OSTYPE == 'linux-android' ]; then
         termux_install
     else
         debian_install
