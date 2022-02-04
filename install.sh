@@ -47,4 +47,7 @@ fi
 echo -ne 'Requests\r'
 pip3 install requests &>> $ILOG && echo 'Requests - Installed' || echo 'Requests - Failed!'
 
+echo -ne 'Packaging\r'
+pip3 install packaging &>> $ILOG && echo 'Packaging - Installed' || echo 'Packaging - Failed!'
+
 echo -e '\nLog Saved :' $ILOG
