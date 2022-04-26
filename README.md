@@ -119,7 +119,7 @@ docker pull thewhiteh4t/seeker
 
 ### OSX
 ```bash
-git clone https://github.com/thewhiteh4t/seeker.py
+git clone https://github.com/thewhiteh4t/seeker.git
 cd seeker/
 python3 seeker.py
 ````
