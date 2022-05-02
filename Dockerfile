@@ -5,7 +5,7 @@ git \
 python3 \
 py3-pip gcc \
 python3-dev \
-php openssh
+php php-json openssh
 WORKDIR /root
 RUN git clone https://github.com/thewhiteh4t/seeker.git
 WORKDIR /root/seeker/
