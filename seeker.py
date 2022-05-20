@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-VERSION = '1.2.6'
+VERSION = '1.2.7'
 
 R = '\033[31m'  # red
 G = '\033[32m'  # green

@@ -19,6 +19,12 @@
             "import_file": "mod_whatsapp"
         },
         {
+            "name": "WhatsApp Redirect",
+            "dir_name": "whatsapp_redirect",
+            "module": true,
+            "import_file": "mod_whatsapp_redirect"
+        },
+        {
             "name": "Telegram",
             "dir_name": "telegram",
             "module": true,
