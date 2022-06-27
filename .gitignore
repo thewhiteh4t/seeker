@@ -1,2 +1,5 @@
 db/results.csv
 logs/*
+.log
+*.csv
+.txt
