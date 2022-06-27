@@ -1,34 +1,73 @@
-[Fri May 20 21:49:39 2022] PHP 8.1.5 Development Server (http://0.0.0.0:8080) started
-[Fri May 20 21:49:42 2022] 127.0.0.1:55914 Accepted
-[Fri May 20 21:49:42 2022] 127.0.0.1:55914 [200]: GET /index.html
-[Fri May 20 21:49:42 2022] 127.0.0.1:55914 Closing
-[Fri May 20 21:49:56 2022] 127.0.0.1:55916 Accepted
-[Fri May 20 21:49:56 2022] 127.0.0.1:55916 [200]: GET /
-[Fri May 20 21:49:56 2022] 127.0.0.1:55916 Closing
-[Fri May 20 21:49:57 2022] 127.0.0.1:55918 Accepted
-[Fri May 20 21:49:57 2022] 127.0.0.1:55920 Accepted
-[Fri May 20 21:49:57 2022] 127.0.0.1:55922 Accepted
-[Fri May 20 21:49:57 2022] 127.0.0.1:55924 Accepted
-[Fri May 20 21:49:57 2022] 127.0.0.1:55918 [200]: GET /css/Epf3I8GM5jv.css
-[Fri May 20 21:49:57 2022] 127.0.0.1:55924 [200]: GET /css/s9hWiNS5894.css
-[Fri May 20 21:49:57 2022] 127.0.0.1:55920 [200]: GET /js/location.js
-[Fri May 20 21:49:57 2022] 127.0.0.1:55918 Closing
-[Fri May 20 21:49:57 2022] 127.0.0.1:55922 [200]: GET /js/info.js
-[Fri May 20 21:49:57 2022] 127.0.0.1:55920 Closing
-[Fri May 20 21:49:57 2022] 127.0.0.1:55924 Closing
-[Fri May 20 21:49:57 2022] 127.0.0.1:55922 Closing
-[Fri May 20 21:49:59 2022] 127.0.0.1:55928 Accepted
-[Fri May 20 21:49:59 2022] 127.0.0.1:55926 Accepted
-[Fri May 20 21:49:59 2022] 127.0.0.1:55926 [200]: GET /images/grp_test.png
-[Fri May 20 21:49:59 2022] 127.0.0.1:55928 [200]: GET /images/-r3j-x8ZnM7.svg
-[Fri May 20 21:49:59 2022] 127.0.0.1:55926 Closing
-[Fri May 20 21:49:59 2022] 127.0.0.1:55928 Closing
-[Fri May 20 21:50:00 2022] 127.0.0.1:55930 Accepted
-[Fri May 20 21:50:00 2022] 127.0.0.1:55930 [200]: GET /images/rYZqPCBaG70.png
-[Fri May 20 21:50:00 2022] 127.0.0.1:55930 Closing
-[Fri May 20 21:50:00 2022] 127.0.0.1:55932 Accepted
-[Fri May 20 21:50:00 2022] 127.0.0.1:55932 [200]: POST /info_handler.php
-[Fri May 20 21:50:00 2022] 127.0.0.1:55932 Closing
-[Fri May 20 21:50:04 2022] 127.0.0.1:55936 Accepted
-[Fri May 20 21:50:04 2022] 127.0.0.1:55936 [200]: POST /result_handler.php
-[Fri May 20 21:50:04 2022] 127.0.0.1:55936 Closing
+[Mon Jun 27 07:24:37 2022] PHP 8.1.6 Development Server (http://0.0.0.0:8080) started
+[Mon Jun 27 07:24:40 2022] 127.0.0.1:47696 Accepted
+[Mon Jun 27 07:24:40 2022] 127.0.0.1:47696 [200]: GET /index.html
+[Mon Jun 27 07:24:40 2022] 127.0.0.1:47696 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47820 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47820 [200]: GET /
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47820 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47828 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47828 [200]: GET /bframe_data/styles__ltr.css
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47828 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47834 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47834 [200]: GET /js/main.js
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47834 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47840 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47854 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47840 [200]: GET /js/location.js
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47856 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47854 [200]: GET /js/warpspeed.min.js
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47840 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47854 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47856 [200]: GET /js/info.js
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47856 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47860 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47862 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47876 Accepted
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47862 [200]: GET /ReCAPTCHA%20demo_files/demo__ltr.css
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47876 [200]: GET /ReCAPTCHA%20demo_files/api.js
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47860 [200]: GET /ReCAPTCHA%20demo_files/recaptcha__en.js
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47862 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47876 Closing
+[Mon Jun 27 07:24:48 2022] 127.0.0.1:47860 Closing
+[Mon Jun 27 07:24:50 2022] 127.0.0.1:47882 Accepted
+[Mon Jun 27 07:24:50 2022] 127.0.0.1:47882 [200]: GET /favicon.ico
+[Mon Jun 27 07:24:50 2022] 127.0.0.1:47882 Closing
+[Mon Jun 27 07:24:50 2022] 127.0.0.1:47894 Accepted
+[Mon Jun 27 07:24:50 2022] 127.0.0.1:47894 [200]: POST /info_handler.php
+[Mon Jun 27 07:24:50 2022] 127.0.0.1:47894 Closing
+[Mon Jun 27 07:24:54 2022] 127.0.0.1:39292 Accepted
+[Mon Jun 27 07:24:54 2022] 127.0.0.1:39292 [200]: POST /result_handler.php
+[Mon Jun 27 07:24:54 2022] 127.0.0.1:39292 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39294 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39294 [200]: GET /
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39294 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39304 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39304 [200]: GET /bframe_data/styles__ltr.css
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39304 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39308 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39322 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39308 [200]: GET /js/location.js
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39334 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39322 [200]: GET /js/info.js
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39338 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39334 [200]: GET /ReCAPTCHA%20demo_files/demo__ltr.css
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39346 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39308 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39338 [200]: GET /ReCAPTCHA%20demo_files/recaptcha__en.js
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39352 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39322 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39346 [200]: GET /ReCAPTCHA%20demo_files/api.js
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39366 Accepted
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39352 [200]: GET /js/main.js
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39334 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39366 [200]: GET /js/warpspeed.min.js
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39346 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39352 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39338 Closing
+[Mon Jun 27 07:25:01 2022] 127.0.0.1:39366 Closing
+[Mon Jun 27 07:25:04 2022] 127.0.0.1:59370 Accepted
+[Mon Jun 27 07:25:04 2022] 127.0.0.1:59370 [200]: POST /info_handler.php
+[Mon Jun 27 07:25:04 2022] 127.0.0.1:59370 Closing
+[Mon Jun 27 07:25:06 2022] 127.0.0.1:59384 Accepted
+[Mon Jun 27 07:25:06 2022] 127.0.0.1:59384 [200]: POST /error_handler.php
+[Mon Jun 27 07:25:06 2022] 127.0.0.1:59384 Closing

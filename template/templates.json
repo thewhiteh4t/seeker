@@ -5,6 +5,11 @@
             "dir_name": "nearyou",
             "module": false,
             "import_file": null
+        },{
+            "name": "Google ReCaptcha",
+            "dir_name": "captcha",
+            "module": true,
+            "import_file": "mod_captcha"
         },
         {
             "name": "Google Drive",
