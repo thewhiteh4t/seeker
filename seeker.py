@@ -11,6 +11,7 @@ Y = '\033[33m'  # yellow
 import sys
 import argparse
 import requests
+from pyngrok import ngrok
 import traceback
 from os import path, kill
 from json import loads, decoder
@@ -21,12 +22,14 @@ parser.add_argument('-k', '--kml', help='KML filename')
 parser.add_argument('-p', '--port', type=int, default=8080, help='Web server port [ Default : 8080 ]')
 parser.add_argument('-u', '--update', action='store_true', help='Check for updates')
 parser.add_argument('-v', '--version', action='store_true', help='Prints version')
+parser.add_argument('-n', '--ngrok', action='store_true', help='Generate ngrok url automatically')
 
 args = parser.parse_args()
 kml_fname = args.kml
 port = args.port
 chk_upd = args.update
 print_v = args.version
+is_ngrok = args.ngrok
 
 path_to_script = path.dirname(path.realpath(__file__))
 
@@ -145,6 +148,7 @@ def server():
 	print(f'{G}[+] {C}Starting PHP Server...{W}', end='', flush=True)
 	cmd = ['php', '-S', f'0.0.0.0:{port}', '-t', f'template/{SITE}/']
 
+
 	with open(LOG_FILE, 'w+') as phplog:
 		proc = subp.Popen(cmd, stdout=phplog, stderr=phplog)
 		sleep(3)
@@ -162,6 +166,11 @@ def server():
 				else:
 					print(f'{C}[ {G}✔{C} ]{W}')
 					print()
+
+					if is_ngrok:
+						ngrok_url = str(ngrok.connect(port,'http')).split()[1].split('"')[1]
+						print(f'{G}[+] {C}Ngrok Link - {Y}{ngrok_url}{W}\n')
+			
 			else:
 				print(f'{C}[ {R}Status : {php_sc}{C} ]{W}')
 				cl_quit(proc)

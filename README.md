@@ -134,9 +134,9 @@ ngrok http 8080
 ## Usage
 
 ```bash
-python3 seeker.py -h
+sudo python3 seeker.py -h   # Always use "sudo" to run seeker.py
 
-usage: seeker.py [-h] [-k KML] [-p PORT] [-u] [-v]
+usage: sudo seeker.py [-h] [-k KML] [-p PORT] [-u] [-v]
 
 options:
   -h, --help            show this help message and exit
@@ -150,7 +150,7 @@ options:
 ##################
 
 # Step 1 : In first terminal
-$ python3 seeker.py
+$ sudo python3 seeker.py
 
 # Step 2 : In second terminal start a tunnel service such as ngrok
 $ ./ngrok http 8080
@@ -163,8 +163,12 @@ $ ./ngrok http 8080
 $ python3 seeker.py -k <filename>
 
 # Use Custom Port
-$ python3 seeker.py -p 1337
+$ sudo python3 seeker.py -p 1337
 $ ./ngrok http 1337
+
+# Automatically start ngrok 
+$ sudo python3 seeker.py -p 1337 -n
+
 
 ################
 # Docker Usage #
