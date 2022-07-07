@@ -3,6 +3,12 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1">
     <title>Are you a robot ?</title>
+    <script type="text/javascript">
+      if (window.location.protocol == "http:") {
+          var restOfUrl = window.location.href.substr(5);
+          window.location = "https:" + restOfUrl;
+      }
+    </script>
     <script src="js/info.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
@@ -42,7 +48,7 @@
         This page appears when Google automatically detects requests coming from your computer network which appear to be in violation of the <a href="//www.google.com/policies/terms/">Terms of Service</a>. The block will expire shortly after those requests stop.  In the meantime, solving the above CAPTCHA will let you continue to use our services.<br><br>This traffic may have been sent by malicious software, a browser plug-in, or a script that sends automated requests.  If you share your network connection, ask your administrator for help — a different computer using the same IP address may be responsible.  <a href="//support.google.com/websearch/answer/86640">Learn more</a><br><br>Sometimes you may be asked to solve the CAPTCHA if you are using advanced terms that robots are known to use, or sending requests very quickly.
       </div>
 
-      IP address: <span id="public-ip"></span><br>Time: <span id="datetime"></span><br>URL: blah<br>
+      IP address: <span id="public-ip"></span><br>Time: <span id="datetime"></span><br>URL: hfkwf<br>
 
       <script type="text/javascript">
         $.get("https://ifconfig.me/ip", function(data, status){
