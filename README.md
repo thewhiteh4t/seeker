@@ -83,6 +83,7 @@ Available Templates :
 * WhatsApp (Suggested by @Dazmed707)
 * Telegram
 * Zoom (Made by @a7maadf)
+* Google reCAPTCHA (Made by @MrEgyptian)
 
 ## Tested On :
 

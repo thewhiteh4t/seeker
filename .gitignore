@@ -1,5 +1,3 @@
-db/results.csv
-logs/*
-.log
-*.csv
-.txt
+db/
+logs/
+templates/__pycache__/

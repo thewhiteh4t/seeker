@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-VERSION = '1.2.7'
+VERSION = '1.2.8'
 
 R = '\033[31m'  # red
 G = '\033[32m'  # green
@@ -12,7 +12,7 @@ import sys
 import argparse
 import requests
 import traceback
-from os import path, kill
+from os import path, kill, mkdir
 from json import loads, decoder
 from packaging import version
 
@@ -32,15 +32,22 @@ path_to_script = path.dirname(path.realpath(__file__))
 
 SITE = ''
 SERVER_PROC = ''
-INFO = f'{path_to_script}/logs/info.txt'
-RESULT = f'{path_to_script}/logs/result.txt'
+LOG_DIR = f'{path_to_script}/logs'
+DB_DIR = f'{path_to_script}/db'
+LOG_FILE = f'{LOG_DIR}/php.log'
+DATA_FILE = f'{DB_DIR}/results.csv'
+INFO = f'{LOG_DIR}/info.txt'
+RESULT = f'{LOG_DIR}/result.txt'
 TEMPLATES_JSON = f'{path_to_script}/template/templates.json'
-LOG_FILE = f'{path_to_script}/logs/php.log'
 TEMP_KML = f'{path_to_script}/template/sample.kml'
-DATA_FILE = f'{path_to_script}/db/results.csv'
 META_FILE = f'{path_to_script}/metadata.json'
 META_URL = 'https://raw.githubusercontent.com/thewhiteh4t/seeker/master/metadata.json'
 
+if not path.isdir(LOG_DIR):
+	mkdir(LOG_DIR)
+
+if not path.isdir(DB_DIR):
+	mkdir(DB_DIR)
 
 def chk_update():
 	try:
