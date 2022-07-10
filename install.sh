@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-ILOG=$PWD/logs/install.log
+LOG_DIR=$PWD/logs
+DB_DIR=$PWD/db
+ILOG=$LOG_DIR/install.log
+
+mkdir -p $LOG_DIR $DB_DIR
 
 status_check() {
     if [ $? -eq 0 ]
