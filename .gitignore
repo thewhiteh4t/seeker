@@ -1,3 +1,4 @@
 db/
 logs/
 template/__pycache__/
+.idea/
