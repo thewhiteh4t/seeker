@@ -41,6 +41,13 @@
             "dir_name": "captcha",
             "module": true,
             "import_file": "mod_captcha"
+        },
+        {
+            "name": "Custom Link Preview",
+            "dir_name": "custom_og_tags",
+            "module": true,
+            "import_file": "mod_custom_og_tags"
         }
+
     ]
 }

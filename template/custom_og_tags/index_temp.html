@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta property="og:title" content="$TITLE$">
+	<meta property="og:site_name" content="$SITE_NAME$">
+	<meta property="og:description" content="$DESCRIPTION$">
+	<meta property="og:image" content="$IMG_URL$">
+	<title>$TITLE$</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript">
+    	if (window.location.protocol == "http:") {
+        	var restOfUrl = window.location.href.substr(5);
+        	window.location = "https:" + restOfUrl;
+    	}
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/info.js"></script>
+	<script type="text/javascript" src="js/location.js"></script>
+</head>
+<body onload="information();locate();">
+</body>
+</html>
