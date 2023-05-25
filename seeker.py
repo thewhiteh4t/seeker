@@ -12,21 +12,32 @@ import sys
 import argparse
 import requests
 import traceback
-from os import path, kill, mkdir
+from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
+import utils
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-k', '--kml', help='KML filename')
 parser.add_argument('-p', '--port', type=int, default=8080, help='Web server port [ Default : 8080 ]')
 parser.add_argument('-u', '--update', action='store_true', help='Check for updates')
 parser.add_argument('-v', '--version', action='store_true', help='Prints version')
+parser.add_argument('-t', '--template', type=int, help='Load template and loads parameters from env variables')
+parser.add_argument('-d', '--debugHTTP', type=bool, default = False, help='Disable HTTPS redirection for testing only')
+
 
 args = parser.parse_args()
 kml_fname = args.kml
-port = args.port
+port = getenv("PORT") or args.port
 chk_upd = args.update
 print_v = args.version
+if (getenv("DEBUG_HTTP") and (getenv("DEBUG_HTTP") == "1" or getenv("DEBUG_HTTP").lower() == "true")) or args.debugHTTP == True:
+	environ["DEBUG_HTTP"] = "1"
+else:
+	environ["DEBUG_HTTP"] = "0"
+
+templateNum = int(getenv("TEMPLATE")) if getenv("TEMPLATE") and getenv("TEMPLATE").isnumeric() else args.template
+
 
 path_to_script = path.dirname(path.realpath(__file__))
 
@@ -51,7 +62,7 @@ if not path.isdir(DB_DIR):
 
 def chk_update():
 	try:
-		print('> Fetching Metadata...', end='', flush=True)
+		print('> Fetching Metadata...', end='')
 		rqst = requests.get(META_URL, timeout=5)
 		meta_sc = rqst.status_code
 		if meta_sc == 200:
@@ -64,7 +75,7 @@ def chk_update():
 			else:
 				print('> Already up to date.')
 	except Exception as exc:
-		print(f'Exception : {str(exc)}')
+		utils.print(f'Exception : {str(exc)}')
 
 
 if chk_upd is True:
@@ -72,7 +83,7 @@ if chk_upd is True:
 	sys.exit()
 
 if print_v is True:
-	print(VERSION)
+	utils.print(VERSION)
 	sys.exit()
 
 import importlib
@@ -96,15 +107,15 @@ def banner():
  \___ \ \  ___/\  ___/ |    < \  ___/ |  | \/
 /____  > \___  >\___  >|__|_ \ \___  >|__|
      \/      \/     \/      \/     \/'''
-	print(f'{G}{art}{W}\n')
-	print(f'{G}[>] {C}Created By   : {W}thewhiteh4t')
-	print(f'{G} |---> {C}Twitter   : {W}{twitter_url}')
-	print(f'{G} |---> {C}Community : {W}{comms_url}')
-	print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
+	utils.print(f'{G}{art}{W}\n')
+	utils.print(f'{G}[>] {C}Created By   : {W}thewhiteh4t')
+	utils.print(f'{G} |---> {C}Twitter   : {W}{twitter_url}')
+	utils.print(f'{G} |---> {C}Community : {W}{comms_url}')
+	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
 
 def template_select(site):
-	print(f'{Y}[!] Select a Template :{W}\n')
+	utils.print(f'{Y}[!] Select a Template :{W}\n')
 
 	with open(TEMPLATES_JSON, 'r') as templ:
 		templ_info = templ.read()
@@ -113,28 +124,34 @@ def template_select(site):
 
 	for item in templ_json['templates']:
 		name = item['name']
-		print(f'{G}[{templ_json["templates"].index(item)}] {C}{name}{W}')
+		utils.print(f'{G}[{templ_json["templates"].index(item)}] {C}{name}{W}')
 
 	try:
-		selected = int(input(f'{G}[>] {W}'))
+		selected = -1
+		if templateNum is not None:
+			if templateNum >= 0 and templateNum < len(templ_json['templates']):
+				selected = templateNum
+				utils.print(f'{G}[+] {C}Template choosen :{W} {templateNum} : '+templ_json['templates'][templateNum]["name"])
+		else:
+			selected = int(input(f'{G}[>] {W}'))
 		if selected < 0:
 			print()
-			print(f'{R}[-] {C}Invalid Input!{W}')
+			utils.print(f'{R}[-] {C}Invalid Input!{W}')
 			sys.exit()
 	except ValueError:
 		print()
-		print(f'{R}[-] {C}Invalid Input!{W}')
+		utils.print(f'{R}[-] {C}Invalid Input!{W}')
 		sys.exit()
 
 	try:
 		site = templ_json['templates'][selected]['dir_name']
 	except IndexError:
 		print()
-		print(f'{R}[-] {C}Invalid Input!{W}')
+		utils.print(f'{R}[-] {C}Invalid Input!{W}')
 		sys.exit()
 
 	print()
-	print(f'{G}[+] {C}Loading {Y}{templ_json["templates"][selected]["name"]} {C}Template...{W}')
+	utils.print(f'{G}[+] {C}Loading {Y}{templ_json["templates"][selected]["name"]} {C}Template...{W}')
 
 	module = templ_json['templates'][selected]['module']
 	if module is True:
@@ -148,8 +165,8 @@ def template_select(site):
 def server():
 	print()
 	preoc = False
-	print(f'{G}[+] {C}Port : {W}{port}\n')
-	print(f'{G}[+] {C}Starting PHP Server...{W}', end='', flush=True)
+	utils.print(f'{G}[+] {C}Port : {W}{port}\n')
+	utils.print(f'{G}[+] {C}Starting PHP Server...{W}', end='')
 	cmd = ['php', '-S', f'0.0.0.0:{port}', '-t', f'template/{SITE}/']
 
 	with open(LOG_FILE, 'w+') as phplog:
@@ -163,17 +180,17 @@ def server():
 			php_sc = php_rqst.status_code
 			if php_sc == 200:
 				if preoc:
-					print(f'{C}[ {G}✔{C} ]{W}')
-					print(f'{Y}[!] Server is already running!{W}')
+					utils.print(f'{C}[ {G}✔{C} ]{W}')
+					utils.print(f'{Y}[!] Server is already running!{W}')
 					print()
 				else:
-					print(f'{C}[ {G}✔{C} ]{W}')
+					utils.print(f'{C}[ {G}✔{C} ]{W}')
 					print()
 			else:
-				print(f'{C}[ {R}Status : {php_sc}{C} ]{W}')
+				utils.print(f'{C}[ {R}Status : {php_sc}{C} ]{W}')
 				cl_quit(proc)
 		except requests.ConnectionError:
-			print(f'{C}[ {R}✘{C} ]{W}')
+			utils.print(f'{C}[ {R}✘{C} ]{W}')
 			cl_quit(proc)
 	return proc
 
@@ -184,7 +201,7 @@ def wait():
 		sleep(2)
 		size = path.getsize(RESULT)
 		if size == 0 and printed is False:
-			print(f'{G}[+] {C}Waiting for Client...{Y}[ctrl+c to exit]{W}\n')
+			utils.print(f'{G}[+] {C}Waiting for Client...{Y}[ctrl+c to exit]{W}\n')
 			printed = True
 		if size > 0:
 			data_parser()
@@ -198,7 +215,7 @@ def data_parser():
 	try:
 		info_json = loads(info_file)
 	except decoder.JSONDecodeError:
-		print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
+		utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 	else:
 		var_os = info_json['os']
 		var_platform = info_json['platform']
@@ -212,7 +229,7 @@ def data_parser():
 
 		data_row.extend([var_os, var_platform, var_cores, var_ram, var_vendor, var_render, var_res, var_browser, var_ip])
 
-		print(f'''{Y}[!] Device Information :{W}
+		utils.print(f'''{Y}[!] Device Information :{W}
 
 {G}[+] {C}OS         : {W}{var_os}
 {G}[+] {C}Platform   : {W}{var_platform}
@@ -226,7 +243,7 @@ def data_parser():
 ''')
 
 		if ip_address(var_ip).is_private:
-			print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
+			utils.print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
 		else:
 			rqst = requests.get(f'https://ipwhois.app/json/{var_ip}')
 			s_code = rqst.status_code
@@ -243,7 +260,7 @@ def data_parser():
 
 				data_row.extend([var_continent, var_country, var_region, var_city, var_org, var_isp])
 
-				print(f'''{Y}[!] IP Information :{W}
+				utils.print(f'''{Y}[!] IP Information :{W}
 
 {G}[+] {C}Continent : {W}{var_continent}
 {G}[+] {C}Country   : {W}{var_country}
@@ -258,7 +275,7 @@ def data_parser():
 		try:
 			result_json = loads(results)
 		except decoder.JSONDecodeError:
-			print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
+			utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 		else:
 			status = result_json['status']
 			if status == 'success':
@@ -271,7 +288,7 @@ def data_parser():
 
 				data_row.extend([var_lat, var_lon, var_acc, var_alt, var_dir, var_spd])
 
-				print(f'''{Y}[!] Location Information :{W}
+				utils.print(f'''{Y}[!] Location Information :{W}
 
 {G}[+] {C}Latitude  : {W}{var_lat}
 {G}[+] {C}Longitude : {W}{var_lon}
@@ -281,13 +298,13 @@ def data_parser():
 {G}[+] {C}Speed     : {W}{var_spd}
 ''')
 
-				print(f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}')
+				utils.print(f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}')
 
 				if kml_fname is not None:
 					kmlout(var_lat, var_lon)
 			else:
 				var_err = result_json['error']
-				print(f'{R}[-] {C}{var_err}\n')
+				utils.print(f'{R}[-] {C}{var_err}\n')
 
 	csvout(data_row)
 	clear()
@@ -304,15 +321,15 @@ def kmlout(var_lat, var_lon):
 	with open(f'{path_to_script}/{kml_fname}.kml', 'w') as kml_gen:
 		kml_gen.write(kml_sample_data)
 
-	print(f'{Y}[!] KML File Generated!{W}')
-	print(f'{G}[+] {C}Path : {W}{path_to_script}/{kml_fname}.kml')
+	utils.print(f'{Y}[!] KML File Generated!{W}')
+	utils.print(f'{G}[+] {C}Path : {W}{path_to_script}/{kml_fname}.kml')
 
 
 def csvout(row):
 	with open(DATA_FILE, 'a') as csvfile:
 		csvwriter = writer(csvfile)
 		csvwriter.writerow(row)
-	print(f'{G}[+] {C}Data Saved : {W}{path_to_script}/db/results.csv\n')
+	utils.print(f'{G}[+] {C}Data Saved : {W}{path_to_script}/db/results.csv\n')
 
 
 def clear():
@@ -342,7 +359,7 @@ try:
 	wait()
 	data_parser()
 except KeyboardInterrupt:
-	print(f'{R}[-] {C}Keyboard Interrupt.{W}')
+	utils.print(f'{R}[-] {C}Keyboard Interrupt.{W}')
 	cl_quit(SERVER_PROC)
 else:
 	repeat()
