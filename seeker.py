@@ -153,12 +153,9 @@ def template_select(site):
 	print()
 	utils.print(f'{G}[+] {C}Loading {Y}{templ_json["templates"][selected]["name"]} {C}Template...{W}')
 
-	module = templ_json['templates'][selected]['module']
-	if module is True:
-		imp_file = templ_json['templates'][selected]['import_file']
-		importlib.import_module(f'template.{imp_file}')
-	else:
-		pass
+	imp_file = templ_json['templates'][selected]['import_file']
+	importlib.import_module(f'template.{imp_file}')
+
 	return site
 
 

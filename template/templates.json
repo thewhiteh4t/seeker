@@ -3,8 +3,8 @@
         {
             "name": "NearYou",
             "dir_name": "nearyou",
-            "module": false,
-            "import_file": null
+            "module": true,
+            "import_file": "mod_nearyou"
         },
         {
             "name": "Google Drive",
@@ -33,8 +33,8 @@
         {
             "name": "Zoom",
             "dir_name": "zoom",
-            "module": false,
-            "import_file": null
+            "module": true,
+            "import_file": "mod_zoom"
         },
         {
             "name": "Google ReCaptcha",
