@@ -12,6 +12,7 @@ import sys
 import argparse
 import requests
 import traceback
+import shutil
 from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
@@ -155,6 +156,10 @@ def template_select(site):
 
 	imp_file = templ_json['templates'][selected]['import_file']
 	importlib.import_module(f'template.{imp_file}')
+	shutil.copyfile("template/php/error.php", 'template/{}/error_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
+	shutil.copyfile("template/php/info.php", 'template/{}/info_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
+	shutil.copyfile("template/php/result.php", 'template/{}/result_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
+
 
 	return site
 

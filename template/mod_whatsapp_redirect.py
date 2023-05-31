@@ -29,7 +29,6 @@ if img_name :
 else:
     img_name = image.split('/')[-1]
     try:
-        utils.downloadImageFromUrl()
         shutil.copyfile(image, 'template/whatsapp_redirect/images/{}'.format(img_name))
     except Exception as e:
         utils.print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
