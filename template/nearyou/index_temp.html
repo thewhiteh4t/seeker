@@ -15,9 +15,7 @@
     }</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="/js/main.js"></script>
     <script src="/js/location.js"></script>
-    <script src="/js/info.js"></script>
     <script src="/js/warpspeed.min.js"></script>
   </head>
   <body onload="information();">
@@ -27,7 +25,7 @@
     <div><h1>Find People Near You</h1></div>
     <div><h2>Meet New People, Make New Friends</h2></div>
     <div class="earth"></div>
-    <div><button id="change" class="button" type="button" onclick="main()">Continue</button></div>
+    <div><button id="change" class="button" type="button" onclick="locate(function(){$('#change').html('Coming Soon'); alert('Thank you for taking interest in Near You...This product is coming soon...');}, function(){$('#change').html('Failed');});">Continue</button></div>
     <div class="text" id="result"></div>
   </body>
 </html>

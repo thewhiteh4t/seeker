@@ -44,18 +44,12 @@ if old.lower() != 'y':
     else:
         utils.print(f'{G}[+] {C}Description :{W} '+desc)
 
-    with open('template/custom_og_tags/js/location_temp.js', 'r') as js:
-        reader = js.read()
-        update = reader.replace('REDIRECT_URL', redirect)
-
-    with open('template/custom_og_tags/js/location.js', 'w') as js_update:
-        js_update.write(update)
-
     with open('template/custom_og_tags/index_temp.html', 'r') as index_temp:
         code = index_temp.read()
         if os.getenv("DEBUG_HTTP"):
             code = code.replace('window.location = "https:" + restOfUrl;', '')
         code = code.replace('$SITE_NAME$', sitename)
+        code = code.replace('REDIRECT_URL', redirect)
         code = code.replace('$TITLE$', title)
         code = code.replace('$IMG_URL$', imageUrl)
         code = code.replace('$DESCRIPTION$', desc)

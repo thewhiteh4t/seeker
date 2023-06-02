@@ -159,8 +159,11 @@ def template_select(site):
 	shutil.copyfile("php/error.php", 'template/{}/error_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
 	shutil.copyfile("php/info.php", 'template/{}/info_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
 	shutil.copyfile("php/result.php", 'template/{}/result_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
-
-
+	jsdir = 'template/{}/js'.format(templ_json['templates'][selected]["dir_name"])
+	if not path.isdir(jsdir):
+		mkdir(jsdir)
+	shutil.copyfile("js/location.js", jsdir+'/location.js')
+	
 	return site
 
 
@@ -213,9 +216,11 @@ def wait():
 def data_parser():
 	data_row = []
 	with open(INFO, 'r') as info_file:
-		info_file = info_file.read()
+		info_content = info_file.read()
+	if not info_content or info_content.strip() == '':
+		return
 	try:
-		info_json = loads(info_file)
+		info_json = loads(info_content)
 	except decoder.JSONDecodeError:
 		utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 	else:
