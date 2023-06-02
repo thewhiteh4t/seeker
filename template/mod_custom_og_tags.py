@@ -45,11 +45,11 @@ if old.lower() != 'y':
         utils.print(f'{G}[+] {C}Description :{W} '+desc)
 
     with open('template/custom_og_tags/js/location_temp.js', 'r') as js:
-    	reader = js.read()
-    	update = reader.replace('REDIRECT_URL', redirect)
+        reader = js.read()
+        update = reader.replace('REDIRECT_URL', redirect)
 
     with open('template/custom_og_tags/js/location.js', 'w') as js_update:
-    	js_update.write(update)
+        js_update.write(update)
 
     with open('template/custom_og_tags/index_temp.html', 'r') as index_temp:
         code = index_temp.read()
