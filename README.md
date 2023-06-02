@@ -85,6 +85,11 @@ Available Templates :
 * Zoom (Made by @a7maadf)
 * Google reCAPTCHA (Made by @MrEgyptian)
 
+Create your own template ! 
+Steps to let you create your template is described in this [how-to](./createTemplate.md)
+
+Once your template is ready, **do not forget to propose it to the community via a PR (pull request)**
+
 ## Tested On :
 
 * Kali Linux
@@ -222,7 +227,3 @@ as an alterntive to ngrok
 <a href="https://youtu.be/Q91cTFwIvLc">
   <img src="https://i3.ytimg.com/vi/Q91cTFwIvLc/maxresdefault.jpg">
 </a>
-
-## Template
-Steps to let you create your template is described in this [how-to](./createTemplate.md)
-Once your template is ready, do not forget to propose it to the community via a PR (pull request)
