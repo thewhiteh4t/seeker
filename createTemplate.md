@@ -1,5 +1,7 @@
 # How-to create template
 
+Once your template is working perfect, do not forget to submit it to the community via a Pull Request!
+
 ## HTML Files
 You are free to implement any HTML + CSS files to get the look and feel you want, however, do not forget to do the bridge with the core javascript part described in the next section.
 
