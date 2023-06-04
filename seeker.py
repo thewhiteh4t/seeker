@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-VERSION = '1.2.8'
+VERSION = '1.2.9'
 
 R = '\033[31m'  # red
 G = '\033[32m'  # green
@@ -132,7 +132,6 @@ def template_select(site):
 		if templateNum is not None:
 			if templateNum >= 0 and templateNum < len(templ_json['templates']):
 				selected = templateNum
-				utils.print(f'{G}[+] {C}Template choosen :{W} {templateNum} : '+templ_json['templates'][templateNum]["name"])
 		else:
 			selected = int(input(f'{G}[>] {W}'))
 		if selected < 0:
