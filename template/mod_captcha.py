@@ -20,11 +20,11 @@ if fake_forward is None:
 else:
     utils.print(f'{G}[+] {C}Fake Forward URL :{W} '+fake_forward)
 
-with open('template/captcha/js/location_temp.js', 'r') as location_temp:
+with open('template/captcha/js/main_temp.js', 'r') as location_temp:
     js_file = location_temp.read()
     updated_js_raw = js_file.replace('REDIRECT_URL', real_forward)
 
-with open('template/captcha/js/location.js', 'w') as updated_js:
+with open('template/captcha/js/main.js', 'w') as updated_js:
     updated_js.write(updated_js_raw)
 
 with open('template/captcha/index_temp.html', 'r') as temp_index:

