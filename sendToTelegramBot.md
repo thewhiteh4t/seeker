@@ -1,5 +1,5 @@
 # How-to send information to a Telegram Bot
-## Bot Creation (Telegram Part=
+## Bot Creation (Telegram Part)
 On Telegram, open a chat with @BotFather
 
 Then write `/newbot` in the chat and send it.
