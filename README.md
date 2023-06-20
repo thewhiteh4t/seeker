@@ -153,6 +153,7 @@ options:
   -t TEMPLATE, --template TEMPLATE      Auto choose the template with the given index
   -d, --debugHTTP                       Disable auto http --> https redirection for testing purposes (only works for the templates having index_temp.html file)
   --telegram                            Send info to a telegram bot, provide telegram token and chat to use (format = token:chatId separated by a colon)
+                                        See details about [how-to send to Telegram bot](./sendToTelegramBot.md)
 
 #########################
 # Environment Variables #
@@ -174,7 +175,8 @@ Variables:
   DISPLAY_URL           Provide the URL to display on the page
   MEM_NUM               Provide the number of group membres (Telegram so far)
   ONLINE_NUM            Provide the number of the group online members (Telegram so far)
-  TELEGRAM              Provide telegram token and chat to use to send info to a telegram bot (format = token:chatId separated by a colon)  
+  TELEGRAM              Provide telegram token and chat to use to send info to a telegram bot (format = token:chatId separated by a colon)
+                        See details about [how-to send to Telegram bot](./sendToTelegramBot.md)
 
 
 ##################
