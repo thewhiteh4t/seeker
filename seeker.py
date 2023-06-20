@@ -119,10 +119,10 @@ def banner():
 def sendTelegram(content):
 	if telegram is not None:
 		tmpsplit = telegram.split(':')
-		if len(tmpsplit) <2:
+		if len(tmpsplit) <3:
 			utils.print(f'{R}[-] {C}Provided Telegram bot information invalid : expected format is Token:chatId (with colon){W}')
 			return
-		r = requests.get('https://api.telegram.org/bot'+tmpsplit[0]+'/sendMessage?chat_id='+tmpsplit[1]+'&text='+urllib.parse.quote_plus(content)
+		r = requests.get('https://api.telegram.org/bot'+tmpsplit[0]+':'+tmpsplit[1]'/sendMessage?chat_id='+tmpsplit[2]+'&text='+urllib.parse.quote_plus(content)
 		if r:
 			utils.print(f'{G}[+] {C}Successfully sent to Telegram bot {W}')
 		else:
