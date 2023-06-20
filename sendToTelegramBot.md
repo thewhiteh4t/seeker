@@ -22,6 +22,6 @@ You will find your chat id after the `"chat" :` part, just save it somewhere.
 ## Seeker part
 Append the token of the first step and the chat id of the second one, separated with `:`, the string should have 2 colons symbols `:` (including one existing in the token).
 
-Either use `--telegram` seeker argument or `TELEGRAM` ENV variable to provide the appended content.
+Either use `--telegram` seeker argument or `TELEGRAM` environment variable to provide the appended content.
 
 Then all information/result will be send to you via the telegram bot
