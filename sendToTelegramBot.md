@@ -19,7 +19,7 @@ To do so, just replace `{token}` by the token of the first step, in the followin
 
 You will find your chat id after the `"chat" :` part, just save it somewhere.
 
-## Seeker part
+## Seeker
 Append the token of the first step and the chat id of the second one, separated with `:`, the string should have 2 colons symbols `:` (including one existing in the token).
 
 Either use `--telegram` seeker argument or `TELEGRAM` environment variable to provide the appended content.
