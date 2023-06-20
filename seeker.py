@@ -13,6 +13,7 @@ import argparse
 import requests
 import traceback
 import shutil
+import re
 from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
@@ -120,9 +121,10 @@ def sendTelegram(content):
 	if telegram is not None:
 		tmpsplit = telegram.split(':')
 		if len(tmpsplit) <3:
-			utils.print(f'{R}[-] {C}Provided Telegram bot information invalid : expected format is Token:chatId (with colon){W}')
+			utils.print(f'{R}[-] {C}Provided Telegram bot information invalid : expected format is token:chatId (with colon){W}')
 			return
-		r = requests.get('https://api.telegram.org/bot'+tmpsplit[0]+':'+tmpsplit[1]'/sendMessage?chat_id='+tmpsplit[2]+'&text='+urllib.parse.quote_plus(content)
+		content = re.sub('\33\[\d+m', ' ', content)
+		r = requests.get('https://api.telegram.org/bot'+tmpsplit[0]+':'+tmpsplit[1]+'/sendMessage?chat_id='+tmpsplit[2]+'&text='+urllib.parse.quote_plus(content))
 		if r:
 			utils.print(f'{G}[+] {C}Successfully sent to Telegram bot {W}')
 		else:
@@ -320,14 +322,17 @@ def data_parser():
 				sendTelegram(locInfo)
 				utils.print(locInfo)
 				
-
-				utils.print(f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}')
+				googleMaps = f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}'
+				sendTelegram(googleMaps)
+				utils.print(googleMaps)
 
 				if kml_fname is not None:
 					kmlout(var_lat, var_lon)
 			else:
 				var_err = result_json['error']
-				utils.print(f'{R}[-] {C}{var_err}\n')
+				errmsg = f'{R}[-] {C}{var_err}\n'
+				sendTelegram(errmsg)
+				utils.print(errmsg)
 
 	csvout(data_row)
 	clear()
