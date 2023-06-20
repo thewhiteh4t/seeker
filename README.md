@@ -142,7 +142,7 @@ ngrok http 8080
 ```bash
 python3 seeker.py -h
 
-usage: seeker.py [-h] [-k KML] [-p PORT] [-u] [-v] [-t 0] [-d]
+usage: seeker.py [-h] [-k KML] [-p PORT] [-u] [-v] [-t TEMPLATE] [-d] [--telegram token:chatId]
 
 options:
   -h, --help                            show this help message and exit
