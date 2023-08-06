@@ -155,7 +155,8 @@ options:
                                         (only works for the templates having index_temp.html file)
   --telegram                            Send info to a telegram bot, provide telegram token and chat to use
                                         format = token:chatId separated by a colon
-  --webhook                             Send events to a webhook endpoint to be processed, an URL must be provided configured with no authentication and accepting POST method
+  --webhook                             Send events to a webhook endpoint to be processed
+                                        endpoint must be unauthenticated and accept POST request
 
 #########################
 # Environment Variables #
