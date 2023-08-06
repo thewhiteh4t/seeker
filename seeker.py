@@ -14,6 +14,7 @@ import requests
 import traceback
 import shutil
 import re
+import time
 from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
@@ -28,6 +29,7 @@ parser.add_argument('-v', '--version', action='store_true', help='Prints version
 parser.add_argument('-t', '--template', type=int, help='Load template and loads parameters from env variables')
 parser.add_argument('-d', '--debugHTTP', type=bool, default = False, help='Disable HTTPS redirection for testing only')
 parser.add_argument('--telegram', help='Telegram token and chat to use to send results to a telegram bot (format = token:chatId)')
+parser.add_argument('--webhook', help='URL of the webhook to forward the events to (POST method and unauthentified)')
 
 args = parser.parse_args()
 kml_fname = args.kml
@@ -35,6 +37,7 @@ port = getenv("PORT") or args.port
 chk_upd = args.update
 print_v = args.version
 telegram = getenv("TELEGRAM") or args.telegram
+webhook = getenv("WEBHOOK") or args.webhook
 
 if (getenv("DEBUG_HTTP") and (getenv("DEBUG_HTTP") == "1" or getenv("DEBUG_HTTP").lower() == "true")) or args.debugHTTP == True:
 	environ["DEBUG_HTTP"] = "1"
@@ -116,6 +119,23 @@ def banner():
 	utils.print(f'{G} |---> {C}Twitter   : {W}{twitter_url}')
 	utils.print(f'{G} |---> {C}Community : {W}{comms_url}')
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
+
+def sendWebhook(content):
+	if webhook is not None:
+		if not webhook.lower().startswith("http://") and not webhook.lower().startswith("https://"):
+			utils.print(f'{R}[-] {C}Provided webhook endpoint is not correct should be http or https scheme, on a POST method and unauthenfied{W}')
+			return
+		cpt = 3
+		for i in range(cpt):
+			r = None
+			try:
+				r = requests.post(webhook, json=content)
+			except:
+				r = None
+			if r and r.ok:
+				return
+			time.sleep(i + 1)
+		utils.print(f'{R}[-] {C}Unable to reach the webhook endpoint, ensure it listens on a POST method and unauthenfied{W}')
 
 def sendTelegram(content):
 	if telegram is not None:
@@ -262,6 +282,7 @@ def data_parser():
 {G}[+] {C}Public IP  : {W}{var_ip}
 '''
 		sendTelegram(deviceInfo)
+		sendWebhook(info_json)
 		utils.print(deviceInfo)
 
 		if ip_address(var_ip).is_private:
@@ -301,6 +322,7 @@ def data_parser():
 			utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 		else:
 			status = result_json['status']
+			sendWebhook(result_json)
 			if status == 'success':
 				var_lat = result_json['lat']
 				var_lon = result_json['lon']
