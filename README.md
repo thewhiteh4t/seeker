@@ -142,7 +142,7 @@ ngrok http 8080
 ```bash
 python3 seeker.py -h
 
-usage: seeker.py [-h] [-k KML] [-p PORT] [-u] [-v] [-t TEMPLATE] [-d] [--telegram token:chatId]
+usage: seeker.py [-h] [-k KML] [-p PORT] [-u] [-v] [-t TEMPLATE] [-d] [--telegram token:chatId] [--webhook WEBHOOK]
 
 options:
   -h, --help                            show this help message and exit
@@ -179,7 +179,8 @@ Variables:
   ONLINE_NUM            Provide the number of the group online members (Telegram so far)
   TELEGRAM              Provide telegram token and chat to use to send info to a telegram bot
                         format = token:chatId separated by a colon
-  WEBHOOK               Provide the webhook to forward the events to (endpoint should be unauthentified and POST  method)
+  WEBHOOK               Provide the webhook url to forward the events to 
+                        (endpoint should be unauthenticated and accept POST method)
                         
 
 ##################
