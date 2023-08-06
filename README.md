@@ -181,7 +181,7 @@ Variables:
   TELEGRAM              Provide telegram token and chat to use to send info to a telegram bot
                         format = token:chatId separated by a colon
   WEBHOOK               Provide the webhook url to forward the events to 
-                        Note : (endpoint should be unauthenticated and accept POST method)
+                        Note : endpoint should be unauthenticated and accept POST method
                         
 
 ##################
