@@ -156,7 +156,7 @@ options:
   --telegram                            Send info to a telegram bot, provide telegram token and chat to use
                                         format = token:chatId separated by a colon
   --webhook                             Send events to a webhook endpoint to be processed
-                                        endpoint must be unauthenticated and accept POST request
+                                        Note : endpoint must be unauthenticated and accept POST request
 
 #########################
 # Environment Variables #
@@ -181,7 +181,7 @@ Variables:
   TELEGRAM              Provide telegram token and chat to use to send info to a telegram bot
                         format = token:chatId separated by a colon
   WEBHOOK               Provide the webhook url to forward the events to 
-                        (endpoint should be unauthenticated and accept POST method)
+                        Note : (endpoint should be unauthenticated and accept POST method)
                         
 
 ##################
