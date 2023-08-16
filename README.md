@@ -95,6 +95,7 @@ Once your template is ready, **do not forget to propose it to the community via 
 * Kali Linux
 * BlackArch Linux
 * Ubuntu
+* Fedora
 * Kali Nethunter
 * Termux
 * Parrot OS
@@ -102,7 +103,7 @@ Once your template is ready, **do not forget to propose it to the community via 
 
 ## Installation
 
-### Kali Linux / Arch Linux / Ubuntu / Parrot OS / Termux
+### Kali Linux / Arch Linux / Ubuntu / Fedora / Parrot OS / Termux
 
 ```bash
 git clone https://github.com/thewhiteh4t/seeker.git

@@ -34,6 +34,25 @@ debian_install() {
     echo -e '\n--------------------\n' >> "$ILOG"
 }
 
+fedora_install() {
+    echo -e '=====================\nINSTALLING FOR FEDORA\n=====================\n' > "$ILOG"
+
+    echo -ne 'Python3\r'
+    sudo dnf install python3 python3-pip -y &>> "$ILOG"
+    status_check Python3
+    echo -e '\n--------------------\n' >> "$ILOG"
+
+    echo -ne 'PIP\r'
+    sudo dnf install python3-pip -y &>> "$ILOG"
+    status_check Pip
+    echo -e '\n--------------------\n' >> "$ILOG"
+
+    echo -ne 'PHP\r'
+    sudo dnf install php -y &>> "$ILOG"
+    status_check PHP
+    echo -e '\n--------------------\n' >> "$ILOG"
+}
+
 termux_install() {
     echo -e '=====================\nINSTALLING FOR TERMUX\n=====================\n' > "$ILOG"
 
@@ -71,6 +90,8 @@ echo -e '[!] Installing Dependencies...\n'
 
 if [ -f '/etc/arch-release' ]; then
     arch_install
+elif [ -f '/etc/fedora-release' ]; then
+    fedora_install
 else
     if [ "$OSTYPE" == 'linux-android' ]; then
         termux_install
