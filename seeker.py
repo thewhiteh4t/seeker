@@ -16,7 +16,7 @@ import traceback
 import shutil
 import re
 import time
-from os import path, kill, mkdir, getenv, environ
+from os import path, kill, mkdir, getenv, environ, remove
 from json import loads, decoder
 from packaging import version
 
@@ -59,6 +59,7 @@ TEMPLATES_JSON = f'{path_to_script}/template/templates.json'
 TEMP_KML = f'{path_to_script}/template/sample.kml'
 META_FILE = f'{path_to_script}/metadata.json'
 META_URL = 'https://raw.githubusercontent.com/thewhiteh4t/seeker/master/metadata.json'
+PID_FILE = f'{path_to_script}/pid'
 
 if not path.isdir(LOG_DIR):
 	mkdir(LOG_DIR)
@@ -93,6 +94,8 @@ if print_v is True:
 	utils.print(VERSION)
 	sys.exit()
 
+import socket
+import psutil
 import importlib
 import urllib.parse
 from csv import writer
@@ -207,35 +210,65 @@ def template_select(site):
 
 def server():
 	print()
-	preoc = False
+	port_free = False
 	utils.print(f'{G}[+] {C}Port : {W}{port}\n')
 	utils.print(f'{G}[+] {C}Starting PHP Server...{W}', end='')
 	cmd = ['php', '-S', f'0.0.0.0:{port}', '-t', f'template/{SITE}/']
 
-	with open(LOG_FILE, 'w+') as phplog:
+	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+		try:
+			sock.connect(('127.0.0.1', port))
+		except ConnectionRefusedError:
+			port_free = True
+
+	if not port_free and path.exists(PID_FILE):
+		with open(PID_FILE, 'r') as pid_info:
+			pid = int(pid_info.read().strip())
+			try:
+				old_proc = psutil.Process(pid)
+				utils.print(f'{C}[ {R}✘{C} ]{W}')
+				utils.print(f'{Y}[!] Old instance of php server found, restarting...{W}')
+				utils.print(f'{G}[+] {C}Starting PHP Server...{W}', end='')
+				try:
+					sleep(1)
+					if old_proc.status() != 'running':
+						old_proc.kill()
+					else:
+						utils.print(f'{C}[ {R}✘{C} ]{W}')
+						utils.print(f'{R}[-] {C}Unable to kill php server process, kill manually{W}')
+						sys.exit()
+				except psutil.NoSuchProcess:
+					pass
+			except psutil.NoSuchProcess:
+				utils.print(f'{C}[ {R}✘{C} ]{W}')
+				utils.print(f'{R}[-] {C}Port {W}{port} {C}is being used by some other service.{W}')
+				sys.exit()
+	elif not port_free and not path.exists(PID_FILE):
+		utils.print(f'{C}[ {R}✘{C} ]{W}')
+		utils.print(f'{R}[-] {C}Port {W}{port} {C}is being used by some other service.{W}')
+		sys.exit()
+	elif port_free:
+		pass
+
+	with open(LOG_FILE, 'w') as phplog:
 		proc = subp.Popen(cmd, stdout=phplog, stderr=phplog)
+		with open(PID_FILE, 'w') as pid_out:
+			pid_out.write(str(proc.pid))
+
 		sleep(3)
-		phplog.seek(0)
-		if 'Address already in use' in phplog.readline():
-			preoc = True
+
 		try:
 			php_rqst = requests.get(f'http://127.0.0.1:{port}/index.html')
 			php_sc = php_rqst.status_code
 			if php_sc == 200:
-				if preoc:
-					utils.print(f'{C}[ {G}✔{C} ]{W}')
-					utils.print(f'{Y}[!] Server is already running!{W}')
-					print()
-				else:
-					utils.print(f'{C}[ {G}✔{C} ]{W}')
-					print()
+				utils.print(f'{C}[ {G}✔{C} ]{W}')
+				print()
 			else:
 				utils.print(f'{C}[ {R}Status : {php_sc}{C} ]{W}')
-				cl_quit(proc)
+				cl_quit()
 		except requests.ConnectionError:
 			utils.print(f'{C}[ {R}✘{C} ]{W}')
-			cl_quit(proc)
-	return proc
+			cl_quit()
 
 
 def wait():
@@ -397,10 +430,11 @@ def repeat():
 	wait()
 
 
-def cl_quit(proc):
-	clear()
-	if proc:
-		kill(proc.pid, SIGTERM)
+def cl_quit():
+	with open(PID_FILE, 'r') as pid_info:
+		pid = int(pid_info.read().strip())
+		kill(pid, SIGTERM)
+	remove(PID_FILE)
 	sys.exit()
 
 
@@ -408,11 +442,11 @@ try:
 	banner()
 	clear()
 	SITE = template_select(SITE)
-	SERVER_PROC = server()
+	server()
 	wait()
 	data_parser()
 except KeyboardInterrupt:
 	utils.print(f'{R}[-] {C}Keyboard Interrupt.{W}')
-	cl_quit(SERVER_PROC)
+	cl_quit()
 else:
 	repeat()
