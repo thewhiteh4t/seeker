@@ -16,8 +16,8 @@ import traceback
 import shutil
 import re
 import time
-from os import path, kill, mkdir, getenv, environ, remove
-from json import loads, decoder
+from os import path, listdir, kill, mkdir, getenv, environ, remove
+from json import loads, dumps, decoder
 from packaging import version
 
 parser = argparse.ArgumentParser()
@@ -53,6 +53,7 @@ LOG_DIR = f'{path_to_script}/logs'
 DB_DIR = f'{path_to_script}/db'
 LOG_FILE = f'{LOG_DIR}/php.log'
 DATA_FILE = f'{DB_DIR}/results.csv'
+JSON_DATA_FILE = f'{DB_DIR}/results.json'
 INFO = f'{LOG_DIR}/info.txt'
 RESULT = f'{LOG_DIR}/result.txt'
 TEMPLATES_JSON = f'{path_to_script}/template/templates.json'
@@ -393,6 +394,7 @@ def data_parser():
 				utils.print(errmsg)
 
 	csvout(data_row)
+	jsonout(data_row)
 	clear()
 	return
 
@@ -409,6 +411,21 @@ def kmlout(var_lat, var_lon):
 
 	utils.print(f'{Y}[!] KML File Generated!{W}')
 	utils.print(f'{G}[+] {C}Path : {W}{path_to_script}/{kml_fname}.kml')
+
+
+def jsonout(csv_data):
+    json_format_list = []
+    if path.exists(JSON_DATA_FILE):
+        with open(JSON_DATA_FILE, "r") as oldJsonFile:
+            json_format_list = loads(oldJsonFile.read())
+
+    converted_dict = {index: item for index, item in enumerate(csv_data)}
+    json_format_list.append(converted_dict)
+    json_format_list = dumps(json_format_list, indent=4)
+
+    with open(JSON_DATA_FILE, mode="w") as f:
+        f.write(json_format_list)
+    utils.print(f"{G}[+] {C}Data Saved : {W}{path_to_script}/db/results.json\n")
 
 
 def csvout(row):
