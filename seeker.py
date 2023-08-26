@@ -155,7 +155,7 @@ def send_telegram(content):
 		if rqst:
 			utils.print(f'{G}[+] {C}Successfully sent to Telegram bot {W}')
 		else:
-			utils.print(f'{R}[-] {C}Unable to send to Telegram bot {W}\n{rqst.status_code} => {+rqst.text}')
+			utils.print(f'{R}[-] {C}Unable to send to Telegram bot {W}\n{rqst.status_code} => {rqst.text}')
 
 
 def template_select(site):
