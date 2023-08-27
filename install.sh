@@ -110,6 +110,11 @@ pip3 install packaging &>> "$ILOG"
 status_check Packaging
 echo -e '\n--------------------\n' >> "$ILOG"
 
+echo -ne 'Psutil\r'
+pip3 install psutil &>> "$ILOG"
+status_check Psutil
+echo -e '\n--------------------\n' >> "$ILOG"
+
 echo -e '=========\nCOMPLETED\n=========\n' >> "$ILOG"
 
 echo -e '\n[+] Log Saved :' "$ILOG"

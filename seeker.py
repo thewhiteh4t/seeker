@@ -9,15 +9,21 @@ W = '\033[0m'   # white
 Y = '\033[33m'  # yellow
 
 import sys
-import utils
 import argparse
-import requests
 import traceback
 import shutil
 import re
 import time
 from os import path, kill, mkdir, getenv, environ, remove
 from json import loads, decoder
+import importlib.util
+
+if importlib.util.find_spec("packaging") is None or importlib.util.find_spec("psutil") is None or importlib.util.find_spec("requests") is None:
+	print(f'{R}[-] {R}Mandatory modules are not installed, please run install.sh script (./install.sh)')
+	sys.exit(1)
+
+import utils
+import requests
 from packaging import version
 
 parser = argparse.ArgumentParser()
