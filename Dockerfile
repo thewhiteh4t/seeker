@@ -3,7 +3,7 @@ RUN apk update
 RUN apk add --no-cache \
 git \
 bash \
-linux-headers \
+musl-dev \
 python3 \
 py3-pip gcc \
 python3-dev \
