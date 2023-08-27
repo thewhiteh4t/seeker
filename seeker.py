@@ -16,7 +16,7 @@ import traceback
 import shutil
 import re
 import time
-from os import path, kill, mkdir, getenv, environ, remove
+from os import path, kill, mkdir, getenv, environ, remove, devnull
 from json import loads, decoder
 from packaging import version
 
@@ -95,7 +95,6 @@ if print_v is True:
 	sys.exit()
 
 import socket
-import psutil
 import importlib
 import urllib.parse
 from csv import writer
@@ -103,6 +102,11 @@ from time import sleep
 import subprocess as subp
 from ipaddress import ip_address
 from signal import SIGTERM
+
+# temporary workaround for psutil exception on termux
+with open(devnull, 'w') as nf:
+	sys.stderr = nf
+	import psutil
 
 
 def banner():
