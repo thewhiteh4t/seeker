@@ -4,6 +4,7 @@ RUN apk add --no-cache \
 git \
 bash \
 musl-dev \
+linux-headers \
 python3 \
 py3-pip gcc \
 python3-dev \
