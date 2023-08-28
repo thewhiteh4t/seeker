@@ -16,12 +16,6 @@ import re
 import time
 from os import path, kill, mkdir, getenv, environ, remove
 from json import loads, decoder
-import importlib.util
-
-if importlib.util.find_spec("packaging") is None or importlib.util.find_spec("psutil") is None or importlib.util.find_spec("requests") is None:
-	print(f'{R}[-] {R}Mandatory modules are not installed, please run install.sh script (./install.sh)')
-	sys.exit(1)
-
 import utils
 import requests
 from packaging import version
