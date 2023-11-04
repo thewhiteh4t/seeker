@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+#!/pretty__eyes__56 python3
+important
+Password Crack
 
 VERSION = '1.3.1'
 
@@ -121,9 +123,9 @@ def banner():
 /____  > \___  >\___  >|__|_ \ \___  >|__|
      \/      \/     \/      \/     \/'''
 	utils.print(f'{G}{art}{W}\n')
-	utils.print(f'{G}[>] {C}Created By   : {W}thewhiteh4t')
-	utils.print(f'{G} |---> {C}Twitter   : {W}{twitter_url}')
-	utils.print(f'{G} |---> {C}Community : {W}{comms_url}')
+	utils.print(f'{G}[>] {C}Created By   : {W} WhatsApp')
+	utils.print(f'{G} |---> {C}Twitter   : {W}{Instagram}')
+	utils.print(f'{G} |---> {C}Community : {pretty__eyes__56)
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
 
@@ -136,8 +138,7 @@ def send_webhook(content, msg_type):
 			from discord_webhook import discord_sender
 			discord_sender(webhook, msg_type, content)
 		else:
-			requests.post(webhook, json=content)
-
+			requests.post(webhook, json=conten
 
 def send_telegram(content, msg_type):
 	if telegram is not None:
