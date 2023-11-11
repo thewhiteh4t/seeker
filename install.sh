@@ -18,72 +18,81 @@ status_check() {
 debian_install() {
     echo -e '=====================\nINSTALLING FOR DEBIAN\n=====================\n' > "$ILOG"
 
-    echo -ne 'Python3\r'
-    sudo apt -y install python3 python3-pip &>> "$ILOG"
-    status_check Python3
-    echo -e '\n--------------------\n' >> "$ILOG"
+    pkgs="python3 python3-pip python3-requests python3-packaging python3-psutil php"
 
-    echo -ne 'PIP\r'
-    sudo apt -y install python3-pip &>> "$ILOG"
-    status_check Pip
-    echo -e '\n--------------------\n' >> "$ILOG"
+    install_cmd() {
+        echo -ne '$1\r'
+        sudo apt -y install $1 &>> "$ILOG"
+        status_check $1
+        echo -e '\n--------------------\n' >> "$ILOG"
+    }
 
-    echo -ne 'PHP\r'
-    sudo apt -y install php &>> "$ILOG"
-    status_check PHP
-    echo -e '\n--------------------\n' >> "$ILOG"
+    for pkg_name in $pkgs; do
+        install_cmd $pkg_name
+    done
 }
 
 fedora_install() {
     echo -e '=====================\nINSTALLING FOR FEDORA\n=====================\n' > "$ILOG"
 
-    echo -ne 'Python3\r'
-    sudo dnf install python3 python3-pip -y &>> "$ILOG"
-    status_check Python3
-    echo -e '\n--------------------\n' >> "$ILOG"
+    pkgs="python3 python3-pip python3-requests python3-packaging python3-psutil php"
 
-    echo -ne 'PIP\r'
-    sudo dnf install python3-pip -y &>> "$ILOG"
-    status_check Pip
-    echo -e '\n--------------------\n' >> "$ILOG"
+    install_cmd() {
+        echo -ne "$1\r"
+        sudo dnf install $1 -y &>> "$ILOG"
+        status_check $1
+        echo -e '\n--------------------\n' >> "$ILOG"
+    }
 
-    echo -ne 'PHP\r'
-    sudo dnf install php -y &>> "$ILOG"
-    status_check PHP
-    echo -e '\n--------------------\n' >> "$ILOG"
+    for pkg_name in $pkgs; do
+        install_cmd $pkg_name
+    done
 }
 
 termux_install() {
     echo -e '=====================\nINSTALLING FOR TERMUX\n=====================\n' > "$ILOG"
 
-    echo -ne 'Python3\r'
-    apt -y install python &>> "$ILOG"
-    status_check Python3
-    echo -e '\n--------------------\n' >> "$ILOG"
+    pkgs="python php"
+    pip_pkgs="requests packaging psutil"
 
-    echo -ne 'PHP\r'
-    apt -y install php &>> "$ILOG"
-    status_check PHP
-    echo -e '\n--------------------\n' >> "$ILOG"
+    install_cmd() {
+        echo -ne "$1\r"
+        apt -y install $1 &>> "$ILOG"
+        status_check $1
+        echo -e '\n--------------------\n' >> "$ILOG"
+    }
+
+    install_pip() {
+        echo -ne "$1\r"
+        pip install -U $1 &>> "$ILOG"
+        status_check $1
+        echo -e '\n--------------------\n' >> "$ILOG"
+    }
+
+    for pkg_name in $pkgs; do
+        install_cmd $pkg_name
+    done
+
+    for pkg_name in $pip_pkgs; do
+        install_pip $pkg_name
+    done
 }
 
 arch_install() {
     echo -e '=========================\nINSTALLING FOR ARCH LINUX\n=========================\n' > "$ILOG"
 
-    echo -ne 'Python3\r'
-    yes | sudo pacman -S python3 python-pip --needed &>> "$ILOG"
-    status_check Python3
-    echo -e '\n--------------------\n' >> "$ILOG"
+    install_cmd() {
+        echo -ne "$1\r"
+        yes | sudo pacman -S $1 --needed &>> "$ILOG"
+        status_check $1
+        echo -e '\n--------------------\n' >> "$ILOG"
+    }
 
-    echo -ne 'PIP\r'
-    yes | sudo pacman -S python-pip --needed &>> "$ILOG"
-    status_check Pip
-    echo -e '\n--------------------\n' >> "$ILOG"
+    pkgs="python3 python-pip python-requests python-packaging python-psutil php"
 
-    echo -ne 'PHP\r'
-    yes | sudo pacman -S php --needed &>> "$ILOG"
-    status_check PHP
-    echo -e '\n--------------------\n' >> "$ILOG"
+    for pkg_name in $pkgs; do
+        install_cmd $pkg_name
+    done
 }
 
 echo -e '[!] Installing Dependencies...\n'
@@ -99,21 +108,6 @@ else
         debian_install
     fi
 fi
-
-echo -ne 'Requests\r'
-pip3 install requests &>> "$ILOG"
-status_check Requests
-echo -e '\n--------------------\n' >> "$ILOG"
-
-echo -ne 'Packaging\r'
-pip3 install packaging &>> "$ILOG"
-status_check Packaging
-echo -e '\n--------------------\n' >> "$ILOG"
-
-echo -ne 'Psutil\r'
-pip3 install psutil &>> "$ILOG"
-status_check Psutil
-echo -e '\n--------------------\n' >> "$ILOG"
 
 echo -e '=========\nCOMPLETED\n=========\n' >> "$ILOG"
 
