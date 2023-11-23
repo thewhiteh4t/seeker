@@ -223,6 +223,16 @@ $ docker run --rm -it --net ngroknet --name seeker thewhiteh4t/seeker
 $ docker run --rm -it --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
 
+## Tunnelmole tunnels
+Install Tunnelmole with NPM
+```bash
+npm install -g tunnelmole
+```
+Or install a binary for Linux, Mac or Windows at https://tunnelmole.com/install/
+
+tunnelmole 8080
+````
+
 ## Local Tunnels
 Use
 ```
