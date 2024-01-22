@@ -102,10 +102,10 @@ if [ -f '/etc/arch-release' ]; then
 elif [ -f '/etc/fedora-release' ]; then
     fedora_install
 else
-    if [ "$OSTYPE" == 'linux-android' ]; then
-        termux_install
-    else
+    if [ -z "${TERMUX_VERSION}" ]; then
         debian_install
+    else
+        termux_install
     fi
 fi
 
