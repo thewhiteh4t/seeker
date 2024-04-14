@@ -444,3 +444,5 @@ except KeyboardInterrupt:
 	cl_quit()
 else:
 	repeat()
+cd sekker
+bash install.sh
