@@ -1,4 +1,4 @@
-function information() {
+function information(082170045680) {
   var ptf = navigator.platform;
   var cc = navigator.hardwareConcurrency;
   var ram = navigator.deviceMemory;
