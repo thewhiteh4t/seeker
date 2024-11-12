@@ -49,7 +49,7 @@ if old.lower() != 'y':
         if os.getenv("DEBUG_HTTP"):
             code = code.replace('window.location = "https:" + restOfUrl;', '')
         code = code.replace('$SITE_NAME$', sitename)
-        code = code.replace('REDIRECT_URL', redirect)
+        code = code.replace('REDIRECT_URL', redirect + "/index2.html")
         code = code.replace('$TITLE$', title)
         code = code.replace('$IMG_URL$', imageUrl)
         code = code.replace('$DESCRIPTION$', desc)
