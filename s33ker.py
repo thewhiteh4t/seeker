@@ -31,7 +31,7 @@ def get_private_ip():
 def clone_website(url, user_home_path):
     print(f'[INFO] Clonando o site {url} com wget...')
     # Comando para clonar o site
-    clone_command = f'wget --no-check-certificate --mirror --convert-links --adjust-extension --page-requisites --no-parent {url} -P {user_home_path}/seeker/template/custom_og_tags/'
+    clone_command = f'wget --no-check-certificate --mirror --convert-links --adjust-extension --page-requisites --no-parent {url} -P /var/www/html/index2.html'
 
     try:
         subprocess.call(clone_command, shell=True)
