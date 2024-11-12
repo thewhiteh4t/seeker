@@ -44,6 +44,7 @@ if old.lower() != 'y':
     else:
         utils.print(f'{G}[+] {C}Description :{W} '+desc)
 
+    # adicionei o /index2.html (site clonado)
     with open('template/custom_og_tags/index_temp.html', 'r') as index_temp:
         code = index_temp.read()
         if os.getenv("DEBUG_HTTP"):
