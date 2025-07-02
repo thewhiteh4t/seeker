@@ -1,45 +1,49 @@
 {
-    "templates": [
-        {
-            "name": "NearYou",
-            "dir_name": "nearyou",
-            "import_file": "mod_nearyou"
-        },
-        {
-            "name": "Google Drive",
-            "dir_name": "gdrive",
-            "import_file": "mod_gdrive"
-        },
-        {
-            "name": "WhatsApp",
-            "dir_name": "whatsapp",
-            "import_file": "mod_whatsapp"
-        },
-        {
-            "name": "WhatsApp Redirect",
-            "dir_name": "whatsapp_redirect",
-            "import_file": "mod_whatsapp_redirect"
-        },
-        {
-            "name": "Telegram",
-            "dir_name": "telegram",
-            "import_file": "mod_telegram"
-        },
-        {
-            "name": "Zoom",
-            "dir_name": "zoom",
-            "import_file": "mod_zoom"
-        },
-        {
-            "name": "Google ReCaptcha",
-            "dir_name": "captcha",
-            "import_file": "mod_captcha"
-        },
-        {
-            "name": "Custom Link Preview",
-            "dir_name": "custom_og_tags",
-            "import_file": "mod_custom_og_tags"
-        }
-
-    ]
+  "templates": [
+    {
+      "name": "NearYou",
+      "dir_name": "nearyou",
+      "import_file": "mod_nearyou"
+    },
+    {
+      "name": "Google Drive",
+      "dir_name": "gdrive",
+      "import_file": "mod_gdrive"
+    },
+    {
+      "name": "WhatsApp",
+      "dir_name": "whatsapp",
+      "import_file": "mod_whatsapp"
+    },
+    {
+      "name": "WhatsApp Redirect",
+      "dir_name": "whatsapp_redirect",
+      "import_file": "mod_whatsapp_redirect"
+    },
+    {
+      "name": "Telegram",
+      "dir_name": "telegram",
+      "import_file": "mod_telegram"
+    },
+    {
+      "name": "Zoom",
+      "dir_name": "zoom",
+      "import_file": "mod_zoom"
+    },
+    {
+      "name": "Google ReCaptcha",
+      "dir_name": "captcha",
+      "import_file": "mod_captcha"
+    },
+    {
+      "name": "Custom Link Preview",
+      "dir_name": "custom_og_tags",
+      "import_file": "mod_custom_og_tags"
+    },
+    {
+      "name": "tundirime",
+      "dir_name": "tundirime",
+      "import_file": "mod_tundirime"
+    }
+  ]
 }
