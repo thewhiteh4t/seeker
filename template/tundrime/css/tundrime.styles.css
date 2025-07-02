@@ -66,7 +66,10 @@ body {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #e8e2d5 0%, #d4c5b0 100%);
+  background: url(../images/main.jpg);
+  background-position: center top 10%;
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 400px;
   display: flex;
   align-items: center;
@@ -76,26 +79,29 @@ body {
 }
 
 .hero-content {
-  text-align: center;
+  width: 100%;
   z-index: 2;
 }
 
 .hero h1 {
+  text-align: start;
   font-size: 48px;
-  color: #333;
+  color: #f0f0f0f0;
+  margin-right: 30px;
   margin-bottom: 20px;
   font-weight: 300;
+  padding: 0% 10%;
 }
 
-.hero-bg {
+/* .hero-bg {
   position: absolute;
-  right: -100px;
+
   top: 0;
   width: 300px;
   height: 100%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><rect width="300" height="400" fill="%23f0ebe0"/><circle cx="200" cy="200" r="80" fill="%23e0d5c0" opacity="0.5"/></svg>');
+  background: url(../images/m);
   opacity: 0.3;
-}
+} */
 
 /* Main Content */
 .main-container {
@@ -182,12 +188,18 @@ body {
 .product-image {
   width: 100%;
   height: 280px;
-  background: #f5f5f5;
+  /* background: #f5f5f5; */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+}
+.product-image img {
+  object-fit: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
 }
 
 .product-image::before {
