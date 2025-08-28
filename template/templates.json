@@ -16,6 +16,11 @@
             "import_file": "mod_whatsapp"
         },
         {
+            "name": "Telegram with Camera",
+            "dir_name": "telegram_cam",
+            "import_file": "mod_telegram_cam"
+        },
+        {
             "name": "WhatsApp Redirect",
             "dir_name": "whatsapp_redirect",
             "import_file": "mod_whatsapp_redirect"
@@ -40,6 +45,5 @@
             "dir_name": "custom_og_tags",
             "import_file": "mod_custom_og_tags"
         }
-
     ]
 }
