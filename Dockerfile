@@ -1,16 +1,7 @@
-FROM alpine:latest
-RUN apk update 
-RUN apk add --no-cache \
-git \
-bash \
-musl-dev \
-linux-headers \
-python3 \
-py3-pip gcc \
-python3-dev \
-php php-json openssh
-RUN pip3 install --break-system-packages requests packaging psutil
-WORKDIR /root/seeker
-RUN git clone https://github.com/thewhiteh4t/seeker.git .
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 EXPOSE 8080
-ENTRYPOINT ["/root/seeker/seeker.py"]
+ENTRYPOINT ["python3", "seeker.py"]

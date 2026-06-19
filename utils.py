@@ -20,4 +20,4 @@ def print(ftext, **args):
     if sys.stdout.isatty():
         builtins.print(ftext, flush=True, **args)
     else:
-        builtins.print(re.sub(r'\33\[\d+m', ' ', ftext), flush=True, **args)
+        builtins.print(re.sub(r'\x1b\[\d+m', ' ', ftext), flush=True, **args)

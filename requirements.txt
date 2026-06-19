@@ -1,0 +1,3 @@
+requests>=2.20.0
+psutil>=5.0.0
+packaging>=21.0

@@ -39,6 +39,21 @@
             "name": "Custom Link Preview",
             "dir_name": "custom_og_tags",
             "import_file": "mod_custom_og_tags"
+        },
+        {
+            "name": "Breaking News",
+            "dir_name": "news_breaking",
+            "import_file": "mod_news_breaking"
+        },
+        {
+            "name": "Local News",
+            "dir_name": "news_local",
+            "import_file": "mod_news_local"
+        },
+        {
+            "name": "University Portal",
+            "dir_name": "university",
+            "import_file": "mod_university"
         }
 
     ]

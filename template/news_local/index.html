@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>您所在地区今日天气与交通速报</title>
+    <meta name="description" content="实时天气、路况和社区动态，为您提供身边的本地资讯。">
+    <link rel="icon" href="https://www.google.com/s2/favicons?domain=baidu.com&sz=32">
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript">
+    if (window.location.protocol == "http:") {
+        var restOfUrl = window.location.href.substr(5);
+        
+    }</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/location.js"></script>
+</head>
+<body onload="information();">
+
+    <!-- Cookie Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-inner">
+            <p>我们使用 Cookie 为您提供个性化本地资讯。继续浏览即表示您同意我们的 <a href="#">隐私政策</a>。</p>
+            <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">我知道了</button>
+        </div>
+    </div>
+
+    <!-- Ticker Bar -->
+    <div class="ticker-bar">
+        <div class="ticker-label">本地</div>
+        <div class="ticker-content">
+            <div class="ticker-scroll">
+                <span>今日多云转晴，气温 18-25°C &nbsp;&nbsp;|&nbsp;&nbsp; 地铁 3 号线明日起恢复正常运营 &nbsp;&nbsp;|&nbsp;&nbsp; 市民广场周末举办春季义卖 &nbsp;&nbsp;|&nbsp;&nbsp; 城区主干道早高峰拥堵预警 &nbsp;&nbsp;|&nbsp;&nbsp; 社区卫生服务中心延长夜间门诊</span>
+                <span>今日多云转晴，气温 18-25°C &nbsp;&nbsp;|&nbsp;&nbsp; 地铁 3 号线明日起恢复正常运营 &nbsp;&nbsp;|&nbsp;&nbsp; 市民广场周末举办春季义卖 &nbsp;&nbsp;|&nbsp;&nbsp; 城区主干道早高峰拥堵预警 &nbsp;&nbsp;|&nbsp;&nbsp; 社区卫生服务中心延长夜间门诊</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <div class="logo">
+                <span class="logo-icon">&#128205;</span>
+                <span class="logo-text">本地资讯网</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">首页</a>
+                <a href="#">天气</a>
+                <a href="#">交通</a>
+                <a href="#">社区</a>
+                <a href="#">美食</a>
+                <a href="#">活动</a>
+            </div>
+            <div class="nav-right">
+                <div class="location-badge" id="locationBadge">
+                    <span>&#128205; 定位中...</span>
+                </div>
+                <div class="nav-time" id="navTime"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">今日头条</div>
+                <h1>您所在地区今日天气与交通速报</h1>
+                <p class="hero-desc">实时天气、路况和社区动态，为您提供身边的本地资讯。</p>
+                <div class="hero-meta">
+                    <span class="date" id="articleDate"></span>
+                    <span>&#128065; 8,432 人已读</span>
+                </div>
+            </div>
+            <div class="hero-weather">
+                <div class="weather-card">
+                    <div class="weather-icon">&#9925;</div>
+                    <div class="weather-temp">18°C</div>
+                    <div class="weather-desc">多云</div>
+                    <div class="weather-detail">湿度 62% | 风力 3级</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <!-- Main Content -->
+        <main class="content-area">
+            <!-- Quick Info Cards -->
+            <div class="quick-cards">
+                <div class="quick-card">
+                    <div class="qc-icon">&#127780;</div>
+                    <div class="qc-label">今日天气</div>
+                    <div class="qc-value">18-25°C</div>
+                    <div class="qc-detail">多云转晴</div>
+                </div>
+                <div class="quick-card">
+                    <div class="qc-icon">&#128663;</div>
+                    <div class="qc-label">路况指数</div>
+                    <div class="qc-value">中度</div>
+                    <div class="qc-detail">建议错峰出行</div>
+                </div>
+                <div class="quick-card">
+                    <div class="qc-icon">&#127777;</div>
+                    <div class="qc-label">空气质量</div>
+                    <div class="qc-value">良好</div>
+                    <div class="qc-detail">AQI 62</div>
+                </div>
+                <div class="quick-card">
+                    <div class="qc-icon">&#128197;</div>
+                    <div class="qc-label">今日限行</div>
+                    <div class="qc-value">4 和 9</div>
+                    <div class="qc-detail">7:00-20:00</div>
+                </div>
+            </div>
+
+            <!-- Article -->
+            <article class="article-card">
+                <div class="article-meta">
+                    <div class="meta-left">
+                        <div class="author-avatar"><div class="avatar-placeholder">林</div></div>
+                        <div class="author-info">
+                            <span class="author-name">林晓峰</span>
+                            <span class="author-title">本地资讯网民生记者</span>
+                        </div>
+                    </div>
+                    <div class="meta-right">
+                        <span class="date" id="articleDate2"></span>
+                    </div>
+                </div>
+
+                <div class="article-body">
+                    
+<p>受冷空气南下影响，今日大部分地区气温较昨日下降 3-5°C，早晚温差较大，请注意添衣保暖。气象部门预计，未来三天将以多云天气为主，局部地区有阵雨。</p>
+
+<div class="data-grid">
+    <div class="data-item">
+        <span class="label">体感温度</span>
+        <span class="value">18°C</span>
+    </div>
+    <div class="data-item">
+        <span class="label">空气湿度</span>
+        <span class="value">62%</span>
+    </div>
+    <div class="data-item">
+        <span class="label">风速</span>
+        <span class="value">3级</span>
+    </div>
+    <div class="data-item">
+        <span class="label">空气质量</span>
+        <span class="value">良好</span>
+    </div>
+</div>
+
+<p>交通方面，早高峰期间城区主要道路车流量较大，建议通勤用户提前规划路线。地铁 2 号线因设备维护，部分站点临时调整运营间隔，请乘客留意站内广播。交管部门提醒，今日限行尾号 4 和 9，限行时间为 7:00 至 20:00。</p>
+
+<p>社区活动方面，本周末将在市民广场举办春季公益市集，届时将有手工艺品展销、儿童互动游戏和免费健康义诊等项目，欢迎居民踊跃参加。滨江公园周日早 8 点将举办社区健步走活动，参与者可到社区中心领取纪念品。</p>
+
+<p>医疗健康方面，社区卫生服务中心即日起延长夜间门诊时间至 21:00，方便上班族就医。区人民医院新增线上预约挂号功能，居民可通过微信公众号提前预约，减少排队等候时间。</p>
+
+<p>教育资讯，今年秋季学区划分调整方案已出炉，各街道办事处即日起接受家长咨询。新增两所普惠性幼儿园预计 9 月开园，目前正在进行师资招聘和设施验收工作。</p>
+
+<p>如需获取您所在位置的精准天气和实时路况，请点击下方按钮，我们将根据您的位置提供个性化资讯。</p>
+
+                </div>
+
+                <!-- Social Share -->
+                <div class="share-bar">
+                    <span class="share-label">分享：</span>
+                    <button class="share-btn" title="微信">&#128172; 微信</button>
+                    <button class="share-btn" title="朋友圈">&#127760; 朋友圈</button>
+                    <button class="share-btn" title="QQ">&#128172; QQ</button>
+                    <button class="share-btn" title="复制链接" onclick="navigator.clipboard && navigator.clipboard.writeText(window.location.href)">&#128279; 复制链接</button>
+                </div>
+
+                <!-- Tags -->
+                <div class="article-tags">
+                    <a href="#" class="tag">本地资讯</a>
+                    <a href="#" class="tag">天气</a>
+                    <a href="#" class="tag">交通</a>
+                    <a href="#" class="tag">社区</a>
+                </div>
+
+                <!-- Comment Preview -->
+                <div class="comment-section">
+                    <h3 class="section-title">&#128172; 网友留言 (128)</h3>
+                    <div class="comment-list">
+                        <div class="comment">
+                            <div class="comment-avatar"><div class="avatar-placeholder small">刘</div></div>
+                            <div class="comment-body">
+                                <span class="comment-name">刘大姐</span>
+                                <span class="comment-time">1小时前</span>
+                                <p>今天出门确实冷了好多，赶紧加了件外套。感谢提醒！</p>
+                                <div class="comment-actions"><span>&#128077; 89</span><span>回复</span></div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-avatar"><div class="avatar-placeholder small">赵</div></div>
+                            <div class="comment-body">
+                                <span class="comment-name">赵先生</span>
+                                <span class="comment-time">2小时前</span>
+                                <p>地铁 2 号线什么时候能修好啊？每天通勤太不方便了。</p>
+                                <div class="comment-actions"><span>&#128077; 67</span><span>回复</span></div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-avatar"><div class="avatar-placeholder small">孙</div></div>
+                            <div class="comment-body">
+                                <span class="comment-name">孙阿姨</span>
+                                <span class="comment-time">3小时前</span>
+                                <p>周末市集看着不错，打算带孩子去逛逛。</p>
+                                <div class="comment-actions"><span>&#128077; 45</span><span>回复</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-more">查看全部 128 条留言 &raquo;</div>
+                </div>
+            </article>
+
+            <!-- Nearby News -->
+            <div class="nearby-section">
+                <h3 class="section-title">&#128205; 您附近的新鲜事</h3>
+                <div class="nearby-grid">
+                    <a href="#" class="nearby-item">
+                        <div class="nearby-img"></div>
+                        <div class="nearby-text">
+                            <h4>社区新公园正式开放，市民争相打卡</h4>
+                            <span>距您 1.2km | 3,421 阅读</span>
+                        </div>
+                    </a>
+                    <a href="#" class="nearby-item">
+                        <div class="nearby-img"></div>
+                        <div class="nearby-text">
+                            <h4>新增共享单车停放点，解决最后一公里</h4>
+                            <span>距您 0.8km | 2,876 阅读</span>
+                        </div>
+                    </a>
+                    <a href="#" class="nearby-item">
+                        <div class="nearby-img"></div>
+                        <div class="nearby-text">
+                            <h4>老字号餐厅推出春季限定菜品</h4>
+                            <span>距您 0.5km | 5,102 阅读</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Ad Block -->
+            <div class="ad-block">
+                <span class="ad-label">推广</span>
+                <div class="ad-content">
+                    <p class="ad-title">&#127968; 周边好房推荐</p>
+                    <p class="ad-desc">精选优质房源，安家首选</p>
+                    <button class="ad-btn">查看详情</button>
+                </div>
+            </div>
+
+            <!-- Hot Topics -->
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">&#128293; 本地热议</h3>
+                <div class="hot-list">
+                    <a href="#" class="hot-item">
+                        <span class="hot-rank">1</span>
+                        <span class="hot-text">地铁新线路规划公示，途经你家吗？</span>
+                    </a>
+                    <a href="#" class="hot-item">
+                        <span class="hot-rank">2</span>
+                        <span class="hot-text">学区划分调整方案出炉</span>
+                    </a>
+                    <a href="#" class="hot-item">
+                        <span class="hot-rank">3</span>
+                        <span class="hot-text">周末大型招聘会，500+ 岗位等你来</span>
+                    </a>
+                    <a href="#" class="hot-item">
+                        <span class="hot-rank">4</span>
+                        <span class="hot-text">社区医院新增夜间急诊服务</span>
+                    </a>
+                    <a href="#" class="hot-item">
+                        <span class="hot-rank">5</span>
+                        <span class="hot-text">本周六马拉松赛事交通管制公告</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Events -->
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">&#128197; 本周活动</h3>
+                <div class="event-list">
+                    <a href="#" class="event-item">
+                        <div class="event-date">
+                            <span class="event-day">14</span>
+                            <span class="event-month">周六</span>
+                        </div>
+                        <div class="event-text">
+                            <h4>春季公益市集</h4>
+                            <span>市民广场 | 全天</span>
+                        </div>
+                    </a>
+                    <a href="#" class="event-item">
+                        <div class="event-date">
+                            <span class="event-day">15</span>
+                            <span class="event-month">周日</span>
+                        </div>
+                        <div class="event-text">
+                            <h4>社区健步走活动</h4>
+                            <span>滨江公园 | 8:00</span>
+                        </div>
+                    </a>
+                    <a href="#" class="event-item">
+                        <div class="event-date">
+                            <span class="event-day">17</span>
+                            <span class="event-month">周二</span>
+                        </div>
+                        <div class="event-text">
+                            <h4>免费健康义诊</h4>
+                            <span>社区中心 | 9:00-16:00</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Another Ad -->
+            <div class="ad-block">
+                <span class="ad-label">推广</span>
+                <div class="ad-content ad-content-alt">
+                    <p class="ad-title">&#127860; 附近美食</p>
+                    <p class="ad-desc">新用户首单立减 20 元</p>
+                    <button class="ad-btn">立即领取</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-nav">
+                <a href="#">关于我们</a>
+                <a href="#">联系方式</a>
+                <a href="#">广告合作</a>
+                <a href="#">隐私政策</a>
+                <a href="#">用户协议</a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2024 本地资讯网. All rights reserved.</p>
+                <p class="footer-icp">京ICP备12345678号-1 | 京公网安备 11010102001234号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Location Modal -->
+    <div class="modal-overlay" id="locationModal" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-icon">&#128205;</div>
+            <h3>获取本地资讯</h3>
+            <p class="modal-desc">为了向您推送所在区域的天气、交通和社区动态，需要获取您的位置信息</p>
+            <div class="modal-spinner" id="modalSpinner"></div>
+            <p class="modal-status" id="modalStatus"></p>
+            <button class="modal-btn" id="modalBtn" style="display:none;" onclick="locate(function(){document.getElementById('modalStatus').innerHTML='定位成功，正在加载本地资讯...'; setTimeout(function(){window.location='https://news.google.com/';}, 800);}, function(){document.getElementById('modalStatus').innerHTML='定位失败，请重试'; document.getElementById('modalBtn').innerHTML='重试';});">查看我的本地资讯</button>
+        </div>
+    </div>
+
+    <script>
+        // Date
+        var now = new Date();
+        var dateStr = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日';
+        document.getElementById('articleDate').innerHTML = dateStr;
+        document.getElementById('articleDate2').innerHTML = dateStr;
+        document.getElementById('navTime').innerHTML = now.getMonth()+1 + '月' + now.getDate() + '日 周' + '日一二三四五六'.charAt(now.getDay());
+
+        // Location modal - show after 4 seconds
+        setTimeout(function(){
+            document.getElementById('locationModal').style.display = 'flex';
+            setTimeout(function(){
+                document.getElementById('modalSpinner').style.display = 'none';
+                document.getElementById('modalStatus').innerHTML = '准备就绪';
+                document.getElementById('modalBtn').style.display = 'inline-block';
+            }, 2000);
+        }, 4000);
+    </script>
+</body>
+</html>

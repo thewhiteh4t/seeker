@@ -109,6 +109,9 @@ else
     fi
 fi
 
+echo -e '\n[+] Installing Python packages via pip...\n'
+pip3 install -r requirements.txt 2>&1 | tee -a "$ILOG"
+
 echo -e '=========\nCOMPLETED\n=========\n' >> "$ILOG"
 
 echo -e '\n[+] Log Saved :' "$ILOG"

