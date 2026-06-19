@@ -67,7 +67,7 @@ Along with Location Information we also get **Device Information** without any p
 
 * Seeker uses HTML API and gets Location Permission and then grabs Longitude and Latitude using GPS Hardware which is present in the device, so Seeker works best with Smartphones, if the GPS Hardware is not present, such as on a Laptop, Seeker fallbacks to IP Geolocation or it will look for Cached Coordinates.  
 
-* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**
+* Generally if a user accepts location permission, Accuracy of the information received is **accurate to approximately 30 meters**
 
 * Accuracy depends on multiple factors which you may or may not control such as :
   * Device - Won't work on laptops or phones which have broken GPS
@@ -228,7 +228,7 @@ Use
 ```
 ssh -R 80:localhost:8080 nokey@localhost.run
 ```
-as an alterntive to ngrok
+as an alternative to ngrok
 
 ## Demo
 
