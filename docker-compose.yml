@@ -1,0 +1,54 @@
+name: seeker-stack
+
+services:
+  seeker:
+    build: .
+    container_name: seeker
+    restart: unless-stopped
+    # Seeker listens on 8080 by default
+    ports:
+      - "8080:8080"
+    environment:
+      # Mirrors CLI flags / envs supported by seeker.py
+      # (set values in a .env file next to this compose)
+      PORT: "${PORT:-8080}"
+      TEMPLATE: "${TEMPLATE:-}"
+      TITLE: "${TITLE:-}"
+      REDIRECT: "${REDIRECT:-}"
+      IMAGE: "${IMAGE:-}"
+      DESC: "${DESC:-}"
+      SITENAME: "${SITENAME:-}"
+      DISPLAY_URL: "${DISPLAY_URL:-}"
+      MEM_NUM: "${MEM_NUM:-}"
+      ONLINE_NUM: "${ONLINE_NUM:-}"
+      TELEGRAM: "${TELEGRAM:-}"       # format: token:chatId
+      WEBHOOK: "${WEBHOOK:-}"         # unauthenticated POST endpoint
+      DEBUG_HTTP: "${DEBUG_HTTP:-}"   # set to "1" to disable https redirect in supported templates
+    networks:
+      - ngroknet
+    tty: true
+
+  # Simple ngrok sidecar so you get a public URL to the seeker container
+  ngrok:
+    image: wernight/ngrok:latest
+    container_name: ngrok
+    restart: unless-stopped
+    depends_on:
+      - seeker
+    environment:
+      # See ngrok docs — supply your authtoken in .env
+      NGROK_AUTH: "${NGROK_AUTH:-}"
+      # Send traffic to the seeker service on port 8080
+      NGROK_PORT: "seeker:8080"
+      NGROK_PROTOCOL: "http"
+      # optional extras if you want a fixed subdomain on paid plans:
+      # NGROK_SUBDOMAIN: "${NGROK_SUBDOMAIN:-}"
+      # Expose the ngrok web UI on port 4040
+    ports:
+      - "4040:4040"
+    networks:
+      - ngroknet
+
+networks:
+  ngroknet:
+    driver: bridge
