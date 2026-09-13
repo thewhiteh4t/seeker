@@ -28,6 +28,11 @@ function information() {
     str = str.split(' ');
     brw = str[0];
   }
+  else if (ver.indexOf('Edg/') != -1) {
+    str = str.substring(str.indexOf(' Edg/') + 1);
+    str = str.split(' ');
+    brw = str[0];
+  }
   else if (ver.indexOf('Chrome') != -1) {
     str = str.substring(str.indexOf(' Chrome/') + 1);
     str = str.split(' ');
@@ -35,11 +40,6 @@ function information() {
   }
   else if (ver.indexOf('Safari') != -1) {
     str = str.substring(str.indexOf(' Safari/') + 1);
-    str = str.split(' ');
-    brw = str[0];
-  }
-  else if (ver.indexOf('Edge') != -1) {
-    str = str.substring(str.indexOf(' Edge/') + 1);
     str = str.split(' ');
     brw = str[0];
   }
@@ -88,7 +88,7 @@ function information() {
 
 function locate(callback, errCallback) {
   if (navigator.geolocation) {
-    var optn = { enableHighAccuracy: true, timeout: 30000, maximumage: 0 };
+    var optn = { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 };
     navigator.geolocation.getCurrentPosition(showPosition, showError, optn);
   }
 
